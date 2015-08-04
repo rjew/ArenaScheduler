@@ -295,6 +295,7 @@ public class ArenaScheduler {
 
         Scanner keyboard = new Scanner(System.in);
 
+        /* Print the Menu */
         do {
             System.out.println("Welcome to the Arena Scheduler Program!\n"
                     + "What would you like to do?\n"
@@ -324,9 +325,9 @@ public class ArenaScheduler {
 
     public static void displaySearchCatalog() {
         int option = 0;
-        String searchOptionString;
-        int searchOptionInt;
-        String sqlStatement = new String();
+        String searchOptionString; //To hold user input for search catalog for strings
+        int searchOptionInt; //To hold user input for search catalog for ints
+        String sqlStatement = new String(); //The sql query
         String baseSQLStatement = "SELECT subject_id, course_id_fk as course_id, " +
                 "course_title_uq as course_title, class_id, " +
                 "seats, code, block, room, teacher " +
@@ -336,6 +337,7 @@ public class ArenaScheduler {
 
         Scanner keyboard = new Scanner(System.in);
 
+        /* Print the menu */
         do {
             System.out.println("What would you like to search for?\n"
                     + "(1) Search by SubjectID\n"
@@ -349,27 +351,28 @@ public class ArenaScheduler {
                 System.out.println("ERROR: " + ex.getMessage());
             }
 
+            /* Give menu options */
             switch (option) {
                 case 1:
                     System.out.print("Enter the Subject ID: ");
                     searchOptionInt = keyboard.nextInt();
-                    sqlStatement = baseSQLStatement + "AND subject_id = '" + searchOptionInt + "'";
+                    sqlStatement = baseSQLStatement + "AND subject_id = " + searchOptionInt;
                     break;
                 case 2:
                     System.out.print("Enter the Course ID: ");
                     keyboard.nextLine(); //Consume the newline
                     searchOptionString = keyboard.nextLine();
-                    sqlStatement = baseSQLStatement + "AND course_id = '" + searchOptionString + "'";
+                    sqlStatement = baseSQLStatement + "AND course_id_fk = '" + searchOptionString + "'";
                     break;
                 case 3:
                     System.out.print("Enter the Class ID: ");
                     searchOptionInt = keyboard.nextInt();
-                    sqlStatement = baseSQLStatement + "AND class_id = '" + searchOptionInt + "'";
+                    sqlStatement = baseSQLStatement + "AND class_id = " + searchOptionInt;
                     break;
                 case 4:
                     System.out.print("Enter the Block: ");
                     searchOptionInt = keyboard.nextInt();
-                    sqlStatement = baseSQLStatement + "AND block = '" + searchOptionInt + "'";
+                    sqlStatement = baseSQLStatement + "AND block = " + searchOptionInt;
                     break;
                 case 5:
                     System.out.print("Enter the Teacher: ");
@@ -388,11 +391,12 @@ public class ArenaScheduler {
     }
 
     public static void executeSQLStatement(String sqlStmt) {
-        final String DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Announcer_Fall_2015";
-        int numRows;
+        final String DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Announcer_Fall_2015"; //For the db connection
+        int numRows; //To hold the number of rows, the number of results
 
         try {
 
+            /* Connect to database and execute query, storing the results */
             Connection conn = DriverManager.getConnection(DB_URL);
 
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -402,99 +406,108 @@ public class ArenaScheduler {
 
             ResultSetMetaData meta = resultSet.getMetaData();
 
+            /* Get the number of results */
             resultSet.last();
             numRows = resultSet.getRow();
             resultSet.first();
 
             System.out.println("\n" + numRows + " RESULTS.\n");
 
-            int courseTitleFormatWidth = meta.getColumnName(3).length() + 1;
-            int roomFormatWidth = meta.getColumnName(8).length() + 1;
+            if (numRows != 0) {
+                int courseTitleFormatWidth = meta.getColumnName(3).length() + 1; //Store the default width of the course title
+                int roomFormatWidth = meta.getColumnName(8).length() + 1;//Store the default width of the room
 
-            while (resultSet.next()) {
-                if (resultSet.getString(3).length() + 1 > courseTitleFormatWidth) {
-                    courseTitleFormatWidth = resultSet.getString(3).length() + 1;
+                /* If one of the course titles has a longer name, store it for the width */
+                while (resultSet.next()) {
+                    if (resultSet.getString(3).length() + 1 > courseTitleFormatWidth) {
+                        courseTitleFormatWidth = resultSet.getString(3).length() + 1;
+                    }
                 }
-            }
 
-            resultSet.first();
+                /* Roll back the resultSet */
+                resultSet.first();
 
-            while (resultSet.next()) {
-                if (resultSet.getString(8).length() + 1 > roomFormatWidth) {
-                    roomFormatWidth = resultSet.getString(8).length() + 1;
+                /* If one of the rooms has a longer name, store it for the width */
+                while (resultSet.next()) {
+                    if (resultSet.getString(8).length() + 1 > roomFormatWidth) {
+                        roomFormatWidth = resultSet.getString(8).length() + 1;
+                    }
                 }
-            }
 
-            resultSet.first();
+                /* Roll back the resultSet */
+                resultSet.first();
 
-            for (int i = 1; i <= meta.getColumnCount(); i++) {
-                switch (i) {
-                    case 1:
-                        System.out.printf("%-11s", meta.getColumnName(i) + " ");
-                        break;
-                    case 2:
-                        System.out.printf("%-10s", meta.getColumnName(i) + " ");
-                        break;
-                    case 3:
-                        System.out.printf("%-" + courseTitleFormatWidth + "s", meta.getColumnName(i) + " ");
-                        break;
-                    case 4:
-                        System.out.printf("%-9s", meta.getColumnName(i) + " ");
-                        break;
-                    case 5:
-                        System.out.printf("%-6s", meta.getColumnName(i) + " ");
-                        break;
-                    case 6:
-                        System.out.printf("%-5s", meta.getColumnName(i) + " ");
-                        break;
-                    case 7:
-                        System.out.printf("%-6s", meta.getColumnName(i) + " ");
-                        break;
-                    case 8:
-                        System.out.printf("%-" + roomFormatWidth + "s", meta.getColumnName(i) + " ");
-                        break;
-                    case 9:
-                        System.out.print(meta.getColumnName(i));
-                        break;
-                }
-            }
-
-            System.out.println();
-
-            while (resultSet.next()) {
-                for (int i = 1; i <= meta.getColumnCount(); i++)
-                {
+                /* Print out the column titles */
+                for (int i = 1; i <= meta.getColumnCount(); i++) {
                     switch (i) {
                         case 1:
-                            System.out.printf("%-11s", resultSet.getString(i) + " ");
+                            System.out.printf("%-11s", meta.getColumnName(i) + " ");
                             break;
                         case 2:
-                            System.out.printf("%-10s", resultSet.getString(i) + " ");
+                            System.out.printf("%-10s", meta.getColumnName(i) + " ");
                             break;
                         case 3:
-                            System.out.printf("%-" + courseTitleFormatWidth + "s", resultSet.getString(i) + " ");
+                            System.out.printf("%-" + courseTitleFormatWidth + "s", meta.getColumnName(i) + " ");
                             break;
                         case 4:
-                            System.out.printf("%-9s", resultSet.getString(i) + " ");
+                            System.out.printf("%-9s", meta.getColumnName(i) + " ");
                             break;
                         case 5:
-                            System.out.printf("%-6s", resultSet.getString(i) + " ");
+                            System.out.printf("%-6s", meta.getColumnName(i) + " ");
                             break;
                         case 6:
-                            System.out.printf("%-5s", resultSet.getString(i) + " ");
+                            System.out.printf("%-5s", meta.getColumnName(i) + " ");
                             break;
                         case 7:
-                            System.out.printf("%-6s", resultSet.getString(i) + " ");
+                            System.out.printf("%-6s", meta.getColumnName(i) + " ");
                             break;
                         case 8:
-                            System.out.printf("%-" + roomFormatWidth + "s", resultSet.getString(i) + " ");
+                            System.out.printf("%-" + roomFormatWidth + "s", meta.getColumnName(i) + " ");
                             break;
                         case 9:
-                            System.out.print(resultSet.getString(i));
+                            System.out.print(meta.getColumnName(i));
                             break;
                     }
                 }
+
                 System.out.println();
+
+                /* Print out the database results */
+                do {
+                    for (int i = 1; i <= meta.getColumnCount(); i++) {
+                        switch (i) {
+                            case 1:
+                                System.out.printf("%-11s", resultSet.getString(i) + " ");
+                                break;
+                            case 2:
+                                System.out.printf("%-10s", resultSet.getString(i) + " ");
+                                break;
+                            case 3:
+                                System.out.printf("%-" + courseTitleFormatWidth + "s", resultSet.getString(i) + " ");
+                                break;
+                            case 4:
+                                System.out.printf("%-9s", resultSet.getString(i) + " ");
+                                break;
+                            case 5:
+                                System.out.printf("%-6s", resultSet.getString(i) + " ");
+                                break;
+                            case 6:
+                                System.out.printf("%-5s", resultSet.getString(i) + " ");
+                                break;
+                            case 7:
+                                System.out.printf("%-6s", resultSet.getString(i) + " ");
+                                break;
+                            case 8:
+                                System.out.printf("%-" + roomFormatWidth + "s", resultSet.getString(i) + " ");
+                                break;
+                            case 9:
+                                System.out.print(resultSet.getString(i));
+                                break;
+                        }
+                    }
+                    System.out.println();
+                } while (resultSet.next());
+
             }
 
             stmt.close();
