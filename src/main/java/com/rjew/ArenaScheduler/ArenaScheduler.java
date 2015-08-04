@@ -327,13 +327,12 @@ public class ArenaScheduler {
         int option = 0;
         String searchOptionString; //To hold user input for search catalog for strings
         int searchOptionInt; //To hold user input for search catalog for ints
-        String sqlStatement = new String(); //The sql query
-        String baseSQLStatement = "SELECT subject_id, course_id_fk as course_id, " +
+        StringBuilder sqlStatement = new StringBuilder("SELECT subject_id, course_id_fk as course_id, " +
                 "course_title_uq as course_title, class_id, " +
                 "seats, code, block, room, teacher " +
                 "FROM fall_2015_announcer_classes, " +
                 "fall_2015_announcer_courses " +
-                "WHERE course_id_pk = course_id_fk ";
+                "WHERE course_id_pk = course_id_fk");
 
         Scanner keyboard = new Scanner(System.in);
 
@@ -356,36 +355,43 @@ public class ArenaScheduler {
                 case 1:
                     System.out.print("Enter the Subject ID: ");
                     searchOptionInt = keyboard.nextInt();
-                    sqlStatement = baseSQLStatement + "AND subject_id = " + searchOptionInt;
+                    sqlStatement.append(" AND subject_id = ");
+                    sqlStatement.append(searchOptionInt);
                     break;
                 case 2:
                     System.out.print("Enter the Course ID: ");
                     keyboard.nextLine(); //Consume the newline
                     searchOptionString = keyboard.nextLine();
-                    sqlStatement = baseSQLStatement + "AND LOWER(course_id_fk) LIKE LOWER('" + searchOptionString + "')";
+                    sqlStatement.append(" AND LOWER(course_id_fk) LIKE LOWER('");
+                    sqlStatement.append(searchOptionString);
+                    sqlStatement.append("')");
                     break;
                 case 3:
                     System.out.print("Enter the Class ID: ");
                     searchOptionInt = keyboard.nextInt();
-                    sqlStatement = baseSQLStatement + "AND class_id = " + searchOptionInt;
+                    sqlStatement.append(" AND class_id = ");
+                    sqlStatement.append(searchOptionInt);
                     break;
                 case 4:
                     System.out.print("Enter the Block: ");
                     searchOptionInt = keyboard.nextInt();
-                    sqlStatement = baseSQLStatement + "AND block = " + searchOptionInt;
+                    sqlStatement.append(" AND block = ");
+                    sqlStatement.append(searchOptionInt);
                     break;
                 case 5:
                     System.out.print("Enter the Teacher: ");
                     keyboard.nextLine(); //Consume the newline
                     searchOptionString = keyboard.nextLine();
-                    sqlStatement = baseSQLStatement + "AND LOWER(teacher) LIKE LOWER('%" + searchOptionString + "%')";
+                    sqlStatement.append(" AND LOWER(teacher) LIKE LOWER('%");
+                    sqlStatement.append(searchOptionString);
+                    sqlStatement.append("%')");
                     break;
                 default:
                     System.out.println("WRONG OPTION!");
             }
         } while (option < 1 || option > 5);
 
-        executeSQLStatement(sqlStatement);
+        executeSQLStatement(sqlStatement.toString());
 
         keyboard.close();
     }
