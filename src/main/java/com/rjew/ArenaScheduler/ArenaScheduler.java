@@ -362,7 +362,7 @@ public class ArenaScheduler {
                     System.out.print("Enter the Course ID: ");
                     keyboard.nextLine(); //Consume the newline
                     searchOptionString = keyboard.nextLine();
-                    sqlStatement = baseSQLStatement + "AND course_id_fk = '" + searchOptionString + "'";
+                    sqlStatement = baseSQLStatement + "AND LOWER(course_id_fk) LIKE LOWER('" + searchOptionString + "')";
                     break;
                 case 3:
                     System.out.print("Enter the Class ID: ");
@@ -378,7 +378,7 @@ public class ArenaScheduler {
                     System.out.print("Enter the Teacher: ");
                     keyboard.nextLine(); //Consume the newline
                     searchOptionString = keyboard.nextLine();
-                    sqlStatement = baseSQLStatement + "AND teacher LIKE '%" + searchOptionString + "%'";
+                    sqlStatement = baseSQLStatement + "AND LOWER(teacher) LIKE LOWER('%" + searchOptionString + "%')";
                     break;
                 default:
                     System.out.println("WRONG OPTION!");
