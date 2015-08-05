@@ -301,7 +301,8 @@ public class ArenaScheduler {
                     + "What would you like to do?\n"
                     + "(1) Search Catalog\n"
                     + "(2) View your custom schedules\n"
-                    + "Pick an option (1-2) and press ENTER.");
+                    + "(3) Quit\n"
+                    + "Pick an option (1-3) and press ENTER.");
             try {
                 option = keyboard.nextInt();
             } catch (Exception ex) {
@@ -310,20 +311,22 @@ public class ArenaScheduler {
 
             switch (option) {
                 case 1:
-                    displaySearchCatalog();
+                    displaySearchCatalog(keyboard);
                     break;
                 case 2:
                     viewCustomSchedules();
                     break;
+                case 3:
+                    break;
                 default:
                     System.out.println("WRONG OPTION!");
             }
-        } while (option < 1 || option > 2);
+        } while (option != 3);
 
         keyboard.close();
     }
 
-    public static void displaySearchCatalog() {
+    public static void displaySearchCatalog(Scanner keyboard) {
         int switchOption; //To hold the option for the right switch statement case
         int menuOption = 0; // To hold the users option based on the displayed menu
         String searchOptionString; //To hold user input for search catalog for strings
@@ -341,8 +344,6 @@ public class ArenaScheduler {
         menuItems.add("3Search by ClassID");
         menuItems.add("4Search by Block");
         menuItems.add("5Search by Teacher");
-
-        Scanner keyboard = new Scanner(System.in);
 
         /* Print the menu */
         do {
@@ -426,8 +427,6 @@ public class ArenaScheduler {
         } while(switchOption == 1);
 
         executeSQLStatement(sqlStatement.toString());
-
-        keyboard.close();
     }
 
     public static void executeSQLStatement(String sqlStmt) {
