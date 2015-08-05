@@ -324,7 +324,8 @@ public class ArenaScheduler {
     }
 
     public static void displaySearchCatalog() {
-        int option = 0;
+        int switchOption; //To hold the option for the right switch statement case
+        int menuOption = 0; // To hold the users option based on the displayed menu
         String searchOptionString; //To hold user input for search catalog for strings
         int searchOptionInt; //To hold user input for search catalog for ints
         StringBuilder sqlStatement = new StringBuilder("SELECT subject_id, course_id_fk as course_id, " +
@@ -334,77 +335,95 @@ public class ArenaScheduler {
                 "fall_2015_announcer_courses " +
                 "WHERE course_id_pk = course_id_fk");
 
+        ArrayList<String> menuItems = new ArrayList<String>(); //To create a dynamic menu based on previous choices
+        menuItems.add("1Search by SubjectID");
+        menuItems.add("2Search by CourseID");
+        menuItems.add("3Search by ClassID");
+        menuItems.add("4Search by Block");
+        menuItems.add("5Search by Teacher");
+
         Scanner keyboard = new Scanner(System.in);
 
         /* Print the menu */
         do {
             do {
-                System.out.println("What would you like to search for?\n"
-                        + "(1) Search by SubjectID\n"
-                        + "(2) Search by CourseID\n"
-                        + "(3) Search by ClassID\n"
-                        + "(4) Search by Block\n"
-                        + "(5) Search by Teacher");
+                System.out.println("What would you like to search for?");
+                for(int i = 1; i <= menuItems.size(); i++) { //Print all available menu items
+                    System.out.println("(" + i + ") " + menuItems.get(i-1).substring(1));
+                }
                 try {
-                    option = keyboard.nextInt();
+                    menuOption = keyboard.nextInt();
                 } catch (Exception ex) {
                     System.out.println("ERROR: " + ex.getMessage());
                 }
 
-            /* Give menu options */
-                switch (option) {
-                    case 1:
-                        System.out.print("Enter the Subject ID: ");
-                        searchOptionInt = keyboard.nextInt();
-                        sqlStatement.append(" AND subject_id = ");
-                        sqlStatement.append(searchOptionInt);
-                        break;
-                    case 2:
-                        System.out.print("Enter the Course ID: ");
-                        keyboard.nextLine(); //Consume the newline
-                        searchOptionString = keyboard.nextLine();
-                        sqlStatement.append(" AND LOWER(course_id_fk) LIKE LOWER('");
-                        sqlStatement.append(searchOptionString);
-                        sqlStatement.append("')");
-                        break;
-                    case 3:
-                        System.out.print("Enter the Class ID: ");
-                        searchOptionInt = keyboard.nextInt();
-                        sqlStatement.append(" AND class_id = ");
-                        sqlStatement.append(searchOptionInt);
-                        break;
-                    case 4:
-                        System.out.print("Enter the Block: ");
-                        searchOptionInt = keyboard.nextInt();
-                        sqlStatement.append(" AND block = ");
-                        sqlStatement.append(searchOptionInt);
-                        break;
-                    case 5:
-                        System.out.print("Enter the Teacher: ");
-                        keyboard.nextLine(); //Consume the newline
-                        searchOptionString = keyboard.nextLine();
-                        sqlStatement.append(" AND LOWER(teacher) LIKE LOWER('%");
-                        sqlStatement.append(searchOptionString);
-                        sqlStatement.append("%')");
-                        break;
-                    default:
-                        System.out.println("WRONG OPTION!");
-                }
-            } while (option < 1 || option > 5);
-            do {
-                System.out.println("Would you like to add another search parameter?\n" +
-                        "(1) Yes\n" +
-                        "(2) No");
-                try {
-                    option = keyboard.nextInt();
-                } catch (Exception ex) {
-                    System.out.println("ERROR: " + ex.getMessage());
-                }
-                if (option < 1 || option > 2) {
+                if (menuOption < 1 || menuOption > menuItems.size()) { //If the user's choice is out of bounds
                     System.out.println("WRONG OPTION!");
                 }
-            } while (option < 1 || option > 2);
-        } while(option == 1);
+            } while (menuOption < 1 || menuOption > menuItems.size());
+
+            /* Convert the user's menu option to the correct switch case */
+            switchOption = Character.getNumericValue(menuItems.get(menuOption - 1).charAt(0));
+
+            /* Give menu options */
+            switch (switchOption) {
+                case 1:
+                    System.out.print("Enter the Subject ID: ");
+                    searchOptionInt = keyboard.nextInt();
+                    sqlStatement.append(" AND subject_id = ");
+                    sqlStatement.append(searchOptionInt);
+                    break;
+                case 2:
+                    System.out.print("Enter the Course ID: ");
+                    keyboard.nextLine(); //Consume the newline
+                    searchOptionString = keyboard.nextLine();
+                    sqlStatement.append(" AND LOWER(course_id_fk) LIKE LOWER('");
+                    sqlStatement.append(searchOptionString);
+                    sqlStatement.append("')");
+                    break;
+                case 3:
+                    System.out.print("Enter the Class ID: ");
+                    searchOptionInt = keyboard.nextInt();
+                    sqlStatement.append(" AND class_id = ");
+                    sqlStatement.append(searchOptionInt);
+                    break;
+                case 4:
+                    System.out.print("Enter the Block: ");
+                    searchOptionInt = keyboard.nextInt();
+                    sqlStatement.append(" AND block = ");
+                    sqlStatement.append(searchOptionInt);
+                    break;
+                case 5:
+                    System.out.print("Enter the Teacher: ");
+                    keyboard.nextLine(); //Consume the newline
+                    searchOptionString = keyboard.nextLine();
+                    sqlStatement.append(" AND LOWER(teacher) LIKE LOWER('%");
+                    sqlStatement.append(searchOptionString);
+                    sqlStatement.append("%')");
+                    break;
+                }
+
+            menuItems.remove(menuOption - 1); //Remove the menu option that the user picked from the display
+
+            /* Prompt the user for another search parameter */
+            if (menuItems.size() != 0) { //Check to see if all parameters are already taken
+                do {
+                    System.out.println("Would you like to add another search parameter?\n" +
+                            "(1) Yes\n" +
+                            "(2) No");
+                    try {
+                        switchOption = keyboard.nextInt();
+                    } catch (Exception ex) {
+                        System.out.println("ERROR: " + ex.getMessage());
+                    }
+                    if (switchOption < 1 || switchOption > 2) { //Out of bounds option
+                        System.out.println("WRONG OPTION!");
+                    }
+                } while (switchOption < 1 || switchOption > 2);
+            } else { //Exit menu if all parameters are taken
+                switchOption = 2;
+            }
+        } while(switchOption == 1);
 
         executeSQLStatement(sqlStatement.toString());
 
