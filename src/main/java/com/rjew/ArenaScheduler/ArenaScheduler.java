@@ -458,21 +458,21 @@ public class ArenaScheduler {
                 int roomFormatWidth = meta.getColumnName(8).length() + 1;//Store the default width of the room
 
                 /* If one of the course titles has a longer name, store it for the width */
-                while (resultSet.next()) {
+                do {
                     if (resultSet.getString(3).length() + 1 > courseTitleFormatWidth) {
                         courseTitleFormatWidth = resultSet.getString(3).length() + 1;
                     }
-                }
+                } while (resultSet.next());
 
                 /* Roll back the resultSet */
                 resultSet.first();
 
                 /* If one of the rooms has a longer name, store it for the width */
-                while (resultSet.next()) {
+                do {
                     if (resultSet.getString(8).length() + 1 > roomFormatWidth) {
                         roomFormatWidth = resultSet.getString(8).length() + 1;
                     }
-                }
+                } while (resultSet.next());
 
                 /* Roll back the resultSet */
                 resultSet.first();
