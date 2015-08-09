@@ -32,276 +32,9 @@ public class ArenaScheduler {
         }
     }
 
-    public enum SubjectID {
-        MATH, SCIENCE, ENGLISH, SOCIALSCI, VPA, WORLDLANG, PE, OTHER;
-    }
-
-    public class Course implements Serializable, Comparable<Course> {
-        private int subjectID;
-        private String courseID;
-        private String courseTitle;
-        private int classID;
-        private int seats;
-        private char code;
-        private int block;
-        private String room;
-        private String teacher;
-
-        public Course() {
-            this.subjectID = 0;
-            this.courseID = "";
-            this.courseTitle = "";
-            this.classID = 0;
-            this.seats = 0;
-            this.code = 'Z';
-            this.block = 0;
-            this.room = "";
-            this.teacher = "";
-        }
-
-        public Course(int subjectID, String courseID, String courseTitle,
-                      int classID, int seats, char code,
-                      int block, String room, String teacher) {
-            this.subjectID = subjectID;
-            this.courseID = courseID;
-            this.courseTitle = courseTitle;
-            this.classID = classID;
-            this.seats = seats;
-            this.code = code;
-            this.block = block;
-            this.room = room;
-            this.teacher = teacher;
-        }
-
-        public Course(Course crs) {
-            this.subjectID = crs.subjectID;
-            this.courseID = crs.courseID;
-            this.courseTitle = crs.courseTitle;
-            this.classID = crs.classID;
-            this.seats = crs.seats;
-            this.code = crs.code;
-            this.block = crs.block;
-            this.room = crs.room;
-            this.teacher = crs.teacher;
-        }
-
-        //@Override
-        public int compareTo(Course crs) {
-            if (this.block < crs.block) {
-                return -1;
-            } else if (this.block > crs.block) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-
-        public int getSubjectID() {
-            return subjectID;
-        }
-
-        public String getCourseID() {
-            return courseID;
-        }
-
-        public String getCourseTitle() {
-            return courseTitle;
-        }
-
-        public int getClassID() {
-            return classID;
-        }
-
-        public int getSeats() {
-            return seats;
-        }
-
-        public char getCode() {
-            return code;
-        }
-
-        public int getBlock() {
-            return block;
-        }
-
-        public String getRoom() {
-            return room;
-        }
-
-        public String getTeacher() {
-            return teacher;
-        }
-
-        public void setSubjectID(int subjectID) {
-            this.subjectID = subjectID;
-        }
-
-        public void setCourseID(String courseID) {
-            this.courseID = courseID;
-        }
-
-        public void setCourseTitle(String courseTitle) {
-            this.courseTitle = courseTitle;
-        }
-
-        public void setClassID(int classID) {
-            this.classID = classID;
-        }
-
-        public void setSeats(int seats) {
-            this.seats = seats;
-        }
-
-        public void setCode(char code) {
-            this.code = code;
-        }
-
-        public void setBlock(int block) {
-            this.block = block;
-        }
-
-        public void setRoom(String room) {
-            this.room = room;
-        }
-
-        public void setTeacher(String teacher) {
-            this.teacher = teacher;
-        }
-
-        @Override
-        public String toString() {
-            String s;
-
-            s = "subjectID: " + subjectID +
-                    "\ncourseID: " + courseID +
-                    "\ncourseTitle: " + courseTitle +
-                    "\ncourseID: " + courseID +
-                    "\nseats: " + seats +
-                    "\ncode: " + code +
-                    "\nblock: " + block +
-                    "\nroom: " + room +
-                    "\nteacher: " + teacher;
-
-            return s;
-        }
-
-        //@Override
-        public boolean equals(Course crs) {
-            if (this.subjectID == crs.subjectID
-                    && this.courseID.equals(crs.courseID)
-                    && this.courseTitle.equals(crs.courseTitle)
-                    && this.classID == crs.classID
-                    && this.seats == crs.seats
-                    && this.code == crs.code
-                    && this.block == crs.block
-                    && this.room.equals(crs.room)
-                    && this.teacher.equals(crs.teacher)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
-    public class BlockCompare implements Comparator<Course> {
-        public int compare(Course c1, Course c2) {
-            if (c1.block < c2.block) {
-                return -1;
-            } else if (c1.block > c2.block) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-    }
-
-    public class TeacherCompare implements Comparator<Course> {
-        public int compare(Course c1, Course c2) {
-            return c1.getTeacher().compareTo(c2.getTeacher());
-        }
-    }
-
-    public class Schedule implements Serializable {
-        private ArrayList<Course> courseArrayList = new ArrayList<Course>();
-        public static final int COURSE_LIMIT = 7;
-        public static final int LAST_BLOCK = 8;
-        private StringBuilder name;
-
-        /*public Schedule() {
-            ;
-        }*/
-
-        public Schedule(Schedule schd) {
-            for (int i = 0; i < courseArrayList.size(); i++) {
-                this.courseArrayList.add(schd.courseArrayList.get(i));
-            }
-            this.name = schd.name;
-        }
-
-        public void addCourse(Course crs) {
-            boolean sameBlock = false;
-            boolean courseLimitReached = false;
-            int numCourses = 0;
-
-            for (int i = 0; i < courseArrayList.size(); i++) {
-                if (courseArrayList.get(i).getBlock() <= LAST_BLOCK) {
-                    numCourses++;
-                }
-
-                if (courseArrayList.get(i).getBlock() == crs.getBlock()) {
-                    sameBlock = true;
-                }
-            }
-
-            if (numCourses >= COURSE_LIMIT) {
-                courseLimitReached = true;
-            }
-
-            if (sameBlock == false && courseLimitReached == false) {
-                courseArrayList.add(crs);
-            }
-        }
-
-        public Course getCourse(int block) {
-            for (int i = 0; i < courseArrayList.size(); i++) {
-                if (courseArrayList.get(i).getBlock() == block) {
-                    return courseArrayList.get(i);
-                }
-            }
-
-            return new Course();
-        }
-
-        public void removeCourse(int block) {
-            for (int i = 0; i < courseArrayList.size(); i++) {
-                if (courseArrayList.get(i).getBlock() == block) {
-                    courseArrayList.remove(i);
-                }
-            }
-        }
-
-        public void changeName(String string) {
-            name.replace(0, name.length() - 1, string);
-        }
-
-        public String getName() {
-            return name.toString();
-        }
-
-        @Override
-        public String toString() {
-            Collections.sort(courseArrayList);
-            return super.toString();
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            return super.equals(obj);
-        }
-    }
-
     public static void displayArenaSchedulerMenu() {
         int option = 0;
+        ArrayList<Schedule> scheduleArrayList = new ArrayList<Schedule>();
 
         Scanner keyboard = new Scanner(System.in);
 
@@ -321,10 +54,10 @@ public class ArenaScheduler {
 
             switch (option) {
                 case 1:
-                    displaySearchCatalog(keyboard);
+                    displaySearchCatalog(keyboard, scheduleArrayList);
                     break;
                 case 2:
-                    viewCustomSchedules();
+                    viewCustomSchedules(keyboard, scheduleArrayList);
                     break;
                 case 3:
                     break;
@@ -336,7 +69,7 @@ public class ArenaScheduler {
         keyboard.close();
     }
 
-    public static void displaySearchCatalog(Scanner keyboard) {
+    public static void displaySearchCatalog(Scanner keyboard, ArrayList<Schedule> scheduleArrayList) {
         int switchOption; //To hold the option for the right switch statement case
         int menuOption = 0; // To hold the users option based on the displayed menu
         String searchOptionString; //To hold user input for search catalog for strings
@@ -447,10 +180,10 @@ public class ArenaScheduler {
             }
         } while(switchOption == 1);
 
-        executeSQLStatement(sqlStatement.toString(), keyboard);
+        executeSQLStatement(sqlStatement.toString(), keyboard, scheduleArrayList);
     }
 
-    public static void executeSQLStatement(String sqlStmt, Scanner keyboard) {
+    public static void executeSQLStatement(String sqlStmt, Scanner keyboard, ArrayList<Schedule> scheduleArrayList) {
         final String DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Announcer_Fall_2015"; //For the db connection
         int numRows; //To hold the number of rows, the number of results
         int addClassOption = 0; // To hold the option for adding a class to the custom schedule
@@ -580,7 +313,8 @@ public class ArenaScheduler {
                     }
                     switch (addClassOption) {
                         case 1:
-                            saveClass(resultSet);
+                            resultSet.first();
+                            saveClass(keyboard, stmt, scheduleArrayList);
                             break;
                         case 2:
                             break;
@@ -599,11 +333,94 @@ public class ArenaScheduler {
         }
     }
 
-    public static void saveClass(ResultSet resultSet) {
-        ;
+    public static void saveClass(Scanner keyboard, Statement stmt, ArrayList<Schedule> scheduleArrayList) {
+        int classID = 0;
+        int scheduleOption = 0;
+
+        System.out.println("Which class would you like to add to your schedule?\n" +
+                "Enter the Class ID of the course you would like to add:");
+        try {
+            classID = keyboard.nextInt();
+        } catch (Exception ex) {
+            System.out.println("ERROR: " + ex.getMessage());
+        }
+
+        System.out.println("Which schedule would you like to add the class to?");
+        if (scheduleArrayList.size() != 0) {
+            for (int i = 0; i < scheduleArrayList.size(); i++) {
+                System.out.println("(" + (i + 1) + ") " + scheduleArrayList.get(i).getName());
+            }
+            System.out.println("(" + (scheduleArrayList.size() + 1) + ") " +
+                    "Create new schedule");
+            try {
+                scheduleOption = keyboard.nextInt();
+            } catch (Exception ex) {
+                System.out.println("ERROR: " + ex.getMessage());
+            }
+            if (scheduleOption == (scheduleArrayList.size() + 1)) {
+                scheduleArrayList.add(new Schedule());
+                System.out.println("Enter the new schedule name:");
+                keyboard.nextLine();
+                String scheduleName = keyboard.nextLine();
+                scheduleArrayList.get(scheduleOption - 1).changeName(scheduleName);
+            }
+        } else {
+            System.out.println("No schedules found... Creating new schedule\n" +
+                    "Enter the new schedule name:");
+            keyboard.nextLine();
+            String scheduleName = keyboard.nextLine();
+            scheduleArrayList.add(new Schedule());
+            scheduleArrayList.get(0).changeName(scheduleName);
+            scheduleOption = 1;
+        }
+
+        String sqlStatement = "SELECT subject_id, course_id_fk as course_id, " +
+                "course_title_uq as course_title, class_id, " +
+                "seats, code, block, room, teacher " +
+                "FROM fall_2015_announcer_classes, " +
+                "fall_2015_announcer_courses " +
+                "WHERE course_id_pk = course_id_fk AND " +
+                "class_id = " + classID;
+        try {
+            ResultSet resultSet = stmt.executeQuery(sqlStatement);
+
+            Course course = new Course(resultSet);
+
+            scheduleArrayList.get(scheduleOption - 1).addCourse(course);
+
+        } catch (Exception ex) {
+            System.out.println("ERROR: " + ex.getMessage());
+        }
+
     }
 
-    public static void viewCustomSchedules() {
-        ;
+    public static void viewCustomSchedules(Scanner keyboard, ArrayList<Schedule> scheduleArrayList) {
+        int scheduleViewOption = 0;
+
+        System.out.println("Which schedule would you like to see?");
+        for (int i = 1; i <= scheduleArrayList.size(); i++) {
+            System.out.print("(" + i + ") " + scheduleArrayList.get(i - 1).getName());
+        }
+        if (scheduleArrayList.size() > 1) {
+            System.out.println("(" + (scheduleArrayList.size() + 1) + ") All of them");
+        }
+        try {
+            scheduleViewOption = keyboard.nextInt();
+        } catch (Exception ex) {
+            System.out.println("ERROR: " + ex.getMessage());
+        }
+
+        if (scheduleViewOption != scheduleArrayList.size() + 1) {
+            scheduleArrayList.get(scheduleViewOption - 1).sortScheduleByBlock();
+
+            System.out.println(scheduleArrayList.get(scheduleViewOption - 1));
+        } else {
+            for (Schedule s : scheduleArrayList) { //For Each loop
+                s.sortScheduleByBlock();
+
+                System.out.println(s);
+            }
+        }
+
     }
 }
