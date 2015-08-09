@@ -370,6 +370,8 @@ public class ArenaScheduler {
             /* Give menu options */
             switch (switchOption) {
                 case 1:
+                    System.out.println("For your reference:");
+                    System.out.println(SUBJECT_ID);
                     System.out.print("Enter the Subject ID: ");
                     searchOptionInt = keyboard.nextInt();
                     sqlStatement.append(" AND subject_id = ");
