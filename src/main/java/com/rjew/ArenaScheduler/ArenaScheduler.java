@@ -225,6 +225,7 @@ public class ArenaScheduler {
         private ArrayList<Course> courseArrayList = new ArrayList<Course>();
         public static final int COURSE_LIMIT = 7;
         public static final int LAST_BLOCK = 8;
+        private StringBuilder name;
 
         /*public Schedule() {
             ;
@@ -234,6 +235,7 @@ public class ArenaScheduler {
             for (int i = 0; i < courseArrayList.size(); i++) {
                 this.courseArrayList.add(schd.courseArrayList.get(i));
             }
+            this.name = schd.name;
         }
 
         public void addCourse(Course crs) {
@@ -276,6 +278,14 @@ public class ArenaScheduler {
                     courseArrayList.remove(i);
                 }
             }
+        }
+
+        public void changeName(String string) {
+            name.replace(0, name.length() - 1, string);
+        }
+
+        public String getName() {
+            return name.toString();
         }
 
         @Override
@@ -437,12 +447,13 @@ public class ArenaScheduler {
             }
         } while(switchOption == 1);
 
-        executeSQLStatement(sqlStatement.toString());
+        executeSQLStatement(sqlStatement.toString(), keyboard);
     }
 
-    public static void executeSQLStatement(String sqlStmt) {
+    public static void executeSQLStatement(String sqlStmt, Scanner keyboard) {
         final String DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Announcer_Fall_2015"; //For the db connection
         int numRows; //To hold the number of rows, the number of results
+        int addClassOption = 0; // To hold the option for adding a class to the custom schedule
 
         try {
 
@@ -558,6 +569,25 @@ public class ArenaScheduler {
                     System.out.println();
                 } while (resultSet.next());
 
+                do {
+                    System.out.println("Would you like to add any of the classes to one of your schedules?\n" +
+                            "(1) Yes\n" +
+                            "(2) No");
+                    try {
+                        addClassOption = keyboard.nextInt();
+                    } catch (Exception ex) {
+                        System.out.println("ERROR: " + ex.getMessage());
+                    }
+                    switch (addClassOption) {
+                        case 1:
+                            saveClass(resultSet);
+                            break;
+                        case 2:
+                            break;
+                        default:
+                            System.out.println("WRONG OPTION!");
+                    }
+                } while (addClassOption < 1 || addClassOption > 2);
             }
 
             stmt.close();
@@ -567,6 +597,10 @@ public class ArenaScheduler {
         catch (Exception ex) {
             System.out.println("ERROR: " + ex.getMessage());
         }
+    }
+
+    public static void saveClass(ResultSet resultSet) {
+        ;
     }
 
     public static void viewCustomSchedules() {
