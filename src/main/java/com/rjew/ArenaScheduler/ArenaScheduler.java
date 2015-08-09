@@ -341,9 +341,10 @@ public class ArenaScheduler {
         ArrayList<String> menuItems = new ArrayList<String>(); //To create a dynamic menu based on previous choices
         menuItems.add("1Search by SubjectID");
         menuItems.add("2Search by CourseID");
-        menuItems.add("3Search by ClassID");
-        menuItems.add("4Search by Block");
-        menuItems.add("5Search by Teacher");
+        menuItems.add("3Search by CourseTitle");
+        menuItems.add("4Search by ClassID");
+        menuItems.add("5Search by Block");
+        menuItems.add("6Search by Teacher");
 
         /* Print the menu */
         do {
@@ -383,18 +384,26 @@ public class ArenaScheduler {
                     sqlStatement.append("')");
                     break;
                 case 3:
+                    System.out.print("Enter the Course Title: ");
+                    keyboard.nextLine(); //Consume the newline
+                    searchOptionString = keyboard.nextLine();
+                    sqlStatement.append(" AND LOWER(course_title_uq) LIKE LOWER('%");
+                    sqlStatement.append(searchOptionString);
+                    sqlStatement.append("%')");
+                    break;
+                case 4:
                     System.out.print("Enter the Class ID: ");
                     searchOptionInt = keyboard.nextInt();
                     sqlStatement.append(" AND class_id = ");
                     sqlStatement.append(searchOptionInt);
                     break;
-                case 4:
+                case 5:
                     System.out.print("Enter the Block: ");
                     searchOptionInt = keyboard.nextInt();
                     sqlStatement.append(" AND block = ");
                     sqlStatement.append(searchOptionInt);
                     break;
-                case 5:
+                case 6:
                     System.out.print("Enter the Teacher: ");
                     keyboard.nextLine(); //Consume the newline
                     searchOptionString = keyboard.nextLine();
