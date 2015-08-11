@@ -1,7 +1,15 @@
 package com.rjew.ArenaScheduler;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
+import java.util.Scanner;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 public class ArenaScheduler {
     static final Map<Integer , String> SUBJECT_ID = new HashMap<Integer , String>() {{
@@ -36,7 +44,7 @@ public class ArenaScheduler {
             System.out.println("Welcome to the Arena Scheduler Program!\n"
                     + "What would you like to do?\n"
                     + "(1) Search Catalog\n"
-                    + "(2) View your custom schedules\n"
+                    + "(2) Modify/View your custom schedules\n"
                     + "(3) Quit\n"
                     + "Pick an option (1-3) and press ENTER.");//todo View full announcer - allow add class to schedule
             try {
@@ -356,7 +364,7 @@ public class ArenaScheduler {
                 } while (customScheduleDBMetaTables.next());
                 System.out.println("(" + (i) + ") " +
                         "Create new schedule");
-                try {
+                try {//todo check user input if incorrect
                     scheduleOption = keyboard.nextInt();
                 } catch (Exception ex) {
                     System.out.println("ERROR: " + ex.getMessage());
@@ -625,13 +633,15 @@ public class ArenaScheduler {
 
     public static void accessCustomSchedules(Scanner keyboard) {
         int menuOption = 0;
+        int scheduleOption;
+        ArrayList<String> tableNamesArrayList = new ArrayList<String>();
 
         do {
             System.out.println("What would you like to do?\n" +
                     "(1) Add a course to a schedule\n" +
                     "(2) Delete a course from a schedule\n" +
                     "(3) Create a new schedule\n" +
-                    "(4) Delete a schedule" +
+                    "(4) Delete a schedule\n" +
                     "(5) View one of your schedules\n" +
                     "(6) Quit");
             try {
@@ -641,16 +651,49 @@ public class ArenaScheduler {
             }
 
             switch (menuOption) {
-                case 1:
+                case 1://todo fix this case so the user doesn't have to select a schedule again
+                    final String ANNOUNCER_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Announcer_Fall_2015"; //For the db connection
+                    try {
+                        Connection announcerConn = DriverManager.getConnection(ANNOUNCER_DB_URL);
+
+                        Statement announcerStatement = announcerConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                ResultSet.CONCUR_READ_ONLY);
+
+                        saveClass(keyboard, announcerStatement);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                     break;
                 case 2:
+                    scheduleOption = displayScheduleOptions(keyboard, tableNamesArrayList, "select");
+                    if (scheduleOption != 0) {
+                        deleteClass(scheduleOption, keyboard, tableNamesArrayList);
+                    }
                     break;
                 case 3:
+                    final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Custom_Schedules"; //For db Connection
+                    try {
+                        Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
+
+                        Statement customScheduleStatement = customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                ResultSet.CONCUR_UPDATABLE);
+
+                        createTable(keyboard, customScheduleStatement);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                     break;
                 case 4:
+                    scheduleOption = displayScheduleOptions(keyboard, tableNamesArrayList, "delete");
+                    if (scheduleOption != 0) {
+                        deleteSchedule(scheduleOption, tableNamesArrayList);
+                    }
                     break;
                 case 5:
-                    displayScheduleOptions(keyboard);
+                    scheduleOption = displayScheduleOptions(keyboard, tableNamesArrayList, "view");
+                    if (scheduleOption != 0) {
+                        viewSchedule(scheduleOption, tableNamesArrayList);
+                    }
                     break;
                 case 6:
                     break;
@@ -660,24 +703,23 @@ public class ArenaScheduler {
 
         } while (menuOption != 5);
     }
-
-    public static void displayScheduleOptions(Scanner keyboard) {
+//todo weird bug in displayScheduleOptions where the check for the scheduleOption doesn't work after many uses, clear tablenamesarraylsit
+    public static int displayScheduleOptions(Scanner keyboard, ArrayList<String> tableNamesArrayList,
+                                             String displayOption) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Custom_Schedules"; //For db Connection
 
         int scheduleOption = 0;
-        ArrayList<String> tableNamesArrayList = new ArrayList<String>();
+
+        tableNamesArrayList.clear();
 
         try {
             Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
-
-            Statement customScheduleStatement = customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
 
             DatabaseMetaData customScheduleDBMeta = customScheduleConn.getMetaData();
             ResultSet customScheduleDBMetaTables = customScheduleDBMeta.getTables(null, null, "%", new String[]{"TABLE"});
 
             if (customScheduleDBMetaTables.next()) {
-                System.out.println("Which schedule would you like to view?");
+                System.out.println("Which schedule would you like to " + displayOption + "?");
                 int i = 1;
                 do {
                     System.out.print("(" + i + ") ");
@@ -685,30 +727,131 @@ public class ArenaScheduler {
                     System.out.println(tableNamesArrayList.get(i - 1));
                     i++;
                 } while (customScheduleDBMetaTables.next());
+
                 try {//todo check if user types in wrong input
                     scheduleOption = keyboard.nextInt();
                 } catch (Exception ex) {
                     System.out.println("ERROR: " + ex.getMessage());
                 }
 
-                if (scheduleOption > 0 && scheduleOption <= tableNamesArrayList.size()) {
-                    String sqlStatement = "SELECT subject_id, course_id, " +
-                            "course_title, class_id, " +
-                            "seats, code, block, room, teacher " +
-                            "FROM \"" + tableNamesArrayList.get(scheduleOption - 1) + "\"" +
-                            "ORDER BY block";
-                    ResultSet customScheduleResultSet = customScheduleStatement.executeQuery(sqlStatement);
-                    ResultSetMetaData customScheduleRSMeta = customScheduleResultSet.getMetaData();
-                    printSchedule(customScheduleResultSet, customScheduleRSMeta);
+                while(scheduleOption <=0 || scheduleOption > tableNamesArrayList.size()) {
+                    System.out.println("WRONG OPTION\n" +
+                                    "Which schedule would you like to " + displayOption + "?");
+                    for (int j = 0; j < tableNamesArrayList.size(); j++) {
+                        System.out.print("(" + (j + 1) + ") ");
+                        System.out.println(tableNamesArrayList.get(j));
+                    }
 
-                    customScheduleResultSet.close();
+                    try {
+                        scheduleOption = keyboard.nextInt();
+                    } catch (Exception ex) {
+                        System.out.println("ERROR: " + ex.getMessage());
+                    }
                 }
+
             } else {
                 System.out.println("No schedules available.");
             }
 
             customScheduleConn.close();
             customScheduleDBMetaTables.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return scheduleOption;
+    }
+
+    public static void deleteClass(int scheduleOption, Scanner keyboard, ArrayList<String> tableNamesArrayList) {
+        int classID;
+        boolean deleteClassSuccessful;
+
+        try {
+            viewSchedule(scheduleOption, tableNamesArrayList);
+            System.out.println("Which class would you like to delete?\n" +
+                    "Enter the Class ID of the course you would like to delete:");
+            classID = keyboard.nextInt();
+
+            deleteClassSuccessful = deleteCourse(classID, tableNamesArrayList.get(scheduleOption - 1));
+            //todo if (deleteClassSuccessful), wrong classID?
+            if (deleteClassSuccessful) {
+                viewSchedule(scheduleOption, tableNamesArrayList);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static boolean deleteCourse(int classID, String tableName) {
+        final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Custom_Schedules"; //For db Connection
+
+        try {
+
+            Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
+
+            Statement customScheduleStatement = customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            String deleteCourseSQLString = "DELETE  FROM \"" + tableName + "\" " +
+                    "WHERE class_id = " + classID;
+
+            customScheduleStatement.executeUpdate(deleteCourseSQLString);
+            System.out.println("Class " + classID + " deleted.");
+
+            customScheduleConn.close();
+            customScheduleStatement.close();
+
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static void deleteSchedule(int scheduleOption, ArrayList<String> tableNamesArrayList) {
+        final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Custom_Schedules"; //For db Connection
+
+        try {
+
+            Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
+
+            Statement customScheduleStatement = customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            String dropTableSQLString = "DROP TABLE \"" + tableNamesArrayList.get(scheduleOption - 1) + "\"";
+
+            customScheduleStatement.executeUpdate(dropTableSQLString);
+            System.out.println(tableNamesArrayList.get(scheduleOption - 1) + "deleted.");
+
+            customScheduleConn.close();
+            customScheduleStatement.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void viewSchedule(int scheduleOption, ArrayList<String> tableNamesArrayList) {
+        final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Custom_Schedules"; //For db Connection
+
+        try {
+
+        Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
+
+        Statement customScheduleStatement = customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+
+            String sqlStatement = "SELECT subject_id, course_id, " +
+                    "course_title, class_id, " +
+                    "seats, code, block, room, teacher " +
+                    "FROM \"" + tableNamesArrayList.get(scheduleOption - 1) + "\"" +
+                    "ORDER BY block";
+            ResultSet customScheduleResultSet = customScheduleStatement.executeQuery(sqlStatement);
+            ResultSetMetaData customScheduleRSMeta = customScheduleResultSet.getMetaData();
+            printSchedule(customScheduleResultSet, customScheduleRSMeta);
+
+            customScheduleConn.close();
+            customScheduleResultSet.close();
             customScheduleStatement.close();
         } catch (Exception ex) {
             ex.printStackTrace();
