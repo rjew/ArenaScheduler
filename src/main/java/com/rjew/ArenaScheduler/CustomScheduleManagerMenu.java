@@ -14,7 +14,7 @@ public class CustomScheduleManagerMenu {
 
             menuOption = getCustomSchedulesMenuOption(keyboard);
 
-        } while (menuOption != 6);
+        } while (menuOption != 8);
     }
 
     public static void displayCustomSchedulesMenu() {
@@ -24,7 +24,9 @@ public class CustomScheduleManagerMenu {
                 "(3) Create a new schedule\n" +
                 "(4) Delete a schedule\n" +
                 "(5) View one of your schedules\n" +
-                "(6) Quit");
+                "(6) Rename a schedule\n" +
+                "(7) Duplicate one of your schedules\n" +
+                "(8) Quit");
     }
 
     public static int getCustomSchedulesMenuOption(Scanner keyboard) {
@@ -72,6 +74,14 @@ public class CustomScheduleManagerMenu {
                 }
                 break;
             case 6:
+                scheduleOption = CustomScheduleManagerSelection.displayScheduleOptions(keyboard, tableNamesArrayList, "rename");
+                if (scheduleOption != 0) {
+                    CustomScheduleManagerRename.renameSchedule(keyboard, tableNamesArrayList.get(scheduleOption - 1));
+                }
+                break;
+            case 7:
+                break;
+            case 8:
                 break;
             default:
                 System.out.println("WRONG OPTION!");
