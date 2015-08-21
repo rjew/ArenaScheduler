@@ -14,10 +14,10 @@ public class ExecuteSQL {
             /* Connect to database and execute query, storing the results */
             Connection announcerConn = DriverManager.getConnection(ANNOUNCER_DB_URL);
 
-            PreparedStatement announcerStatement = announcerConn.prepareStatement(sqlStmt, ResultSet.TYPE_SCROLL_INSENSITIVE,
+            Statement announcerStatement = announcerConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
 
-            ResultSet announcerResultSet = announcerStatement.executeQuery();
+            ResultSet announcerResultSet = announcerStatement.executeQuery(sqlStmt);
 
             ResultSetMetaData announcerRSMeta = announcerResultSet.getMetaData();
 
@@ -27,22 +27,13 @@ public class ExecuteSQL {
             System.out.println("\n" + numRows + " RESULTS.\n");
 
             if (numRows != 0) {
-                CustomScheduleManager.printSchedule(announcerResultSet, announcerRSMeta);
+                CustomScheduleManagerViewSchedule.printSchedule(announcerResultSet, announcerRSMeta);
 
                 do {
                     displayAddClassMenu();
 
-                    addClassOption = getAddClassMenuOption(keyboard);
+                    addClassOption = getAddClassMenuOption(keyboard, announcerStatement);
 
-                    switch (addClassOption) {
-                        case 1:
-                            saveClass(keyboard, announcerStatement);
-                            break;
-                        case 2:
-                            break;
-                        default:
-                            System.out.println("WRONG OPTION!");
-                    }
                 } while (addClassOption < 1 || addClassOption > 2);
             }
 
@@ -75,13 +66,23 @@ public class ExecuteSQL {
                 "(2) No");
     }
 
-    public static int getAddClassMenuOption(Scanner keyboard) {
+    public static int getAddClassMenuOption(Scanner keyboard, Statement announcerStatement) {
         int addClassOption = 0;
 
         try {
             addClassOption = keyboard.nextInt();
         } catch (Exception ex) {
             System.out.println("ERROR: " + ex.getMessage());
+        }
+
+        switch (addClassOption) {
+            case 1:
+                CustomScheduleManagerSaveClass.saveClass(keyboard, announcerStatement);
+                break;
+            case 2:
+                break;
+            default:
+                System.out.println("WRONG OPTION!");
         }
 
         return addClassOption;

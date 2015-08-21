@@ -38,7 +38,7 @@ public class MainMenu {
                 SearchCatalog.displaySearchCatalog(keyboard);
                 break;
             case 2:
-                CustomScheduleManager.accessCustomSchedules(keyboard);
+                CustomScheduleManagerMenu.accessCustomSchedules(keyboard);
                 break;
             case 3:
                 break;
