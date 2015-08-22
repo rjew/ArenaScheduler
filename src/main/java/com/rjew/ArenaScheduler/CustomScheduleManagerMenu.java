@@ -80,6 +80,10 @@ public class CustomScheduleManagerMenu {
                 }
                 break;
             case 7:
+                scheduleOption = CustomScheduleManagerSelection.displayScheduleOptions(keyboard, tableNamesArrayList, "copy");
+                if (scheduleOption != 0) {
+                    CustomScheduleManagerDuplicate.duplicateSchedule(keyboard, tableNamesArrayList.get(scheduleOption - 1));
+                }
                 break;
             case 8:
                 break;
