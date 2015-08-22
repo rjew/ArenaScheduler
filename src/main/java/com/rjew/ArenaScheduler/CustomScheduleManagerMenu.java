@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CustomScheduleManagerMenu {
-    //todo add rename and copy schedule functions
     //todo ranking
     public static void accessCustomSchedules(Scanner keyboard) {
         int menuOption;

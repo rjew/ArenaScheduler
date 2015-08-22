@@ -10,16 +10,17 @@ public class MainMenu {
 
         /* Print the Menu */
         do {
-            System.out.println("Welcome to the Arena Scheduler Program!\n"
-                    + "What would you like to do?\n"
-                    + "(1) Search Catalog\n"
-                    + "(2) Modify/View your custom schedules\n"
-                    + "(3) Quit\n"
-                    + "Pick an option (1-3) and press ENTER.");//todo View full announcer - allow add class to schedule
+            System.out.println("Welcome to the Arena Scheduler Program!\n" +
+                    "What would you like to do?\n" +
+                    "(1) Search Catalog\n" +
+                    "(2) Modify/View your custom schedules\n" +
+                    "(3) View Full Announcer\n" +
+                    "(4) Quit\n" +
+                    "Pick an option (1-4) and press ENTER.");
 
             option = getArenaSchedulerOption(keyboard);
 
-        } while (option != 3);
+        } while (option != 4);
 
         keyboard.close();
     }
@@ -41,6 +42,9 @@ public class MainMenu {
                 CustomScheduleManagerMenu.accessCustomSchedules(keyboard);
                 break;
             case 3:
+                FullAnnouncer.viewFullAnnouncer(keyboard);
+                break;
+            case 4:
                 break;
             default:
                 System.out.println("WRONG OPTION!");
