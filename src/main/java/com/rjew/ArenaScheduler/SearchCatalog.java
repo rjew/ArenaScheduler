@@ -1,9 +1,6 @@
 package com.rjew.ArenaScheduler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class SearchCatalog {
     static final Map<Integer , String> SUBJECT_ID = new HashMap<Integer , String>() {{
@@ -87,9 +84,12 @@ public class SearchCatalog {
 
         try {
             menuOption = keyboard.nextInt();
+        } catch (InputMismatchException ex) {
+            //ignore exception, prompt user again for input if input is incorrect
         } catch (Exception ex) {
-            System.out.println("ERROR: " + ex.getMessage());
+            ex.printStackTrace();
         }
+        keyboard.nextLine();//clear the buffer
 
         if (menuOption < 1 || menuOption > menuItems.size()) { //If the user's choice is out of bounds
             System.out.println("WRONG OPTION!");
@@ -100,50 +100,93 @@ public class SearchCatalog {
 
     public static void getSearchCatalogQuery(Scanner keyboard, int switchOption, StringBuilder sqlStatement) {
         String searchOptionString; //To hold user input for search catalog for strings
-        int searchOptionInt; //To hold user input for search catalog for ints
+        int searchOptionInt = 0; //To hold user input for search catalog for ints
 
         /* Give menu options */
         switch (switchOption) {
             case 1:
                 System.out.println("For your reference:");
                 System.out.println(SUBJECT_ID);
-                System.out.print("Enter the Subject ID: ");
-                searchOptionInt = keyboard.nextInt();
+
+                do {
+                    try {
+                        System.out.print("Enter the Subject ID: ");
+                        searchOptionInt = keyboard.nextInt();
+                    } catch (InputMismatchException ex) {
+                        //ignore exception, prompt user again for input if input is incorrect
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    keyboard.nextLine();//clear keyboard buffer
+
+                    if (searchOptionInt < 1 || searchOptionInt > 8) {
+                        System.out.println("WRONG OPTION!");
+                    }
+                } while (searchOptionInt < 1 || searchOptionInt > 8);
+
                 sqlStatement.append(" AND subject_id = ");
                 sqlStatement.append(searchOptionInt);
                 break;
             case 2:
                 System.out.print("Enter the Course ID: ");
-                keyboard.nextLine(); //Consume the newline
-                searchOptionString = keyboard.nextLine();
+                do {
+                    searchOptionString = keyboard.nextLine();
+                } while(searchOptionString.trim().isEmpty());//Check if string is empty
                 sqlStatement.append(" AND LOWER(course_id_fk) LIKE LOWER('");
                 sqlStatement.append(searchOptionString);
                 sqlStatement.append("')");
                 break;
             case 3:
                 System.out.print("Enter the Course Title: ");
-                keyboard.nextLine(); //Consume the newline
-                searchOptionString = keyboard.nextLine();
+                do {
+                    searchOptionString = keyboard.nextLine();
+                } while(searchOptionString.trim().isEmpty());//Check if string is empty
                 sqlStatement.append(" AND LOWER(course_title_uq) LIKE LOWER('%");
                 sqlStatement.append(searchOptionString);
                 sqlStatement.append("%')");
                 break;
             case 4:
-                System.out.print("Enter the Class ID: ");
-                searchOptionInt = keyboard.nextInt();
+                do {
+                    System.out.print("Enter the Class ID: ");
+                    try {
+                        searchOptionInt = keyboard.nextInt();
+                    } catch (InputMismatchException ex) {
+                        //ignore exception, prompt user again for input if input is incorrect
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    keyboard.nextLine();//clear keyboard buffer
+
+                    if (searchOptionInt < 1) {
+                        System.out.println("WRONG OPTION!");
+                    }
+                } while (searchOptionInt < 1);
                 sqlStatement.append(" AND class_id = ");
                 sqlStatement.append(searchOptionInt);
                 break;
             case 5:
-                System.out.print("Enter the Block: ");
-                searchOptionInt = keyboard.nextInt();
+                do {
+                    System.out.print("Enter the Block: ");
+                    try {
+                        searchOptionInt = keyboard.nextInt();
+                    } catch (InputMismatchException ex) {
+                        //ignore exception, prompt user again for input if input is incorrect
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    if (searchOptionInt < 1) {
+                        System.out.println("WRONG OPTION!");
+                    }
+                    keyboard.nextLine();//clear keyboard buffer
+                } while (searchOptionInt < 1);
                 sqlStatement.append(" AND block = ");
                 sqlStatement.append(searchOptionInt);
                 break;
             case 6:
                 System.out.print("Enter the Teacher: ");
-                keyboard.nextLine(); //Consume the newline
-                searchOptionString = keyboard.nextLine();
+                do {
+                    searchOptionString = keyboard.nextLine();
+                } while(searchOptionString.trim().isEmpty());//Check if string is empty
                 sqlStatement.append(" AND LOWER(teacher) LIKE LOWER('%");
                 sqlStatement.append(searchOptionString);
                 sqlStatement.append("%')");
