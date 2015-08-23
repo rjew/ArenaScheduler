@@ -10,11 +10,10 @@ public class CustomScheduleManagerCreateSchedule {
     public static String createSchedule(Scanner keyboard)  {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Custom_Schedules"; //For db Connection
 
-        try {
-            Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
-
-            Statement customScheduleStatement = customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+        try (Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
+             Statement customScheduleStatement =
+                     customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
+        ) {
 
             String scheduleName = getNewScheduleName(keyboard);
 
@@ -31,9 +30,6 @@ public class CustomScheduleManagerCreateSchedule {
                     "teacher VARCHAR(30))";
             customScheduleStatement.execute(createTableSQLString);
             System.out.println(scheduleName + " created.");
-
-            customScheduleConn.close();
-            customScheduleStatement.close();
 
             return scheduleName;
         } catch (Exception ex) {

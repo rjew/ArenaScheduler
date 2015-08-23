@@ -7,25 +7,23 @@ public class CustomScheduleManagerViewSchedule {
     public static void viewSchedule(String tableName) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Custom_Schedules"; //For db Connection
 
-        try {
-
-            Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
-
-            Statement customScheduleStatement = customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+        try (Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
+             Statement customScheduleStatement =
+                     customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
+        ) {
 
             String sqlStatement = "SELECT subject_id, course_id, " +
                     "course_title, class_id, " +
                     "seats, code, block, room, teacher " +
                     "FROM \"" + tableName + "\"" +
                     "ORDER BY block";
-            ResultSet customScheduleResultSet = customScheduleStatement.executeQuery(sqlStatement);
-            ResultSetMetaData customScheduleRSMeta = customScheduleResultSet.getMetaData();
-            printSchedule(customScheduleResultSet, customScheduleRSMeta);
 
-            customScheduleConn.close();
-            customScheduleResultSet.close();
-            customScheduleStatement.close();
+            try (ResultSet customScheduleResultSet = customScheduleStatement.executeQuery(sqlStatement)) {
+
+                ResultSetMetaData customScheduleRSMeta = customScheduleResultSet.getMetaData();
+                printSchedule(customScheduleResultSet, customScheduleRSMeta);
+            }
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -47,7 +45,7 @@ public class CustomScheduleManagerViewSchedule {
             printDBResults(resultSet, RSMetaData, courseTitleFormatWidth, roomFormatWidth);
 
         } catch (Exception ex) {
-            System.out.println("ERROR: " + ex.getMessage());
+            ex.printStackTrace();
         }
 
     }

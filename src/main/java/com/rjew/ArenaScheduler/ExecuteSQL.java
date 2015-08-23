@@ -10,15 +10,12 @@ public class ExecuteSQL {
         int numRows; //To hold the number of rows, the number of results
         int addClassOption; // To hold the option for adding a class to the custom schedule
 
-        try {
-
-            /* Connect to database and execute query, storing the results */
-            Connection announcerConn = DriverManager.getConnection(ANNOUNCER_DB_URL);
-
-            Statement announcerStatement = announcerConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
-
-            ResultSet announcerResultSet = announcerStatement.executeQuery(sqlStmt);
+        /* Connect to database and execute query, storing the results */
+        try (Connection announcerConn = DriverManager.getConnection(ANNOUNCER_DB_URL);
+             Statement announcerStatement =
+                     announcerConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+             ResultSet announcerResultSet = announcerStatement.executeQuery(sqlStmt)
+        ) {
 
             ResultSetMetaData announcerRSMeta = announcerResultSet.getMetaData();
 
@@ -38,12 +35,9 @@ public class ExecuteSQL {
                 } while (addClassOption < 1 || addClassOption > 2);
             }
 
-            announcerStatement.close();
-            announcerConn.close();
-            announcerResultSet.close();
             System.out.println("\nConnection closed.");
         } catch (Exception ex) {
-            System.out.println("ERROR: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 

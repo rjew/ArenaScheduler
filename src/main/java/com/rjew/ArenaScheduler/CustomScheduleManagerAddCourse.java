@@ -18,8 +18,9 @@ public class CustomScheduleManagerAddCourse {
                 "fall_2015_announcer_courses " +
                 "WHERE course_id_pk = course_id_fk AND " +
                 "class_id = " + classID;
-        try {
-            ResultSet courseResultSet = announcerStatement.executeQuery(getCourseSQLString);
+
+        try (ResultSet courseResultSet = announcerStatement.executeQuery(getCourseSQLString)) {
+
             courseResultSet.next();
             int courseBlock = courseResultSet.getInt(7);
 
@@ -56,8 +57,7 @@ public class CustomScheduleManagerAddCourse {
 
         String courseLimitCheck = "SELECT COUNT(*) FROM \"" + tableName + "\" WHERE block <= " + LAST_BLOCK;
 
-        try {
-            ResultSet courseLimitCheckRS = customScheduleStatement.executeQuery(courseLimitCheck);
+        try (ResultSet courseLimitCheckRS = customScheduleStatement.executeQuery(courseLimitCheck)) {
             courseLimitCheckRS.next();
             numCourses = courseLimitCheckRS.getInt(1);
             if (numCourses >= COURSE_LIMIT) {
@@ -75,8 +75,7 @@ public class CustomScheduleManagerAddCourse {
 
         String sameBlockCheck = "SELECT block FROM \"" + tableName + "\"";
 
-        try {
-            ResultSet sameBlockCheckRS = customScheduleStatement.executeQuery(sameBlockCheck);
+        try (ResultSet sameBlockCheckRS = customScheduleStatement.executeQuery(sameBlockCheck)) {
             while (sameBlockCheckRS.next()) {
                 if (sameBlockCheckRS.getInt(1) == courseBlock) {
                     sameBlock = true;

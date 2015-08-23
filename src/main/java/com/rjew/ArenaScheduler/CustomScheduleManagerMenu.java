@@ -32,7 +32,7 @@ public class CustomScheduleManagerMenu {
     public static int getCustomSchedulesMenuOption(Scanner keyboard) {
         int menuOption = 0;
         int scheduleOption;
-        ArrayList<String> tableNamesArrayList = new ArrayList<String>();
+        ArrayList<String> tableNamesArrayList = new ArrayList<>();
 
         try {
             menuOption = keyboard.nextInt();

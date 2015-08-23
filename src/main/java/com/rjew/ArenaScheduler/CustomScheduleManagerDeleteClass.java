@@ -55,21 +55,16 @@ public class CustomScheduleManagerDeleteClass {
     public static boolean deleteCourse(int classID, String tableName) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Custom_Schedules"; //For db Connection
 
-        try {
-
-            Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
-
-            Statement customScheduleStatement = customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+        try (Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
+             Statement customScheduleStatement =
+                     customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
+        ) {
 
             String deleteCourseSQLString = "DELETE  FROM \"" + tableName + "\" " +
                     "WHERE class_id = " + classID;
 
             customScheduleStatement.executeUpdate(deleteCourseSQLString);
             System.out.println("Class " + classID + " deleted.");
-
-            customScheduleConn.close();
-            customScheduleStatement.close();
 
             return true;
         } catch (Exception ex) {

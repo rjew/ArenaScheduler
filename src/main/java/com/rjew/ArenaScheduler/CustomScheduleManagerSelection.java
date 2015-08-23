@@ -1,7 +1,5 @@
 package com.rjew.ArenaScheduler;
 
-import jdk.internal.util.xml.impl.Input;
-
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -19,30 +17,29 @@ public class CustomScheduleManagerSelection {
 
         tableNamesArrayList.clear();
 
-        try {
-            Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
+        try (Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL)) {
 
             DatabaseMetaData customScheduleDBMeta = customScheduleConn.getMetaData();
-            ResultSet customScheduleDBMetaTables = customScheduleDBMeta.getTables(null, null, "%", new String[]{"TABLE"});
 
-            if (customScheduleDBMetaTables.next()) {
+            try (ResultSet customScheduleDBMetaTables =
+                         customScheduleDBMeta.getTables(null, null, "%", new String[]{"TABLE"})) {
 
-                displaySchedules(displayOption, tableNamesArrayList, customScheduleDBMetaTables);
+                if (customScheduleDBMetaTables.next()) {
 
-                scheduleOption = getScheduleOption(keyboard);
-
-                while(scheduleOption <=0 || scheduleOption > tableNamesArrayList.size()) {
-                    wrongOptionDisplaySchedules(displayOption, tableNamesArrayList);
+                    displaySchedules(displayOption, tableNamesArrayList, customScheduleDBMetaTables);
 
                     scheduleOption = getScheduleOption(keyboard);
+
+                    while (scheduleOption <= 0 || scheduleOption > tableNamesArrayList.size()) {
+                        wrongOptionDisplaySchedules(displayOption, tableNamesArrayList);
+
+                        scheduleOption = getScheduleOption(keyboard);
+                    }
+
+                } else {
+                    System.out.println("No schedules available.");
                 }
-
-            } else {
-                System.out.println("No schedules available.");
             }
-
-            customScheduleConn.close();
-            customScheduleDBMetaTables.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

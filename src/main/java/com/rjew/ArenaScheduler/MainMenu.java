@@ -7,17 +7,17 @@ public class MainMenu {
     public static void displayArenaSchedulerMenu() {
         int option;
 
-        Scanner keyboard = new Scanner(System.in);
+        try (Scanner keyboard = new Scanner(System.in)) {
 
-        /* Print the Menu */
-        do {
-            displayMainMenu();
+            /* Print the Menu */
+            do {
+                displayMainMenu();
 
-            option = getArenaSchedulerOption(keyboard);
+                option = getArenaSchedulerOption(keyboard);
 
-        } while (option != 4);
+            } while (option != 4);
 
-        keyboard.close();
+        }
     }
 
     public static void displayMainMenu() {

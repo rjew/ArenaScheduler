@@ -13,58 +13,56 @@ public class CustomScheduleManagerSaveClass {
         int scheduleOption;
         int createNewScheduleOption;
         boolean addClassSucessful;
-        ArrayList<String> tableNamesArrayList = new ArrayList<String>();
+        ArrayList<String> tableNamesArrayList = new ArrayList<>();
 
-        try {
-            Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
-
-            Statement customScheduleStatement = customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+        try (Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
+             Statement customScheduleStatement = customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                     ResultSet.CONCUR_UPDATABLE)
+        ) {
 
             classID = getAddClassID(keyboard);
 
             DatabaseMetaData customScheduleDBMeta = customScheduleConn.getMetaData();
-            ResultSet customScheduleDBMetaTables = customScheduleDBMeta.getTables(null, null, "%", new String[] {"TABLE"});
-            if (customScheduleDBMetaTables.next()) {
-                System.out.println("Which schedule would you like to add the class to?");
 
-                createNewScheduleOption = displaySchedulesOrNewSchedule(tableNamesArrayList, customScheduleDBMetaTables);
+            try (ResultSet customScheduleDBMetaTables =
+                         customScheduleDBMeta.getTables(null, null, "%", new String[] {"TABLE"})) {
 
-                scheduleOption = CustomScheduleManagerSelection.getScheduleOption(keyboard);
+                if (customScheduleDBMetaTables.next()) {
+                    System.out.println("Which schedule would you like to add the class to?");
 
-                while (scheduleOption < 1 || scheduleOption > tableNamesArrayList.size() + 1) {
-                    wrongOptionDisplaySchedulesOrNewSchedule(tableNamesArrayList);
+                    createNewScheduleOption = displaySchedulesOrNewSchedule(tableNamesArrayList, customScheduleDBMetaTables);
 
                     scheduleOption = CustomScheduleManagerSelection.getScheduleOption(keyboard);
-                }
 
-                if (scheduleOption != createNewScheduleOption) {
-                    addClassSucessful = CustomScheduleManagerAddCourse.addCourse(classID, tableNamesArrayList.get(scheduleOption - 1),
-                            announcerStatement, customScheduleStatement);
-                    //todo if (addClassSuccessful)
-                    CustomScheduleManagerViewSchedule.viewSchedule(tableNamesArrayList.get(scheduleOption - 1));
+                    while (scheduleOption < 1 || scheduleOption > tableNamesArrayList.size() + 1) {
+                        wrongOptionDisplaySchedulesOrNewSchedule(tableNamesArrayList);
+
+                        scheduleOption = CustomScheduleManagerSelection.getScheduleOption(keyboard);
+                    }
+
+                    if (scheduleOption != createNewScheduleOption) {
+                        addClassSucessful = CustomScheduleManagerAddCourse.addCourse(classID, tableNamesArrayList.get(scheduleOption - 1),
+                                announcerStatement, customScheduleStatement);
+                        //todo if (addClassSuccessful)
+                        CustomScheduleManagerViewSchedule.viewSchedule(tableNamesArrayList.get(scheduleOption - 1));
+                    } else {
+                        System.out.println("Creating new schedule");
+                        String scheduleName = CustomScheduleManagerCreateSchedule.createSchedule(keyboard);
+                        addClassSucessful = CustomScheduleManagerAddCourse.addCourse(classID, scheduleName,
+                                announcerStatement, customScheduleStatement);
+                        //todo if (addClassSuccessful)
+                        CustomScheduleManagerViewSchedule.viewSchedule(scheduleName);
+                    }
+
                 } else {
-                    System.out.println("Creating new schedule");
+                    System.out.println("No schedule found... Creating new schedule");
                     String scheduleName = CustomScheduleManagerCreateSchedule.createSchedule(keyboard);
                     addClassSucessful = CustomScheduleManagerAddCourse.addCourse(classID, scheduleName,
                             announcerStatement, customScheduleStatement);
                     //todo if (addClassSuccessful)
                     CustomScheduleManagerViewSchedule.viewSchedule(scheduleName);
                 }
-
-            } else {
-                System.out.println("No schedule found... Creating new schedule");
-                String scheduleName = CustomScheduleManagerCreateSchedule.createSchedule(keyboard);
-                addClassSucessful = CustomScheduleManagerAddCourse.addCourse(classID, scheduleName,
-                        announcerStatement, customScheduleStatement);
-                //todo if (addClassSuccessful)
-                CustomScheduleManagerViewSchedule.viewSchedule(scheduleName);
             }
-
-            customScheduleConn.close();
-            customScheduleDBMetaTables.close();
-            customScheduleStatement.close();
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -10,12 +10,10 @@ public class CustomScheduleManagerDuplicate {
     public static void duplicateSchedule(Scanner keyboard, String tableName) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Custom_Schedules"; //For db Connection
 
-        try {
-
-            Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
-
-            Statement customScheduleStatement = customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+        try (Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
+             Statement customScheduleStatement =
+                     customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
+        ) {
 
             //todo check if same schedule name already exists
             String newScheduleName = CustomScheduleManagerCreateSchedule.getNewScheduleName(keyboard);
@@ -31,9 +29,6 @@ public class CustomScheduleManagerDuplicate {
             customScheduleStatement.execute(createDuplicateTableSQLString);
             customScheduleStatement.executeUpdate(insertDuplicateTableSQLString);
             System.out.println(tableName + " has been copied to " + newScheduleName + ".");
-
-            customScheduleConn.close();
-            customScheduleStatement.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

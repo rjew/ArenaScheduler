@@ -6,8 +6,9 @@ public class ArenaScheduler {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
 
             MainMenu.displayArenaSchedulerMenu();
-        }
-        catch (Exception ex) {
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Class not found.");//todo fix this exception
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
