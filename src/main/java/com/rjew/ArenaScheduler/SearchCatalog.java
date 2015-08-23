@@ -205,9 +205,13 @@ public class SearchCatalog {
 
         try {
             switchOption = keyboard.nextInt();
+        } catch (InputMismatchException ex) {
+            //ignore exception, prompt user again for input if input is incorrect
         } catch (Exception ex) {
             System.out.println("ERROR: " + ex.getMessage());
         }
+        keyboard.nextLine();//clear keyboard buffer
+
         if (switchOption < 1 || switchOption > 2) { //Out of bounds option
             System.out.println("WRONG OPTION!");
         }
