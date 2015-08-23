@@ -44,15 +44,18 @@ public class CustomScheduleManagerCreateSchedule {
     }
 
     public static String getNewScheduleName(Scanner keyboard) {
+        String newScheduleName = "";
+
         try {
             System.out.println("Enter the new schedule name:");
-            keyboard.nextLine();
-            return keyboard.nextLine();
+            do {
+                newScheduleName = keyboard.nextLine();
+            } while(newScheduleName.trim().isEmpty());//Check if string is empty
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return "";
+        return newScheduleName;
     }
 }

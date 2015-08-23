@@ -1,6 +1,7 @@
 package com.rjew.ArenaScheduler;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CustomScheduleManagerMenu {
@@ -35,9 +36,12 @@ public class CustomScheduleManagerMenu {
 
         try {
             menuOption = keyboard.nextInt();
+        } catch (InputMismatchException ex) {
+            //ignore exception, prompt user again for input if input is incorrect
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        keyboard.nextLine();//clear keyboard buffer
 
         switch (menuOption) {
             case 1://todo fix this case so the user doesn't have to select a schedule again

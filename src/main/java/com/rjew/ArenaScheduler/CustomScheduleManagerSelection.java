@@ -1,10 +1,13 @@
 package com.rjew.ArenaScheduler;
 
+import jdk.internal.util.xml.impl.Input;
+
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CustomScheduleManagerSelection {
@@ -78,9 +81,12 @@ public class CustomScheduleManagerSelection {
 
         try {//todo check if user types in wrong input
             scheduleOption = keyboard.nextInt();
+        } catch (InputMismatchException ex) {
+            //ignore exception, prompt user again for input if input is incorrect
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        keyboard.nextLine();//clear keyboard buffer
 
         return scheduleOption;
     }

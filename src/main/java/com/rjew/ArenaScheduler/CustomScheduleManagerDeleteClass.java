@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CustomScheduleManagerDeleteClass {
@@ -29,13 +30,24 @@ public class CustomScheduleManagerDeleteClass {
     public static int getDeleteClassID(Scanner keyboard) {
         int classID = 0;
 
-        try {
+        do {
             System.out.println("Which class would you like to delete?\n" +
                     "Enter the Class ID of the course you would like to delete:");
-            classID = keyboard.nextInt();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            try {
+                classID = keyboard.nextInt();
+            } catch (InputMismatchException ex) {
+                //ignore exception, prompt user again for input if input is incorrect
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            if (classID < 1) {
+                System.out.println("WRONG OPTION!");
+            }
+
+            keyboard.nextLine();//clear keyboard buffer
+
+        } while (classID < 1);
 
         return classID;
     }
