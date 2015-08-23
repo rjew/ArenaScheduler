@@ -2,6 +2,7 @@ package com.rjew.ArenaScheduler;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CustomScheduleManagerSaveClass {
@@ -66,13 +67,22 @@ public class CustomScheduleManagerSaveClass {
     public static int getAddClassID(Scanner keyboard) {
         int classID = 0;
 
-        try {
+        do {
             System.out.println("Which class would you like to add to your schedule?\n" +
                     "Enter the Class ID of the course you would like to add:");
-            classID = keyboard.nextInt();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            try {
+                classID = keyboard.nextInt();
+            } catch (InputMismatchException ex) {
+                //ignore exception, prompt user again for input if input is incorrect
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            keyboard.nextLine();//clear keyboard buffer
+
+            if (classID < 1) {
+                System.out.println("WRONG OPTION!");
+            }
+        } while (classID < 1);
 
         return classID;
     }
