@@ -17,15 +17,13 @@ public class CustomScheduleManagerRename {
             Statement customScheduleStatement = customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            System.out.println("Enter the new schedule name:");
-            keyboard.nextLine();//To remove the newline character from the keyboard buffer
-            String newTableName = keyboard.nextLine();
+            String newScheduleName = CustomScheduleManagerCreateSchedule.getNewScheduleName(keyboard);
 
             String renameTableSQLString = "RENAME TABLE \"" + tableName +
-                    "\" TO \"" + newTableName + "\"";
+                    "\" TO \"" + newScheduleName + "\"";
 
             customScheduleStatement.executeUpdate(renameTableSQLString);
-            System.out.println(tableName + " is now renamed to " + newTableName + ".");
+            System.out.println(tableName + " is now renamed to " + newScheduleName + ".");
 
             customScheduleConn.close();
             customScheduleStatement.close();
