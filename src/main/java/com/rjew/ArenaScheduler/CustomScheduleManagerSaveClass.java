@@ -32,6 +32,12 @@ public class CustomScheduleManagerSaveClass {
 
                 scheduleOption = CustomScheduleManagerSelection.getScheduleOption(keyboard);
 
+                while (scheduleOption < 1 || scheduleOption > tableNamesArrayList.size() + 1) {
+                    wrongOptionDisplaySchedulesOrNewSchedule(tableNamesArrayList);
+
+                    scheduleOption = CustomScheduleManagerSelection.getScheduleOption(keyboard);
+                }
+
                 if (scheduleOption != createNewScheduleOption) {
                     addClassSucessful = CustomScheduleManagerAddCourse.addCourse(classID, tableNamesArrayList.get(scheduleOption - 1),
                             announcerStatement, customScheduleStatement);
@@ -105,5 +111,16 @@ public class CustomScheduleManagerSaveClass {
         }
 
         return i;
+    }
+
+    public static void wrongOptionDisplaySchedulesOrNewSchedule(ArrayList<String> tableNamesArrayList) {
+        System.out.println("WRONG OPTION\n" +
+                "Which schedule would you like to add the class to?");
+        for (int i = 0; i < tableNamesArrayList.size(); i++) {
+            System.out.print("(" + (i + 1) + ") ");
+            System.out.println(tableNamesArrayList.get(i));
+        }
+        System.out.println("(" + (tableNamesArrayList.size() + 1) + ") " +
+                "Create new schedule");
     }
 }

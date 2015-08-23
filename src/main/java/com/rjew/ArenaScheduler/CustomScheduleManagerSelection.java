@@ -70,9 +70,9 @@ public class CustomScheduleManagerSelection {
     public static void wrongOptionDisplaySchedules(String displayOption, ArrayList<String> tableNamesArrayList) {
         System.out.println("WRONG OPTION\n" +
                 "Which schedule would you like to " + displayOption + "?");
-        for (int j = 0; j < tableNamesArrayList.size(); j++) {
-            System.out.print("(" + (j + 1) + ") ");
-            System.out.println(tableNamesArrayList.get(j));
+        for (int i = 0; i < tableNamesArrayList.size(); i++) {
+            System.out.print("(" + (i + 1) + ") ");
+            System.out.println(tableNamesArrayList.get(i));
         }
     }
 
