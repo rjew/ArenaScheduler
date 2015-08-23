@@ -30,7 +30,7 @@ public class CustomScheduleManagerCreateSchedule {
                     "room VARCHAR(15) NOT NULL, " +
                     "teacher VARCHAR(30))";
             customScheduleStatement.execute(createTableSQLString);
-            System.out.println("Schedule created.");
+            System.out.println(scheduleName + " created.");
 
             customScheduleConn.close();
             customScheduleStatement.close();
