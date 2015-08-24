@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class ExecuteSQL {
     public static void executeSQLStatement(String sqlStmt, Scanner keyboard) {
-        final String ANNOUNCER_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Announcer_Fall_2015"; //For the db connection
+        final String ANNOUNCER_DB_URL = "jdbc:derby:Announcer_Fall_2015"; //For the db connection
         int numRows; //To hold the number of rows, the number of results
         int addClassOption; // To hold the option for adding a class to the custom schedule
 
