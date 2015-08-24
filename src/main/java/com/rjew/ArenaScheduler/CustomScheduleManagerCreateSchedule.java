@@ -1,9 +1,6 @@
 package com.rjew.ArenaScheduler;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
 
 public class CustomScheduleManagerCreateSchedule {
@@ -17,7 +14,6 @@ public class CustomScheduleManagerCreateSchedule {
 
             String scheduleName = getNewScheduleName(keyboard);
 
-//todo handle if same schedule name
             String createTableSQLString = "CREATE TABLE \"" + scheduleName + "\" ( " +
                     "subject_id INTEGER NOT NULL, " +
                     "course_id CHAR(8) NOT NULL, " +
@@ -32,6 +28,13 @@ public class CustomScheduleManagerCreateSchedule {
             System.out.println(scheduleName + " created.");
 
             return scheduleName;
+        } catch (SQLException ex) {
+            if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {
+                System.out.println("Schedule with the same name already exists.");
+                createSchedule(keyboard);
+            } else {
+                ex.printStackTrace();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
