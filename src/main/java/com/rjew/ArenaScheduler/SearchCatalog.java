@@ -24,7 +24,7 @@ public class SearchCatalog {
                 "fall_2015_announcer_courses " +
                 "WHERE course_id_pk = course_id_fk");
 
-        ArrayList<String> menuItems = new ArrayList<String>(); //To create a dynamic menu based on previous choices
+        ArrayList<String> menuItems = new ArrayList<>(); //To create a dynamic menu based on previous choices
         menuItems.add("1Search by SubjectID");
         menuItems.add("2Search by CourseID");
         menuItems.add("3Search by CourseTitle");

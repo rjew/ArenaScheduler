@@ -12,7 +12,7 @@ public class CustomScheduleManagerSaveClass {
         int classID;
         int scheduleOption;
         int createNewScheduleOption;
-        boolean addClassSucessful;
+        boolean addClassSuccessful;
         ArrayList<String> tableNamesArrayList = new ArrayList<>();
 
         try (Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
@@ -41,25 +41,31 @@ public class CustomScheduleManagerSaveClass {
                     }
 
                     if (scheduleOption != createNewScheduleOption) {
-                        addClassSucessful = CustomScheduleManagerAddCourse.addCourse(classID, tableNamesArrayList.get(scheduleOption - 1),
+                        addClassSuccessful = CustomScheduleManagerAddCourse.addCourse(classID, tableNamesArrayList.get(scheduleOption - 1),
                                 announcerStatement, customScheduleStatement);
-                        //todo if (addClassSuccessful)
+                        if (addClassSuccessful) {
+                            System.out.println("Class " + classID + " has been added to " + tableNamesArrayList.get(scheduleOption - 1) + ".");
+                        }
                         CustomScheduleManagerViewSchedule.viewSchedule(tableNamesArrayList.get(scheduleOption - 1));
                     } else {
                         System.out.println("Creating new schedule");
                         String scheduleName = CustomScheduleManagerCreateSchedule.createSchedule(keyboard);
-                        addClassSucessful = CustomScheduleManagerAddCourse.addCourse(classID, scheduleName,
+                        addClassSuccessful = CustomScheduleManagerAddCourse.addCourse(classID, scheduleName,
                                 announcerStatement, customScheduleStatement);
-                        //todo if (addClassSuccessful)
+                        if (addClassSuccessful) {
+                            System.out.println("Class " + classID + " has been added to " + scheduleName + ".");
+                        }
                         CustomScheduleManagerViewSchedule.viewSchedule(scheduleName);
                     }
 
                 } else {
                     System.out.println("No schedule found... Creating new schedule");
                     String scheduleName = CustomScheduleManagerCreateSchedule.createSchedule(keyboard);
-                    addClassSucessful = CustomScheduleManagerAddCourse.addCourse(classID, scheduleName,
+                    addClassSuccessful = CustomScheduleManagerAddCourse.addCourse(classID, scheduleName,
                             announcerStatement, customScheduleStatement);
-                    //todo if (addClassSuccessful)
+                    if (addClassSuccessful) {
+                        System.out.println("Class " + classID + " has been added to " + scheduleName + ".");
+                    }
                     CustomScheduleManagerViewSchedule.viewSchedule(scheduleName);
                 }
             }

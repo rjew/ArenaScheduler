@@ -3,7 +3,6 @@ package com.rjew.ArenaScheduler;
 import java.sql.*;
 
 public class CustomScheduleManagerViewSchedule {
-    //todo handle if schedule is empty, not classes in schedule
     public static boolean viewSchedule(String tableName) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Custom_Schedules"; //For db Connection
 
