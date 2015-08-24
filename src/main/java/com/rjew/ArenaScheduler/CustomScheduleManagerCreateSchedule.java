@@ -31,7 +31,7 @@ public class CustomScheduleManagerCreateSchedule {
         } catch (SQLException ex) {
             if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {
                 System.out.println("Schedule with the same name already exists.");
-                createSchedule(keyboard);
+                return createSchedule(keyboard);
             } else {
                 ex.printStackTrace();
             }

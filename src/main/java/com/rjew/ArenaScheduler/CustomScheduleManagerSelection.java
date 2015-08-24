@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+//todo fix errors involving the scenario where no schedules exist
 public class CustomScheduleManagerSelection {
     public static int displayScheduleOptions(Scanner keyboard, ArrayList<String> tableNamesArrayList,
                                              String displayOption) {
