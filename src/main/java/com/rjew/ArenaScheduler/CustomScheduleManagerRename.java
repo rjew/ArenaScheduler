@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class CustomScheduleManagerRename {
     public static void renameSchedule(Scanner keyboard, String tableName) {
-        final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Custom_Schedules"; //For db Connection
+        final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 
         try (Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
              Statement customScheduleStatement =
