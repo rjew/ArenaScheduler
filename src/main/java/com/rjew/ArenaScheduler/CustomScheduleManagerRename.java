@@ -1,10 +1,7 @@
 package com.rjew.ArenaScheduler;
 
+import java.sql.*;
 import java.util.Scanner;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class CustomScheduleManagerRename {
     public static void renameSchedule(Scanner keyboard, String tableName) {
@@ -22,6 +19,13 @@ public class CustomScheduleManagerRename {
 
             customScheduleStatement.executeUpdate(renameTableSQLString);
             System.out.println(tableName + " is now renamed to " + newScheduleName + ".");
+        } catch (SQLException ex) {
+            if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {
+                System.out.println("Schedule with the same name already exists.");
+                renameSchedule(keyboard, tableName);
+            } else {
+                ex.printStackTrace();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

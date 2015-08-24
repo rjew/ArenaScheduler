@@ -12,7 +12,6 @@ public class CustomScheduleManagerDuplicate {
                      customScheduleConn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
         ) {
 
-            //todo check if same schedule name already exists
             String newScheduleName = CustomScheduleManagerCreateSchedule.getNewScheduleName(keyboard);
 
             String createDuplicateTableSQLString = "CREATE TABLE \"" + newScheduleName +

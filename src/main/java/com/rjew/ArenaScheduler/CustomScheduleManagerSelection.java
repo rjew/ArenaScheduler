@@ -76,7 +76,7 @@ public class CustomScheduleManagerSelection {
     public static int getScheduleOption(Scanner keyboard) {
         int scheduleOption = 0;
 
-        try {//todo check if user types in wrong input
+        try {
             scheduleOption = keyboard.nextInt();
         } catch (InputMismatchException ex) {
             //ignore exception, prompt user again for input if input is incorrect
