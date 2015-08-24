@@ -21,26 +21,34 @@ public class CustomScheduleManagerAddCourse {
 
         try (ResultSet courseResultSet = announcerStatement.executeQuery(getCourseSQLString)) {
 
-            courseResultSet.next();
-            int courseBlock = courseResultSet.getInt(7);
+            int numRows = ExecuteSQL.getResultCount(courseResultSet);
 
-            sameBlock = checkSameBlock(tableName, customScheduleStatement, courseBlock);
+            if (numRows != 0) {
 
-            if (!courseLimitReached && !sameBlock) {
-                insertCourse(tableName, courseResultSet, customScheduleStatement);
-                return true;
-            } else {
-                System.out.print("Cannot add course. ");
+                courseResultSet.next();
+                int courseBlock = courseResultSet.getInt(7);
 
-                if (courseLimitReached) {
-                    System.out.println("Course limit reached.");
+                sameBlock = checkSameBlock(tableName, customScheduleStatement, courseBlock);
+
+                if (!courseLimitReached && !sameBlock) {
+                    insertCourse(tableName, courseResultSet, customScheduleStatement);
+                    return true;
                 } else {
-                    System.out.println("A course with the same block already exists in the schedule.");
+                    System.out.print("Cannot add course. ");
+
+                    if (courseLimitReached) {
+                        System.out.println("Course limit reached.");
+                    } else {
+                        System.out.println("A course with the same block already exists in the schedule.");
+                    }
+
+                    return false;
                 }
+            } else {
+                System.out.println("Invalid class id.");
 
                 return false;
             }
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
