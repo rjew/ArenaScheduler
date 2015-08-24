@@ -11,19 +11,23 @@ public class CustomScheduleManagerDeleteClass {
     public static void deleteClass(Scanner keyboard, String tableName) {
         int classID;
         boolean deleteClassSuccessful;
+        boolean properSchedule;
 
         try {
-            CustomScheduleManagerViewSchedule.viewSchedule(tableName);
+            properSchedule = CustomScheduleManagerViewSchedule.viewSchedule(tableName);
 
-            classID = getDeleteClassID(keyboard);
+            if (properSchedule) {
+                classID = getDeleteClassID(keyboard);
 
-            deleteClassSuccessful = deleteCourse(classID, tableName);
+                deleteClassSuccessful = deleteCourse(classID, tableName);
 
-            if (deleteClassSuccessful) {
-                CustomScheduleManagerViewSchedule.viewSchedule(tableName);
-            } else {
-                deleteClass(keyboard, tableName);
+                if (deleteClassSuccessful) {
+                    CustomScheduleManagerViewSchedule.viewSchedule(tableName);
+                } else {
+                    deleteClass(keyboard, tableName);
+                }
             }
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }

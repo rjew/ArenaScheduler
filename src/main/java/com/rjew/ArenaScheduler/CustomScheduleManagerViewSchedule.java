@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class CustomScheduleManagerViewSchedule {
     //todo handle if schedule is empty, not classes in schedule
-    public static void viewSchedule(String tableName) {
+    public static boolean viewSchedule(String tableName) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Custom_Schedules"; //For db Connection
 
         try (Connection customScheduleConn = DriverManager.getConnection(CUSTOM_SCHEDULE_DB_URL);
@@ -24,14 +24,20 @@ public class CustomScheduleManagerViewSchedule {
                 if (numRows != 0) {
                     ResultSetMetaData customScheduleRSMeta = customScheduleResultSet.getMetaData();
                     printSchedule(customScheduleResultSet, customScheduleRSMeta);
+
+                    return true;
                 } else {
                     System.out.println(tableName + " has no classes!");
+
+                    return false;
                 }
             }
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+        return false;
     }
 
     public static void printSchedule(ResultSet resultSet, ResultSetMetaData RSMetaData) {
