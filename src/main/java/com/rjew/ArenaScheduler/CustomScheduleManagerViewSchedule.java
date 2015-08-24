@@ -19,9 +19,14 @@ public class CustomScheduleManagerViewSchedule {
                     "ORDER BY block";
 
             try (ResultSet customScheduleResultSet = customScheduleStatement.executeQuery(sqlStatement)) {
+                int numRows = ExecuteSQL.getResultCount(customScheduleResultSet);
 
-                ResultSetMetaData customScheduleRSMeta = customScheduleResultSet.getMetaData();
-                printSchedule(customScheduleResultSet, customScheduleRSMeta);
+                if (numRows != 0) {
+                    ResultSetMetaData customScheduleRSMeta = customScheduleResultSet.getMetaData();
+                    printSchedule(customScheduleResultSet, customScheduleRSMeta);
+                } else {
+                    System.out.println(tableName + " has no classes!");
+                }
             }
 
         } catch (Exception ex) {
