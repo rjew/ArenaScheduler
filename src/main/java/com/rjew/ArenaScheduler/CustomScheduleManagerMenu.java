@@ -44,7 +44,7 @@ public class CustomScheduleManagerMenu {
         keyboard.nextLine();//clear keyboard buffer
 
         switch (menuOption) {
-            case 1://todo fix this case so the user doesn't have to select a schedule again
+            case 1:
                 try {
                     SearchCatalog.displaySearchCatalog(keyboard);
                 } catch (Exception ex) {
