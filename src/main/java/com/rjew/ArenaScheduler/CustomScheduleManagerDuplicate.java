@@ -1,9 +1,6 @@
 package com.rjew.ArenaScheduler;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
 
 public class CustomScheduleManagerDuplicate {
@@ -29,6 +26,13 @@ public class CustomScheduleManagerDuplicate {
             customScheduleStatement.execute(createDuplicateTableSQLString);
             customScheduleStatement.executeUpdate(insertDuplicateTableSQLString);
             System.out.println(tableName + " has been copied to " + newScheduleName + ".");
+        } catch (SQLException ex) {
+            if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {
+                System.out.println("Schedule with the same name already exists.");
+                duplicateSchedule(keyboard, tableName);
+            } else {
+                ex.printStackTrace();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
