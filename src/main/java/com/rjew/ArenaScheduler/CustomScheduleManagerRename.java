@@ -1,9 +1,14 @@
 package com.rjew.ArenaScheduler;
 
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 import java.util.Scanner;
 
 public class CustomScheduleManagerRename {
+
+    final static Logger logger = Logger.getLogger(CustomScheduleManagerRename.class);
+
     public static void renameSchedule(Scanner keyboard, String tableName) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 
@@ -24,10 +29,12 @@ public class CustomScheduleManagerRename {
                 System.out.println("Schedule with the same name already exists.");
                 renameSchedule(keyboard, tableName);
             } else {
-                ex.printStackTrace();
+                logger.error(ex);
+                System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
     }
 }

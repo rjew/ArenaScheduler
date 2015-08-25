@@ -1,8 +1,13 @@
 package com.rjew.ArenaScheduler;
 
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 
 public class CustomScheduleManagerViewSchedule {
+
+    final static Logger logger = Logger.getLogger(CustomScheduleManagerViewSchedule.class);
+
     public static boolean viewSchedule(String tableName) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 
@@ -32,8 +37,12 @@ public class CustomScheduleManagerViewSchedule {
                 }
             }
 
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
 
         return false;
@@ -55,7 +64,8 @@ public class CustomScheduleManagerViewSchedule {
             printDBResults(resultSet, RSMetaData, courseTitleFormatWidth, roomFormatWidth);
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
 
     }
@@ -75,8 +85,12 @@ public class CustomScheduleManagerViewSchedule {
             resultSet.beforeFirst();
 
             return courseTitleFormatWidth;
-        } catch(Exception ex) {
-            ex.printStackTrace();
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
+        } catch (Exception ex) {
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
 
         return 0;
@@ -97,8 +111,12 @@ public class CustomScheduleManagerViewSchedule {
             resultSet.first();
 
             return roomFormatWidth;
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
 
         return 0;
@@ -139,8 +157,12 @@ public class CustomScheduleManagerViewSchedule {
                         break;
                 }
             }
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
     }
 
@@ -182,8 +204,12 @@ public class CustomScheduleManagerViewSchedule {
                 }
                 System.out.println();
             } while (resultSet.next());
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
     }
 }

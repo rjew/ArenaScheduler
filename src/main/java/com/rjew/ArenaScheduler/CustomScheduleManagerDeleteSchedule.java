@@ -1,11 +1,13 @@
 package com.rjew.ArenaScheduler;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import org.apache.log4j.Logger;
+
+import java.sql.*;
 
 public class CustomScheduleManagerDeleteSchedule {
+
+    final static Logger logger = Logger.getLogger(CustomScheduleManagerDeleteSchedule.class);
+
     public static void deleteSchedule(String tableName) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 
@@ -19,8 +21,12 @@ public class CustomScheduleManagerDeleteSchedule {
             customScheduleStatement.executeUpdate(dropTableSQLString);
             System.out.println(tableName + " deleted.");
 
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
     }
 }

@@ -1,11 +1,16 @@
 package com.rjew.ArenaScheduler;
 
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CustomScheduleManagerSaveClass {
+
+    final static Logger logger = Logger.getLogger(CustomScheduleManagerSaveClass.class);
+
     public static void saveClass(Scanner keyboard, Statement announcerStatement) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 
@@ -69,8 +74,12 @@ public class CustomScheduleManagerSaveClass {
                     CustomScheduleManagerViewSchedule.viewSchedule(scheduleName);
                 }
             }
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
     }
 
@@ -85,7 +94,8 @@ public class CustomScheduleManagerSaveClass {
             } catch (InputMismatchException ex) {
                 //ignore exception, prompt user again for input if input is incorrect
             } catch (Exception ex) {
-                ex.printStackTrace();
+                logger.error(ex);
+                System.err.println("ERROR: " + ex.getMessage());
             }
             keyboard.nextLine();//clear keyboard buffer
 
@@ -110,8 +120,12 @@ public class CustomScheduleManagerSaveClass {
             } while (customScheduleDBMetaTables.next());
             System.out.println("(" + (i) + ") " +
                     "Create new schedule");
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
 
         return i;

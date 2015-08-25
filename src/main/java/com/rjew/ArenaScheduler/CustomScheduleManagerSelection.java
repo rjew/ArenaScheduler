@@ -1,14 +1,16 @@
 package com.rjew.ArenaScheduler;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
+import org.apache.log4j.Logger;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CustomScheduleManagerSelection {
+
+    final static Logger logger = Logger.getLogger(CustomScheduleManagerSelection.class);
+
     public static int displayScheduleOptions(Scanner keyboard, ArrayList<String> tableNamesArrayList,
                                              String displayOption) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
@@ -40,8 +42,12 @@ public class CustomScheduleManagerSelection {
                     System.out.println("No schedules available.");
                 }
             }
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
 
         return scheduleOption;
@@ -59,8 +65,12 @@ public class CustomScheduleManagerSelection {
                 System.out.println(tableNamesArrayList.get(i - 1));
                 i++;
             } while (customScheduleDBMetaTables.next());
-        } catch(Exception ex) {
-            ex.printStackTrace();
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
+        } catch (Exception ex) {
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
     }
 
@@ -81,7 +91,8 @@ public class CustomScheduleManagerSelection {
         } catch (InputMismatchException ex) {
             //ignore exception, prompt user again for input if input is incorrect
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
         keyboard.nextLine();//clear keyboard buffer
 

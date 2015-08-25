@@ -1,10 +1,15 @@
 package com.rjew.ArenaScheduler;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CustomScheduleManagerMenu {
+
+    final static Logger logger = Logger.getLogger(CustomScheduleManagerMenu.class);
+
     //todo ranking
     public static void accessCustomSchedules(Scanner keyboard) {
         int menuOption;
@@ -39,7 +44,8 @@ public class CustomScheduleManagerMenu {
         } catch (InputMismatchException ex) {
             //ignore exception, prompt user again for input if input is incorrect
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
         keyboard.nextLine();//clear keyboard buffer
 
@@ -48,7 +54,8 @@ public class CustomScheduleManagerMenu {
                 try {
                     SearchCatalog.displaySearchCatalog(keyboard);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    logger.error(ex);
+                    System.err.println("ERROR: " + ex.getMessage());
                 }
                 break;
             case 2:
@@ -61,7 +68,8 @@ public class CustomScheduleManagerMenu {
                 try {
                     CustomScheduleManagerCreateSchedule.createSchedule(keyboard);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    logger.error(ex);
+                    System.err.println("ERROR: " + ex.getMessage());
                 }
                 break;
             case 4:

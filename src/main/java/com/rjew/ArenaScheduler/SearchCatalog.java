@@ -1,8 +1,13 @@
 package com.rjew.ArenaScheduler;
 
+import org.apache.log4j.Logger;
+
 import java.util.*;
 
 public class SearchCatalog {
+
+    final static Logger logger = Logger.getLogger(SearchCatalog.class);
+
     static final Map<Integer , String> SUBJECT_ID = new HashMap<Integer , String>() {{
         put(1, "Math");
         put(2, "Science");
@@ -87,7 +92,8 @@ public class SearchCatalog {
         } catch (InputMismatchException ex) {
             //ignore exception, prompt user again for input if input is incorrect
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
         keyboard.nextLine();//clear the buffer
 
@@ -115,7 +121,8 @@ public class SearchCatalog {
                     } catch (InputMismatchException ex) {
                         //ignore exception, prompt user again for input if input is incorrect
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        logger.error(ex);
+                        System.err.println("ERROR: " + ex.getMessage());
                     }
                     keyboard.nextLine();//clear keyboard buffer
 
@@ -153,7 +160,8 @@ public class SearchCatalog {
                     } catch (InputMismatchException ex) {
                         //ignore exception, prompt user again for input if input is incorrect
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        logger.error(ex);
+                        System.err.println("ERROR: " + ex.getMessage());
                     }
                     keyboard.nextLine();//clear keyboard buffer
 
@@ -172,7 +180,8 @@ public class SearchCatalog {
                     } catch (InputMismatchException ex) {
                         //ignore exception, prompt user again for input if input is incorrect
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        logger.error(ex);
+                        System.err.println("ERROR: " + ex.getMessage());
                     }
                     if (searchOptionInt < 1) {
                         System.out.println("WRONG OPTION!");
@@ -208,7 +217,8 @@ public class SearchCatalog {
         } catch (InputMismatchException ex) {
             //ignore exception, prompt user again for input if input is incorrect
         } catch (Exception ex) {
-            System.out.println("ERROR: " + ex.getMessage());
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
         keyboard.nextLine();//clear keyboard buffer
 

@@ -1,13 +1,15 @@
 package com.rjew.ArenaScheduler;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import org.apache.log4j.Logger;
+
+import java.sql.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CustomScheduleManagerDeleteClass {
+
+    final static Logger logger = Logger.getLogger(CustomScheduleManagerDeleteClass.class);
+
     public static void deleteClass(Scanner keyboard, String tableName) {
         int classID;
         boolean deleteClassSuccessful;
@@ -29,7 +31,8 @@ public class CustomScheduleManagerDeleteClass {
             }
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
     }
 
@@ -44,7 +47,8 @@ public class CustomScheduleManagerDeleteClass {
             } catch (InputMismatchException ex) {
                 //ignore exception, prompt user again for input if input is incorrect
             } catch (Exception ex) {
-                ex.printStackTrace();
+                logger.error(ex);
+                System.err.println("ERROR: " + ex.getMessage());
             }
 
             if (classID < 1) {
@@ -82,9 +86,12 @@ public class CustomScheduleManagerDeleteClass {
 
                 return false;
             }
-
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
 
         return false;

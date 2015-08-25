@@ -1,9 +1,15 @@
 package com.rjew.ArenaScheduler;
 
+import org.apache.log4j.Logger;
+
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class CustomScheduleManagerAddCourse {
+
+    final static Logger logger = Logger.getLogger(CustomScheduleManagerAddCourse.class);
+
     public static boolean addCourse(int classID, String tableName,
                                     Statement announcerStatement, Statement customScheduleStatement) {
         boolean courseLimitReached;
@@ -49,8 +55,12 @@ public class CustomScheduleManagerAddCourse {
 
                 return false;
             }
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
 
         return false;
@@ -71,8 +81,12 @@ public class CustomScheduleManagerAddCourse {
             if (numCourses >= COURSE_LIMIT) {
                 courseLimitReached = true;
             }
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
 
         return courseLimitReached;
@@ -89,8 +103,12 @@ public class CustomScheduleManagerAddCourse {
                     sameBlock = true;
                 }
             }
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
 
         return sameBlock;
@@ -109,8 +127,12 @@ public class CustomScheduleManagerAddCourse {
                     "'" + courseResultSet.getString(8) + "', " +
                     "'" + courseResultSet.getString(9) + "')";
             customScheduleStatement.executeUpdate(addCourseSQLSTRING);
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
     }
 

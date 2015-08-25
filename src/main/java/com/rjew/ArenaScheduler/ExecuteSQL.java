@@ -1,10 +1,15 @@
 package com.rjew.ArenaScheduler;
 
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ExecuteSQL {
+
+    final static Logger logger = Logger.getLogger(ExecuteSQL.class);
+
     public static void executeSQLStatement(String sqlStmt, Scanner keyboard) {
         final String ANNOUNCER_DB_URL = "jdbc:derby:Announcer_Fall_2015"; //For the db connection
         int numRows; //To hold the number of rows, the number of results
@@ -36,8 +41,12 @@ public class ExecuteSQL {
             }
 
             System.out.println("\nConnection closed.");
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
     }
 
@@ -48,8 +57,12 @@ public class ExecuteSQL {
             announcerResultSet.last();
             numRows = announcerResultSet.getRow();
             announcerResultSet.beforeFirst();
+        } catch (SQLException ex) {
+            logger.error(ex);
+            System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
 
         return numRows;
@@ -69,7 +82,8 @@ public class ExecuteSQL {
         } catch (InputMismatchException ex) {
             //ignore exception, prompt user again for input if input is incorrect
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
+            System.err.println("ERROR: " + ex.getMessage());
         }
         keyboard.nextLine();//clear keyboard buffer
 

@@ -1,8 +1,13 @@
 package com.rjew.ArenaScheduler;
 
+import org.apache.log4j.Logger;
+
 import java.util.Scanner;
 
 public class FullAnnouncer {
+
+    final static Logger logger = Logger.getLogger(FullAnnouncer.class);
+
     public static void viewFullAnnouncer(Scanner keyboard) {
         String viewFullAnnouncerSQLString = "SELECT subject_id, course_id_fk as course_id, " +
                 "course_title_uq as course_title, class_id, " +
