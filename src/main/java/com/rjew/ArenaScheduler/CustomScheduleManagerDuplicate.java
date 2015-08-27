@@ -29,7 +29,7 @@ public class CustomScheduleManagerDuplicate {
 
             customScheduleStatement.execute(createDuplicateTableSQLString);
             customScheduleStatement.executeUpdate(insertDuplicateTableSQLString);
-            System.out.println(tableName + " has been copied to " + newScheduleName + ".");
+            System.out.println("\n" + tableName + " has been copied to " + newScheduleName + ".");
         } catch (SQLException ex) {
             if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {
                 System.out.println("Schedule with the same name already exists.");

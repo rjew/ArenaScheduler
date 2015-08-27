@@ -39,7 +39,7 @@ public class CustomScheduleManagerSelection {
                     }
 
                 } else {
-                    System.out.println("No schedules available.");
+                    System.out.println("\nNo schedules available.");
                 }
             }
         } catch (SQLException ex) {
@@ -55,7 +55,7 @@ public class CustomScheduleManagerSelection {
 
     public static void displaySchedules(String displayOption, ArrayList<String> tableNamesArrayList,
                                         ResultSet customScheduleDBMetaTables) {
-        System.out.println("Which schedule would you like to " + displayOption + "?");
+        System.out.println("\nWhich schedule would you like to " + displayOption + "?");
         int i = 1;
 
         try {
@@ -75,7 +75,7 @@ public class CustomScheduleManagerSelection {
     }
 
     public static void wrongOptionDisplaySchedules(String displayOption, ArrayList<String> tableNamesArrayList) {
-        System.out.println("WRONG OPTION\n" +
+        System.out.println("\nWRONG OPTION!\n\n" +
                 "Which schedule would you like to " + displayOption + "?");
         for (int i = 0; i < tableNamesArrayList.size(); i++) {
             System.out.print("(" + (i + 1) + ") ");

@@ -23,7 +23,7 @@ public class CustomScheduleManagerRename {
                     "\" TO \"" + newScheduleName + "\"";
 
             customScheduleStatement.executeUpdate(renameTableSQLString);
-            System.out.println(tableName + " is now renamed to " + newScheduleName + ".");
+            System.out.println("\n" + tableName + " is now renamed to " + newScheduleName + ".");
         } catch (SQLException ex) {
             if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {
                 System.out.println("Schedule with the same name already exists.");

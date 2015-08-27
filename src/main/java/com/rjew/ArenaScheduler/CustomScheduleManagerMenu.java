@@ -10,7 +10,6 @@ public class CustomScheduleManagerMenu {
 
     final static Logger logger = Logger.getLogger(CustomScheduleManagerMenu.class);
 
-    //todo ranking
     public static void accessCustomSchedules(Scanner keyboard) {
         int menuOption;
 
@@ -23,7 +22,7 @@ public class CustomScheduleManagerMenu {
     }
 
     public static void displayCustomSchedulesMenu() {
-        System.out.println("What would you like to do?\n" +
+        System.out.println("\nWhat would you like to do?\n" +
                 "(1) Add a course to a schedule\n" +
                 "(2) Delete a course from a schedule\n" +
                 "(3) Create a new schedule\n" +
@@ -97,9 +96,10 @@ public class CustomScheduleManagerMenu {
                 }
                 break;
             case 8:
+                System.out.println();
                 break;
             default:
-                System.out.println("WRONG OPTION!");
+                System.out.println("\nWRONG OPTION!");
         }
 
         return menuOption;

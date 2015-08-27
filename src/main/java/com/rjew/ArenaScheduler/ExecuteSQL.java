@@ -40,7 +40,7 @@ public class ExecuteSQL {
                 } while (addClassOption < 1 || addClassOption > 2);
             }
 
-            System.out.println("\nConnection closed.");
+            System.out.println();//Add line space
         } catch (SQLException ex) {
             logger.error(ex);
             System.err.println("ERROR: Caught SQLException: " + ex.getMessage());
@@ -69,7 +69,7 @@ public class ExecuteSQL {
     }
 
     public static void displayAddClassMenu() {
-        System.out.println("Would you like to add any of the classes to one of your schedules?\n" +
+        System.out.println("\nWould you like to add any of the classes to one of your schedules?\n" +
                 "(1) Yes\n" +
                 "(2) No");
     }
@@ -94,7 +94,7 @@ public class ExecuteSQL {
             case 2:
                 break;
             default:
-                System.out.println("WRONG OPTION!");
+                System.out.println("\nWRONG OPTION!");
         }
 
         return addClassOption;

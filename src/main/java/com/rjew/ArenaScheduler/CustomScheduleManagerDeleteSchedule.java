@@ -19,7 +19,7 @@ public class CustomScheduleManagerDeleteSchedule {
             String dropTableSQLString = "DROP TABLE \"" + tableName + "\"";
 
             customScheduleStatement.executeUpdate(dropTableSQLString);
-            System.out.println(tableName + " deleted.");
+            System.out.println("\n" + tableName + " deleted.");
 
         } catch (SQLException ex) {
             logger.error(ex);

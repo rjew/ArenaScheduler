@@ -63,7 +63,7 @@ public class CustomScheduleManagerDeleteClass {
     }
 
     public static boolean deleteCourse(int classID, String tableName) {
-        final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:/opt/squirrel-sql-3.6/Custom_Schedules"; //For db Connection
+        final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 
         int rowsChanged;
 
@@ -78,11 +78,11 @@ public class CustomScheduleManagerDeleteClass {
             rowsChanged = customScheduleStatement.executeUpdate(deleteCourseSQLString);
 
             if (rowsChanged != 0) {
-                System.out.println("Class " + classID + " deleted.");
+                System.out.println("\nClass " + classID + " deleted.");
 
                 return true;
             } else {
-                System.out.println("Class " + classID + " does not exist in " + tableName + ".");
+                System.out.println("\nClass " + classID + " does not exist in " + tableName + ".");
 
                 return false;
             }

@@ -30,7 +30,7 @@ public class CustomScheduleManagerCreateSchedule {
                     "room VARCHAR(15) NOT NULL, " +
                     "teacher VARCHAR(30))";
             customScheduleStatement.execute(createTableSQLString);
-            System.out.println(scheduleName + " created.");
+            System.out.println("\n" + scheduleName + " created.");
 
             return scheduleName;
         } catch (SQLException ex) {
@@ -53,7 +53,7 @@ public class CustomScheduleManagerCreateSchedule {
         String newScheduleName = "";
 
         try {
-            System.out.println("Enter the new schedule name:");
+            System.out.println("\nEnter the new schedule name:");
             do {
                 newScheduleName = keyboard.nextLine();
             } while(newScheduleName.trim().isEmpty());//Check if string is empty

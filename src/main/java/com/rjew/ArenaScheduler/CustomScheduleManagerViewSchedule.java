@@ -31,7 +31,7 @@ public class CustomScheduleManagerViewSchedule {
 
                     return true;
                 } else {
-                    System.out.println(tableName + " has no classes!");
+                    System.out.println("\n" + tableName + " has no classes!");
 
                     return false;
                 }
@@ -56,6 +56,8 @@ public class CustomScheduleManagerViewSchedule {
             courseTitleFormatWidth = getCourseTitleFormatWidth(resultSet, RSMetaData);
 
             roomFormatWidth = getRoomFormatWidth(resultSet, RSMetaData);
+
+            System.out.println();
 
             printColumnTitles(RSMetaData, courseTitleFormatWidth, roomFormatWidth);
 

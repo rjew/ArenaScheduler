@@ -40,7 +40,7 @@ public class CustomScheduleManagerAddCourse {
                     insertCourse(tableName, courseResultSet, customScheduleStatement);
                     return true;
                 } else {
-                    System.out.print("Cannot add course. ");
+                    System.out.print("\nCannot add course. ");
 
                     if (courseLimitReached) {
                         System.out.println("Course limit reached.");

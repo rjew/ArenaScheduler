@@ -14,6 +14,8 @@ public class MainMenu {
 
         try (Scanner keyboard = new Scanner(System.in)) {
 
+            System.out.println("Welcome to the Arena Scheduler Program!\n");
+
             /* Print the Menu */
             do {
                 displayMainMenu();
@@ -29,8 +31,7 @@ public class MainMenu {
     }
 
     public static void displayMainMenu() {
-        System.out.println("Welcome to the Arena Scheduler Program!\n" +
-                "What would you like to do?\n" +
+        System.out.println("What would you like to do?\n" +
                 "(1) Search Catalog\n" +
                 "(2) Modify/View your custom schedules\n" +
                 "(3) View Full Announcer\n" +
@@ -64,7 +65,7 @@ public class MainMenu {
             case 4:
                 break;
             default:
-                System.out.println("WRONG OPTION!");
+                System.out.println("\nWRONG OPTION!\n");
         }
 
         return option;

@@ -76,7 +76,7 @@ public class SearchCatalog {
 
     public static void displaySearchCatalogMenu(ArrayList<String> menuItems) {
 
-        System.out.println("What would you like to search for?");
+        System.out.println("\nWhat would you like to search for?");
 
         for(int i = 1; i <= menuItems.size(); i++) { //Print all available menu items
             System.out.println("(" + i + ") " + menuItems.get(i-1).substring(1));
@@ -98,7 +98,7 @@ public class SearchCatalog {
         keyboard.nextLine();//clear the buffer
 
         if (menuOption < 1 || menuOption > menuItems.size()) { //If the user's choice is out of bounds
-            System.out.println("WRONG OPTION!");
+            System.out.println("\nWRONG OPTION!");
         }
 
         return menuOption;
@@ -111,7 +111,7 @@ public class SearchCatalog {
         /* Give menu options */
         switch (switchOption) {
             case 1:
-                System.out.println("For your reference:");
+                System.out.println("\nFor your reference:");
                 System.out.println(SUBJECT_ID);
 
                 do {
@@ -127,7 +127,7 @@ public class SearchCatalog {
                     keyboard.nextLine();//clear keyboard buffer
 
                     if (searchOptionInt < 1 || searchOptionInt > 8) {
-                        System.out.println("WRONG OPTION!");
+                        System.out.println("\nWRONG OPTION!\n");
                     }
                 } while (searchOptionInt < 1 || searchOptionInt > 8);
 
@@ -135,7 +135,7 @@ public class SearchCatalog {
                 sqlStatement.append(searchOptionInt);
                 break;
             case 2:
-                System.out.print("Enter the Course ID: ");
+                System.out.print("\nEnter the Course ID: ");
                 do {
                     searchOptionString = keyboard.nextLine();
                 } while(searchOptionString.trim().isEmpty());//Check if string is empty
@@ -144,7 +144,7 @@ public class SearchCatalog {
                 sqlStatement.append("')");
                 break;
             case 3:
-                System.out.print("Enter the Course Title: ");
+                System.out.print("\nEnter the Course Title: ");
                 do {
                     searchOptionString = keyboard.nextLine();
                 } while(searchOptionString.trim().isEmpty());//Check if string is empty
@@ -154,7 +154,7 @@ public class SearchCatalog {
                 break;
             case 4:
                 do {
-                    System.out.print("Enter the Class ID: ");
+                    System.out.print("\nEnter the Class ID: ");
                     try {
                         searchOptionInt = keyboard.nextInt();
                     } catch (InputMismatchException ex) {
@@ -166,7 +166,7 @@ public class SearchCatalog {
                     keyboard.nextLine();//clear keyboard buffer
 
                     if (searchOptionInt < 1) {
-                        System.out.println("WRONG OPTION!");
+                        System.out.println("\nWRONG OPTION!");
                     }
                 } while (searchOptionInt < 1);
                 sqlStatement.append(" AND class_id = ");
@@ -174,7 +174,7 @@ public class SearchCatalog {
                 break;
             case 5:
                 do {
-                    System.out.print("Enter the Block: ");
+                    System.out.print("\nEnter the Block: ");
                     try {
                         searchOptionInt = keyboard.nextInt();
                     } catch (InputMismatchException ex) {
@@ -184,7 +184,7 @@ public class SearchCatalog {
                         System.err.println("ERROR: " + ex.getMessage());
                     }
                     if (searchOptionInt < 1) {
-                        System.out.println("WRONG OPTION!");
+                        System.out.println("\nWRONG OPTION!");
                     }
                     keyboard.nextLine();//clear keyboard buffer
                 } while (searchOptionInt < 1);
@@ -192,7 +192,7 @@ public class SearchCatalog {
                 sqlStatement.append(searchOptionInt);
                 break;
             case 6:
-                System.out.print("Enter the Teacher: ");
+                System.out.print("\nEnter the Teacher: ");
                 do {
                     searchOptionString = keyboard.nextLine();
                 } while(searchOptionString.trim().isEmpty());//Check if string is empty
@@ -204,7 +204,7 @@ public class SearchCatalog {
     }
 
     public static void displayExtraParameterMenu() {
-        System.out.println("Would you like to add another search parameter?\n" +
+        System.out.println("\nWould you like to add another search parameter?\n" +
                 "(1) Yes\n" +
                 "(2) No");
     }
@@ -223,7 +223,7 @@ public class SearchCatalog {
         keyboard.nextLine();//clear keyboard buffer
 
         if (switchOption < 1 || switchOption > 2) { //Out of bounds option
-            System.out.println("WRONG OPTION!");
+            System.out.println("\nWRONG OPTION!");
         }
 
         return switchOption;
