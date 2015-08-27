@@ -52,7 +52,7 @@ public class CustomScheduleManagerDeleteClass {
             }
 
             if (classID < 1) {
-                System.out.println("WRONG OPTION!");
+                System.out.println("\nWRONG OPTION!\n");
             }
 
             keyboard.nextLine();//clear keyboard buffer

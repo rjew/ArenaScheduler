@@ -26,7 +26,7 @@ public class CustomScheduleManagerRename {
             System.out.println("\n" + tableName + " is now renamed to " + newScheduleName + ".");
         } catch (SQLException ex) {
             if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {
-                System.out.println("Schedule with the same name already exists.");
+                System.out.println("\nSchedule with the same name already exists.");
                 renameSchedule(keyboard, tableName);
             } else {
                 logger.error(ex);

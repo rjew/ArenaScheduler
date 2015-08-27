@@ -132,7 +132,7 @@ public class CustomScheduleManagerSaveClass {
     }
 
     public static void wrongOptionDisplaySchedulesOrNewSchedule(ArrayList<String> tableNamesArrayList) {
-        System.out.println("WRONG OPTION\n" +
+        System.out.println("\nWRONG OPTION\n\n" +
                 "Which schedule would you like to add the class to?");
         for (int i = 0; i < tableNamesArrayList.size(); i++) {
             System.out.print("(" + (i + 1) + ") ");
