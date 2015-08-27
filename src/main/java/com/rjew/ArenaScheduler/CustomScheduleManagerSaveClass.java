@@ -11,6 +11,11 @@ public class CustomScheduleManagerSaveClass {
 
     final static Logger logger = Logger.getLogger(CustomScheduleManagerSaveClass.class);
 
+    /**
+     * Responsible for saving a class that the user selects from the search catalog
+     * @param keyboard For user input
+     * @param announcerStatement Statement for the announcer for executing queries
+     */
     public static void saveClass(Scanner keyboard, Statement announcerStatement) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 
@@ -83,6 +88,11 @@ public class CustomScheduleManagerSaveClass {
         }
     }
 
+    /**
+     * Gets the class ID of the course to be added
+     * @param keyboard For user input
+     * @return An int holding the class ID to be added
+     */
     public static int getAddClassID(Scanner keyboard) {
         int classID = 0;
 
@@ -107,6 +117,12 @@ public class CustomScheduleManagerSaveClass {
         return classID;
     }
 
+    /**
+     * Displays the schedules that the user could select from or the option to create a new schedule
+     * @param tableNamesArrayList An ArrayList containing the schedule names
+     * @param customScheduleDBMetaTables A ResultSet containing the custom schedule names to store into tableNamesArrayList
+     * @return An int containing the user's option
+     */
     public static int displaySchedulesOrNewSchedule(ArrayList<String> tableNamesArrayList,
                                                     ResultSet customScheduleDBMetaTables) {
         int i = 1;
@@ -131,6 +147,10 @@ public class CustomScheduleManagerSaveClass {
         return i;
     }
 
+    /**
+     * Displays the schedules and create new schedule options again if the user enters an incorrect option
+     * @param tableNamesArrayList An ArrayList holding the custom schedule names
+     */
     public static void wrongOptionDisplaySchedulesOrNewSchedule(ArrayList<String> tableNamesArrayList) {
         System.out.println("\nWRONG OPTION\n\n" +
                 "Which schedule would you like to add the class to?");

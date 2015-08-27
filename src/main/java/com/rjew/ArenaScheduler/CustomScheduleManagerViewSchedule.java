@@ -8,6 +8,12 @@ public class CustomScheduleManagerViewSchedule {
 
     final static Logger logger = Logger.getLogger(CustomScheduleManagerViewSchedule.class);
 
+    /**
+     * Responsible for showing the schedule the user selected
+     * @param tableName The schedule name the user want to view
+     * @return A boolean indicating whether or not the schedule was successfully printed,
+     * true=schedule printed successfully, false=schedule did not print successfully
+     */
     public static boolean viewSchedule(String tableName) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 
@@ -48,6 +54,11 @@ public class CustomScheduleManagerViewSchedule {
         return false;
     }
 
+    /**
+     * Prints the schedule into a table with column names and data
+     * @param resultSet ResultSet holding the data for the classes to be printed
+     * @param RSMetaData ResultSetMetaData holding the data for the column titles and column count
+     */
     public static void printSchedule(ResultSet resultSet, ResultSetMetaData RSMetaData) {
         try {
             int courseTitleFormatWidth;
@@ -72,6 +83,12 @@ public class CustomScheduleManagerViewSchedule {
 
     }
 
+    /**
+     * Gets the width for the Course Title column
+     * @param resultSet ResultSet holding the data for the classes to be printed
+     * @param RSMetaData ResultSetMetaData holding the data for the column titles and column count
+     * @return An int holding the Course Title column width
+     */
     public static int getCourseTitleFormatWidth(ResultSet resultSet, ResultSetMetaData RSMetaData) {
         try {
             int courseTitleFormatWidth = RSMetaData.getColumnName(3).length() + 1; //Store the default width of the course title
@@ -98,6 +115,12 @@ public class CustomScheduleManagerViewSchedule {
         return 0;
     }
 
+    /**
+     * Gets the width for the Room column
+     * @param resultSet Result Set holding the data for the classes to be printed
+     * @param RSMetaData ResultSetMetaData holding the data for the column titles and column count
+     * @return An int holding the Room column width
+     */
     public static int getRoomFormatWidth(ResultSet resultSet, ResultSetMetaData RSMetaData) {
         try {
             int roomFormatWidth = RSMetaData.getColumnName(8).length() + 1;//Store the default width of the room
@@ -124,6 +147,12 @@ public class CustomScheduleManagerViewSchedule {
         return 0;
     }
 
+    /**
+     * Prints the column headings
+     * @param RSMetaData ResultSetMetaData holding the data for the column titles and column count
+     * @param courseTitleFormatWidth An int holding the width of the Course Title column
+     * @param roomFormatWidth An int holding the width of the Room column
+     */
     public static void printColumnTitles(ResultSetMetaData RSMetaData, int courseTitleFormatWidth,
                                          int roomFormatWidth) {
         /* Print out the column titles */
@@ -168,6 +197,13 @@ public class CustomScheduleManagerViewSchedule {
         }
     }
 
+    /**
+     * Prints the schedule of classes
+     * @param resultSet ResultSet holding the data for the classes to be printed
+     * @param RSMetaData ResultSetMetaData holding the data for the column titles and column count
+     * @param courseTitleFormatWidth An int holding the width of the Course Title column
+     * @param roomFormatWidth An int holding the width of the Room column
+     */
     public static void printDBResults(ResultSet resultSet, ResultSetMetaData RSMetaData,
                                       int courseTitleFormatWidth, int roomFormatWidth) {
         /* Print out the database results */

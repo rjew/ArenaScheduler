@@ -10,6 +10,11 @@ public class ExecuteSQL {
 
     final static Logger logger = Logger.getLogger(ExecuteSQL.class);
 
+    /**
+     * Executes sql statement based on the parameters given in the search catalog
+     * @param sqlStmt A String holding the sql statement to be executed
+     * @param keyboard For user input
+     */
     public static void executeSQLStatement(String sqlStmt, Scanner keyboard) {
         final String ANNOUNCER_DB_URL = "jdbc:derby:Announcer_Fall_2015"; //For the db connection
         int numRows; //To hold the number of rows, the number of results
@@ -50,6 +55,11 @@ public class ExecuteSQL {
         }
     }
 
+    /**
+     * Gets the numbers of results returned from the sql query
+     * @param announcerResultSet ResultSet holding the announcer data
+     * @return An int holding the number of results from the sql query
+     */
     public static int getResultCount(ResultSet announcerResultSet) {
         int numRows = 0;
 
@@ -68,12 +78,21 @@ public class ExecuteSQL {
         return numRows;
     }
 
+    /**
+     * Prints the menu asking about adding classes to a schedule
+     */
     public static void displayAddClassMenu() {
         System.out.println("\nWould you like to add any of the classes to one of your schedules?\n" +
                 "(1) Yes\n" +
                 "(2) No");
     }
 
+    /**
+     * Gets the user's input for the addClassMenu and processes the input based on the option chosen
+     * @param keyboard For user input
+     * @param announcerStatement Statement for the announcer for executing sql queries
+     * @return An int holding the user's menu option
+     */
     public static int getAddClassMenuOption(Scanner keyboard, Statement announcerStatement) {
         int addClassOption = 0;
 

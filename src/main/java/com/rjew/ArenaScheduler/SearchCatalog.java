@@ -8,6 +8,7 @@ public class SearchCatalog {
 
     final static Logger logger = Logger.getLogger(SearchCatalog.class);
 
+    //To hold the keys for the subjectID
     static final Map<Integer , String> SUBJECT_ID = new HashMap<Integer , String>() {{
         put(1, "Math");
         put(2, "Science");
@@ -19,6 +20,10 @@ public class SearchCatalog {
         put(8, "Other");
     }};
 
+    /**
+     * Responsible for the displaying Search Catalog
+     * @param keyboard For user input
+     */
     public static void displaySearchCatalog(Scanner keyboard) {
         int switchOption; //To hold the option for the right switch statement case
         int menuOption; // To hold the users option based on the displayed menu
@@ -74,6 +79,10 @@ public class SearchCatalog {
         ExecuteSQL.executeSQLStatement(sqlStatement.toString(), keyboard);
     }
 
+    /**
+     * Prints the search catalog menu
+     * @param menuItems An ArrayList holding the possible search parameters to use
+     */
     public static void displaySearchCatalogMenu(ArrayList<String> menuItems) {
 
         System.out.println("\nWhat would you like to search for?");
@@ -84,6 +93,12 @@ public class SearchCatalog {
 
     }
 
+    /**
+     * Gets the user's input for the searchCatalogMenu
+     * @param keyboard For user input
+     * @param menuItems An ArrayList holding the possible search parameters to use
+     * @return An int holding the user's menu option
+     */
     public static int getSearchCatalogMenuOption(Scanner keyboard, ArrayList<String> menuItems) {
         int menuOption = 0;
 
@@ -104,6 +119,12 @@ public class SearchCatalog {
         return menuOption;
     }
 
+    /**
+     * Gets user's input for the search parameter and builds the query from it
+     * @param keyboard For user input
+     * @param switchOption The option corresponding to the correct switch statement
+     * @param sqlStatement A StringBuilder that holds the search query based on the user's input parameters
+     */
     public static void getSearchCatalogQuery(Scanner keyboard, int switchOption, StringBuilder sqlStatement) {
         String searchOptionString; //To hold user input for search catalog for strings
         int searchOptionInt = 0; //To hold user input for search catalog for ints
@@ -203,12 +224,20 @@ public class SearchCatalog {
         }
     }
 
+    /**
+     * Prints the menu to choose another search parameter
+     */
     public static void displayExtraParameterMenu() {
         System.out.println("\nWould you like to add another search parameter?\n" +
                 "(1) Yes\n" +
                 "(2) No");
     }
 
+    /**
+     * Gets the user's input for the extraParameterMenu
+     * @param keyboard For user input
+     * @return An int holding the user's menu option
+     */
     public static int getExtraParameterMenuOption(Scanner keyboard) {
         int switchOption = 0;
 

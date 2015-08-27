@@ -9,6 +9,11 @@ public class CustomScheduleManagerRename {
 
     final static Logger logger = Logger.getLogger(CustomScheduleManagerRename.class);
 
+    /**
+     * Responsible for renaming a schedule
+     * @param keyboard For user input
+     * @param tableName The name of the schedule to be renamed
+     */
     public static void renameSchedule(Scanner keyboard, String tableName) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 
@@ -25,7 +30,7 @@ public class CustomScheduleManagerRename {
             customScheduleStatement.executeUpdate(renameTableSQLString);
             System.out.println("\n" + tableName + " is now renamed to " + newScheduleName + ".");
         } catch (SQLException ex) {
-            if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {
+            if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {//X0Y32: If the user enters a schedule name that already exists
                 System.out.println("\nSchedule with the same name already exists.");
                 renameSchedule(keyboard, tableName);
             } else {

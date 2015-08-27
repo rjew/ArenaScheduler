@@ -10,6 +10,15 @@ public class CustomScheduleManagerAddCourse {
 
     final static Logger logger = Logger.getLogger(CustomScheduleManagerAddCourse.class);
 
+    /**
+     * Responsible for adding a course to a schedule that the user specifies.
+     * @param classID The Class ID of the course to be added to a schedule
+     * @param tableName The name of the schedule where the class will be added
+     * @param announcerStatement The Statement for the announcer for executing sql queries
+     * @param customScheduleStatement The Statement for custom schedules to execute sql queries
+     * @return a boolean value indicating whether the class was added successfully or not,
+     * true=successfully added, false=not successful
+     */
     public static boolean addCourse(int classID, String tableName,
                                     Statement announcerStatement, Statement customScheduleStatement) {
         boolean courseLimitReached;
@@ -66,6 +75,13 @@ public class CustomScheduleManagerAddCourse {
         return false;
     }
 
+    /**
+     * Checks if the course limit for a schedule has already been reached
+     * @param tableName The name of the schedule to check
+     * @param customScheduleStatement The Statement for the custom schedule for executing sql queries
+     * @return a boolean value indicating whether or not the course limit has been reached,
+     * true=limit reached, false=limit not reached
+     */
     public static boolean checkCourseLimit(String tableName, Statement customScheduleStatement) {
         final int COURSE_LIMIT = 7;
         final int LAST_BLOCK = 8;
@@ -92,6 +108,14 @@ public class CustomScheduleManagerAddCourse {
         return courseLimitReached;
     }
 
+    /**
+     * Checks if the course being added has the same block as one of the courses in the schedule
+     * @param tableName Schedule name that the course is being added to
+     * @param customScheduleStatement Statement for the custom schedules for sql queries
+     * @param courseBlock The block of the course being added
+     * @return a boolean value indicating whether a course with the same block exists in the schedule,
+     * true=exists a course with the same block, false=does not exist a course with the same block
+     */
     public static boolean checkSameBlock(String tableName, Statement customScheduleStatement, int courseBlock) {
         boolean sameBlock = false;
 
@@ -114,6 +138,12 @@ public class CustomScheduleManagerAddCourse {
         return sameBlock;
     }
 
+    /**
+     * Responsible for inserting a course into a specified schedule
+     * @param tableName The schedule for the course to be inserted to
+     * @param courseResultSet The Result Set for the course being added to the schedule, gives the info of the values to be inserted
+     * @param customScheduleStatement Statement for the custom schedules for executing sql queries
+     */
     public static void insertCourse(String tableName, ResultSet courseResultSet, Statement customScheduleStatement) {
         try {
             String addCourseSQLSTRING = "INSERT INTO \"" + tableName + "\" VALUES (" +

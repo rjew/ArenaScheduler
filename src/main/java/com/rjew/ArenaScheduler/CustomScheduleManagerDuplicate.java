@@ -9,6 +9,11 @@ public class CustomScheduleManagerDuplicate {
 
     final static Logger logger = Logger.getLogger(CustomScheduleManagerDuplicate.class);
 
+    /**
+     * Responsible for making a copy of a schedule
+     * @param keyboard For user input
+     * @param tableName The schedule name to be copied
+     */
     public static void duplicateSchedule(Scanner keyboard, String tableName) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 
@@ -31,7 +36,7 @@ public class CustomScheduleManagerDuplicate {
             customScheduleStatement.executeUpdate(insertDuplicateTableSQLString);
             System.out.println("\n" + tableName + " has been copied to " + newScheduleName + ".");
         } catch (SQLException ex) {
-            if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {
+            if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {//X0Y32: If the user enters a schedule name that already exists
                 System.out.println("\nSchedule with the same name already exists.");
                 duplicateSchedule(keyboard, tableName);
             } else {

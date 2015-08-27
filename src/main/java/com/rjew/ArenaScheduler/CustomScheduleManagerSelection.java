@@ -11,6 +11,13 @@ public class CustomScheduleManagerSelection {
 
     final static Logger logger = Logger.getLogger(CustomScheduleManagerSelection.class);
 
+    /**
+     * Responsible for displaying the custom schedules that the user can select from
+     * @param keyboard For user input
+     * @param tableNamesArrayList An ArrayList holding the custom schedule names
+     * @param displayOption A String to modify the output depending on the custom schedule manager option the user chooses
+     * @return An int containing the schedule option the user chooses, for the index of the tableNamesArrayList
+     */
     public static int displayScheduleOptions(Scanner keyboard, ArrayList<String> tableNamesArrayList,
                                              String displayOption) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
@@ -53,6 +60,12 @@ public class CustomScheduleManagerSelection {
         return scheduleOption;
     }
 
+    /**
+     * Displays the custom schedules that the user can choose from
+     * @param displayOption A String that changes the output depending of the user's custom schedule manager choice
+     * @param tableNamesArrayList An ArrayList holding the custom schedule names
+     * @param customScheduleDBMetaTables A ResultSet containing the schedule names to be stored in tableNamesArrayList
+     */
     public static void displaySchedules(String displayOption, ArrayList<String> tableNamesArrayList,
                                         ResultSet customScheduleDBMetaTables) {
         System.out.println("\nWhich schedule would you like to " + displayOption + "?");
@@ -74,6 +87,11 @@ public class CustomScheduleManagerSelection {
         }
     }
 
+    /**
+     * Displays the schedules again if the user enters an incorrect option
+     * @param displayOption A String to change the output depending on the user's custom schedule manager choice
+     * @param tableNamesArrayList An ArrayList holding the custom schedule names
+     */
     public static void wrongOptionDisplaySchedules(String displayOption, ArrayList<String> tableNamesArrayList) {
         System.out.println("\nWRONG OPTION!\n\n" +
                 "Which schedule would you like to " + displayOption + "?");
@@ -83,6 +101,11 @@ public class CustomScheduleManagerSelection {
         }
     }
 
+    /**
+     * Gets the user's input for the schedule that is chosen
+     * @param keyboard For user input
+     * @return An int holding the user's schedule option
+     */
     public static int getScheduleOption(Scanner keyboard) {
         int scheduleOption = 0;
 

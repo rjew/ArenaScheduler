@@ -8,6 +8,10 @@ public class CustomScheduleManagerDeleteSchedule {
 
     final static Logger logger = Logger.getLogger(CustomScheduleManagerDeleteSchedule.class);
 
+    /**
+     * Responsible for deleted a schedule
+     * @param tableName The name of the schedule to be deleted
+     */
     public static void deleteSchedule(String tableName) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 

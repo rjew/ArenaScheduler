@@ -9,6 +9,9 @@ public class MainMenu {
 
     final static Logger logger = Logger.getLogger(MainMenu.class);
 
+    /**
+     * Responsible for the main menu
+     */
     public static void displayArenaSchedulerMenu() {
         int option;
 
@@ -30,6 +33,9 @@ public class MainMenu {
         }
     }
 
+    /**
+     * Prints the main menu
+     */
     public static void displayMainMenu() {
         System.out.println("What would you like to do?\n" +
                 "(1) Search Catalog\n" +
@@ -39,6 +45,11 @@ public class MainMenu {
                 "Pick an option (1-4) and press ENTER.");
     }
 
+    /**
+     * Gets the user's input for the main menu and processes the input based on the option chosen
+     * @param keyboard For user input
+     * @return An int holding the user's main menu option
+     */
     public static int getArenaSchedulerOption(Scanner keyboard) {
         int option = 0;
 

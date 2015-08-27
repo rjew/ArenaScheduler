@@ -10,6 +10,10 @@ public class CustomScheduleManagerMenu {
 
     final static Logger logger = Logger.getLogger(CustomScheduleManagerMenu.class);
 
+    /**
+     * The menu for customizing the schedules
+     * @param keyboard For user input
+     */
     public static void accessCustomSchedules(Scanner keyboard) {
         int menuOption;
 
@@ -21,6 +25,9 @@ public class CustomScheduleManagerMenu {
         } while (menuOption != 8);
     }
 
+    /**
+     * Display the menu for the custom schedule manager
+     */
     public static void displayCustomSchedulesMenu() {
         System.out.println("\nWhat would you like to do?\n" +
                 "(1) Add a course to a schedule\n" +
@@ -33,6 +40,11 @@ public class CustomScheduleManagerMenu {
                 "(8) Quit");
     }
 
+    /**
+     * Get user input for the custom schedule menu and process it with the appropriate option
+     * @param keyboard For user input
+     * @return An int holding the user's menu option
+     */
     public static int getCustomSchedulesMenuOption(Scanner keyboard) {
         int menuOption = 0;
         int scheduleOption;
