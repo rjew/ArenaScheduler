@@ -6,9 +6,9 @@ import java.sql.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class CustomScheduleManagerDeleteClass {
+class CustomScheduleManagerDeleteClass {
 
-    final static Logger logger = Logger.getLogger(CustomScheduleManagerDeleteClass.class);
+    private final static Logger logger = Logger.getLogger(CustomScheduleManagerDeleteClass.class);
 
     /**
      * Responsible for deleting a class from a schedule
@@ -46,7 +46,7 @@ public class CustomScheduleManagerDeleteClass {
      * @param keyboard For user input
      * @return An int for the class ID
      */
-    public static int getDeleteClassID(Scanner keyboard) {
+    private static int getDeleteClassID(Scanner keyboard) {
         int classID = 0;
 
         do {
@@ -79,7 +79,7 @@ public class CustomScheduleManagerDeleteClass {
      * @return A boolean indicating whether or not the class was removed successfully,
      * true=class successfully deleted, false=class could not be deleted
      */
-    public static boolean deleteCourse(int classID, String tableName) {
+    private static boolean deleteCourse(int classID, String tableName) {
         final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 
         int rowsChanged;

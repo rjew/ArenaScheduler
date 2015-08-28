@@ -5,9 +5,9 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.Scanner;
 
-public class CustomScheduleManagerDuplicate {
+class CustomScheduleManagerDuplicate {
 
-    final static Logger logger = Logger.getLogger(CustomScheduleManagerDuplicate.class);
+    private final static Logger logger = Logger.getLogger(CustomScheduleManagerDuplicate.class);
 
     /**
      * Responsible for making a copy of a schedule

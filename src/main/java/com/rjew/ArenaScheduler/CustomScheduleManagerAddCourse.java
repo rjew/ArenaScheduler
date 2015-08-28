@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class CustomScheduleManagerAddCourse {
+class CustomScheduleManagerAddCourse {
 
-    final static Logger logger = Logger.getLogger(CustomScheduleManagerAddCourse.class);
+    private final static Logger logger = Logger.getLogger(CustomScheduleManagerAddCourse.class);
 
     /**
      * Responsible for adding a course to a schedule that the user specifies.
@@ -82,7 +82,7 @@ public class CustomScheduleManagerAddCourse {
      * @return a boolean value indicating whether or not the course limit has been reached,
      * true=limit reached, false=limit not reached
      */
-    public static boolean checkCourseLimit(String tableName, Statement customScheduleStatement) {
+    private static boolean checkCourseLimit(String tableName, Statement customScheduleStatement) {
         final int COURSE_LIMIT = 7;
         final int LAST_BLOCK = 8;
 
@@ -116,7 +116,7 @@ public class CustomScheduleManagerAddCourse {
      * @return a boolean value indicating whether a course with the same block exists in the schedule,
      * true=exists a course with the same block, false=does not exist a course with the same block
      */
-    public static boolean checkSameBlock(String tableName, Statement customScheduleStatement, int courseBlock) {
+    private static boolean checkSameBlock(String tableName, Statement customScheduleStatement, int courseBlock) {
         boolean sameBlock = false;
 
         String sameBlockCheck = "SELECT block FROM \"" + tableName + "\"";
@@ -144,7 +144,7 @@ public class CustomScheduleManagerAddCourse {
      * @param courseResultSet The Result Set for the course being added to the schedule, gives the info of the values to be inserted
      * @param customScheduleStatement Statement for the custom schedules for executing sql queries
      */
-    public static void insertCourse(String tableName, ResultSet courseResultSet, Statement customScheduleStatement) {
+    private static void insertCourse(String tableName, ResultSet courseResultSet, Statement customScheduleStatement) {
         try {
             String addCourseSQLSTRING = "INSERT INTO \"" + tableName + "\" VALUES (" +
                     courseResultSet.getInt(1) + ", " +

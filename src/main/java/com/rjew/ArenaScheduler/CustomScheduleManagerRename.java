@@ -5,9 +5,9 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.Scanner;
 
-public class CustomScheduleManagerRename {
+class CustomScheduleManagerRename {
 
-    final static Logger logger = Logger.getLogger(CustomScheduleManagerRename.class);
+    private final static Logger logger = Logger.getLogger(CustomScheduleManagerRename.class);
 
     /**
      * Responsible for renaming a schedule

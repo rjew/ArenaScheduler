@@ -4,9 +4,9 @@ import org.apache.log4j.Logger;
 
 import java.sql.*;
 
-public class CustomScheduleManagerDeleteSchedule {
+class CustomScheduleManagerDeleteSchedule {
 
-    final static Logger logger = Logger.getLogger(CustomScheduleManagerDeleteSchedule.class);
+    private final static Logger logger = Logger.getLogger(CustomScheduleManagerDeleteSchedule.class);
 
     /**
      * Responsible for deleted a schedule

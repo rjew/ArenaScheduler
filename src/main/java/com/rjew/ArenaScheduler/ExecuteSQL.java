@@ -6,9 +6,9 @@ import java.sql.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class ExecuteSQL {
+class ExecuteSQL {
 
-    final static Logger logger = Logger.getLogger(ExecuteSQL.class);
+    private final static Logger logger = Logger.getLogger(ExecuteSQL.class);
 
     /**
      * Executes sql statement based on the parameters given in the search catalog
@@ -81,7 +81,7 @@ public class ExecuteSQL {
     /**
      * Prints the menu asking about adding classes to a schedule
      */
-    public static void displayAddClassMenu() {
+    private static void displayAddClassMenu() {
         System.out.println("\nWould you like to add any of the classes to one of your schedules?\n" +
                 "(1) Yes\n" +
                 "(2) No");
@@ -93,7 +93,7 @@ public class ExecuteSQL {
      * @param announcerStatement Statement for the announcer for executing sql queries
      * @return An int holding the user's menu option
      */
-    public static int getAddClassMenuOption(Scanner keyboard, Statement announcerStatement) {
+    private static int getAddClassMenuOption(Scanner keyboard, Statement announcerStatement) {
         int addClassOption = 0;
 
         try {

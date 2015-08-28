@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class CustomScheduleManagerSelection {
+class CustomScheduleManagerSelection {
 
-    final static Logger logger = Logger.getLogger(CustomScheduleManagerSelection.class);
+    private final static Logger logger = Logger.getLogger(CustomScheduleManagerSelection.class);
 
     /**
      * Responsible for displaying the custom schedules that the user can select from
@@ -66,8 +66,8 @@ public class CustomScheduleManagerSelection {
      * @param tableNamesArrayList An ArrayList holding the custom schedule names
      * @param customScheduleDBMetaTables A ResultSet containing the schedule names to be stored in tableNamesArrayList
      */
-    public static void displaySchedules(String displayOption, ArrayList<String> tableNamesArrayList,
-                                        ResultSet customScheduleDBMetaTables) {
+    private static void displaySchedules(String displayOption, ArrayList<String> tableNamesArrayList,
+                                         ResultSet customScheduleDBMetaTables) {
         System.out.println("\nWhich schedule would you like to " + displayOption + "?");
         int i = 1;
 
@@ -92,7 +92,7 @@ public class CustomScheduleManagerSelection {
      * @param displayOption A String to change the output depending on the user's custom schedule manager choice
      * @param tableNamesArrayList An ArrayList holding the custom schedule names
      */
-    public static void wrongOptionDisplaySchedules(String displayOption, ArrayList<String> tableNamesArrayList) {
+    private static void wrongOptionDisplaySchedules(String displayOption, ArrayList<String> tableNamesArrayList) {
         System.out.println("\nWRONG OPTION!\n\n" +
                 "Which schedule would you like to " + displayOption + "?");
         for (int i = 0; i < tableNamesArrayList.size(); i++) {

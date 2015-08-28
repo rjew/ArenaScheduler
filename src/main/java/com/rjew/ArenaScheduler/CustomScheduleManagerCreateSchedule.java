@@ -5,9 +5,9 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.Scanner;
 
-public class CustomScheduleManagerCreateSchedule {
+class CustomScheduleManagerCreateSchedule {
 
-    final static Logger logger = Logger.getLogger(CustomScheduleManagerCreateSchedule.class);
+    private final static Logger logger = Logger.getLogger(CustomScheduleManagerCreateSchedule.class);
 
     /**
      * Responsible for creating a new schedule

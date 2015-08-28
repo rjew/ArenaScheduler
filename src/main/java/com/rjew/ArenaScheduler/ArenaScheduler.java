@@ -2,9 +2,9 @@ package com.rjew.ArenaScheduler;
 
 import org.apache.log4j.Logger;
 
-public class ArenaScheduler {
+class ArenaScheduler {
 
-    final static Logger logger = Logger.getLogger(ArenaScheduler.class);
+    private final static Logger logger = Logger.getLogger(ArenaScheduler.class);
 
     public static void main(String[] args ) {
         try {

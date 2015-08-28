@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class CustomScheduleManagerSaveClass {
+class CustomScheduleManagerSaveClass {
 
-    final static Logger logger = Logger.getLogger(CustomScheduleManagerSaveClass.class);
+    private final static Logger logger = Logger.getLogger(CustomScheduleManagerSaveClass.class);
 
     /**
      * Responsible for saving a class that the user selects from the search catalog
@@ -93,7 +93,7 @@ public class CustomScheduleManagerSaveClass {
      * @param keyboard For user input
      * @return An int holding the class ID to be added
      */
-    public static int getAddClassID(Scanner keyboard) {
+    private static int getAddClassID(Scanner keyboard) {
         int classID = 0;
 
         do {
@@ -123,8 +123,8 @@ public class CustomScheduleManagerSaveClass {
      * @param customScheduleDBMetaTables A ResultSet containing the custom schedule names to store into tableNamesArrayList
      * @return An int containing the user's option
      */
-    public static int displaySchedulesOrNewSchedule(ArrayList<String> tableNamesArrayList,
-                                                    ResultSet customScheduleDBMetaTables) {
+    private static int displaySchedulesOrNewSchedule(ArrayList<String> tableNamesArrayList,
+                                                     ResultSet customScheduleDBMetaTables) {
         int i = 1;
 
         try {
@@ -151,7 +151,7 @@ public class CustomScheduleManagerSaveClass {
      * Displays the schedules and create new schedule options again if the user enters an incorrect option
      * @param tableNamesArrayList An ArrayList holding the custom schedule names
      */
-    public static void wrongOptionDisplaySchedulesOrNewSchedule(ArrayList<String> tableNamesArrayList) {
+    private static void wrongOptionDisplaySchedulesOrNewSchedule(ArrayList<String> tableNamesArrayList) {
         System.out.println("\nWRONG OPTION\n\n" +
                 "Which schedule would you like to add the class to?");
         for (int i = 0; i < tableNamesArrayList.size(); i++) {

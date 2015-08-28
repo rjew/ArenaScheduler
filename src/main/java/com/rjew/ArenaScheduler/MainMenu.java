@@ -5,9 +5,9 @@ import org.apache.log4j.Logger;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class MainMenu {
+class MainMenu {
 
-    final static Logger logger = Logger.getLogger(MainMenu.class);
+    private final static Logger logger = Logger.getLogger(MainMenu.class);
 
     /**
      * Responsible for the main menu
@@ -36,7 +36,7 @@ public class MainMenu {
     /**
      * Prints the main menu
      */
-    public static void displayMainMenu() {
+    private static void displayMainMenu() {
         System.out.println("What would you like to do?\n" +
                 "(1) Search Catalog\n" +
                 "(2) Modify/View your custom schedules\n" +
@@ -50,7 +50,7 @@ public class MainMenu {
      * @param keyboard For user input
      * @return An int holding the user's main menu option
      */
-    public static int getArenaSchedulerOption(Scanner keyboard) {
+    private static int getArenaSchedulerOption(Scanner keyboard) {
         int option = 0;
 
         try {

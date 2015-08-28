@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class CustomScheduleManagerMenu {
+class CustomScheduleManagerMenu {
 
-    final static Logger logger = Logger.getLogger(CustomScheduleManagerMenu.class);
+    private final static Logger logger = Logger.getLogger(CustomScheduleManagerMenu.class);
 
     /**
      * The menu for customizing the schedules
@@ -28,7 +28,7 @@ public class CustomScheduleManagerMenu {
     /**
      * Display the menu for the custom schedule manager
      */
-    public static void displayCustomSchedulesMenu() {
+    private static void displayCustomSchedulesMenu() {
         System.out.println("\nWhat would you like to do?\n" +
                 "(1) Add a course to a schedule\n" +
                 "(2) Delete a course from a schedule\n" +
@@ -45,7 +45,7 @@ public class CustomScheduleManagerMenu {
      * @param keyboard For user input
      * @return An int holding the user's menu option
      */
-    public static int getCustomSchedulesMenuOption(Scanner keyboard) {
+    private static int getCustomSchedulesMenuOption(Scanner keyboard) {
         int menuOption = 0;
         int scheduleOption;
         ArrayList<String> tableNamesArrayList = new ArrayList<>();
