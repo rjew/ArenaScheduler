@@ -6,9 +6,16 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-class CustomScheduleManagerMenu {
+final class CustomScheduleManagerMenu {
 
     private final static Logger logger = Logger.getLogger(CustomScheduleManagerMenu.class);
+
+    /**
+     * To prevent instantiation
+     */
+    private CustomScheduleManagerMenu() {
+        throw new AssertionError("Suppress default constructor for noninstantiability");
+    }
 
     /**
      * The menu for customizing the schedules

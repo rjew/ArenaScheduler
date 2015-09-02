@@ -6,9 +6,16 @@ import java.sql.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-class ExecuteSQL {
+final class ExecuteSQL {
 
     private final static Logger logger = Logger.getLogger(ExecuteSQL.class);
+
+    /**
+     * To prevent instantiation
+     */
+    private ExecuteSQL() {
+        throw new AssertionError("Suppress default constructor for noninstantiability");
+    }
 
     /**
      * Executes sql statement based on the parameters given in the search catalog

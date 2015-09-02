@@ -5,9 +5,16 @@ import org.apache.log4j.Logger;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-class MainMenu {
+final class MainMenu {
 
     private final static Logger logger = Logger.getLogger(MainMenu.class);
+
+    /**
+     * To prevent instantiation
+     */
+    private MainMenu() {
+        throw new AssertionError("Suppress default constructor for noninstantiability");
+    }
 
     /**
      * Responsible for the main menu

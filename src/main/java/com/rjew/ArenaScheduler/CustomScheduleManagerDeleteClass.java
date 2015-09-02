@@ -6,9 +6,16 @@ import java.sql.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-class CustomScheduleManagerDeleteClass {
+final class CustomScheduleManagerDeleteClass {
 
     private final static Logger logger = Logger.getLogger(CustomScheduleManagerDeleteClass.class);
+
+    /**
+     * To prevent instantiation
+     */
+    private CustomScheduleManagerDeleteClass() {
+        throw new AssertionError("Suppress default constructor for noninstantiability");
+    }
 
     /**
      * Responsible for deleting a class from a schedule

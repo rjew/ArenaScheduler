@@ -6,9 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-class CustomScheduleManagerAddCourse {
+final class CustomScheduleManagerAddCourse {
 
     private final static Logger logger = Logger.getLogger(CustomScheduleManagerAddCourse.class);
+
+    /**
+     * To prevent instantiation
+     */
+    private CustomScheduleManagerAddCourse() {
+        throw new AssertionError("Suppress default constructor for noninstantiability");
+    }
 
     /**
      * Responsible for adding a course to a schedule that the user specifies.

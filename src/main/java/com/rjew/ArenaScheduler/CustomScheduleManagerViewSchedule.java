@@ -4,9 +4,16 @@ import org.apache.log4j.Logger;
 
 import java.sql.*;
 
-class CustomScheduleManagerViewSchedule {
+final class CustomScheduleManagerViewSchedule {
 
     private final static Logger logger = Logger.getLogger(CustomScheduleManagerViewSchedule.class);
+
+    /**
+     * To prevent instantiation
+     */
+    private CustomScheduleManagerViewSchedule() {
+        throw new AssertionError("Suppress default constructor for noninstantiability");
+    }
 
     /**
      * Responsible for showing the schedule the user selected

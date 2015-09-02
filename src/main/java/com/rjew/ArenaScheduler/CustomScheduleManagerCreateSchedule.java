@@ -5,9 +5,16 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.Scanner;
 
-class CustomScheduleManagerCreateSchedule {
+final class CustomScheduleManagerCreateSchedule {
 
     private final static Logger logger = Logger.getLogger(CustomScheduleManagerCreateSchedule.class);
+
+    /**
+     * To prevent instantiation
+     */
+    private CustomScheduleManagerCreateSchedule() {
+        throw new AssertionError("Suppress default constructor for noninstantiability");
+    }
 
     /**
      * Responsible for creating a new schedule

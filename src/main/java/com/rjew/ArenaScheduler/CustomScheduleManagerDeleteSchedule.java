@@ -4,9 +4,16 @@ import org.apache.log4j.Logger;
 
 import java.sql.*;
 
-class CustomScheduleManagerDeleteSchedule {
+final class CustomScheduleManagerDeleteSchedule {
 
     private final static Logger logger = Logger.getLogger(CustomScheduleManagerDeleteSchedule.class);
+
+    /**
+     * To prevent instantiation
+     */
+    private CustomScheduleManagerDeleteSchedule() {
+        throw new AssertionError("Suppress default constructor for noninstantiability");
+    }
 
     /**
      * Responsible for deleted a schedule

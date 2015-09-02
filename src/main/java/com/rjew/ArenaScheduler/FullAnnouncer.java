@@ -2,7 +2,14 @@ package com.rjew.ArenaScheduler;
 
 import java.util.Scanner;
 
-class FullAnnouncer {
+final class FullAnnouncer {
+
+    /**
+     * To prevent instantiation
+     */
+    private FullAnnouncer() {
+        throw new AssertionError("Suppress default constructor for noninstantiability");
+    }
 
     public static void viewFullAnnouncer(Scanner keyboard) {
         String viewFullAnnouncerSQLString = "SELECT subject_id, course_id_fk as course_id, " +

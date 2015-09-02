@@ -4,9 +4,16 @@ import org.apache.log4j.Logger;
 
 import java.util.*;
 
-class SearchCatalog {
+final class SearchCatalog {
 
     private final static Logger logger = Logger.getLogger(SearchCatalog.class);
+
+    /**
+     * To prevent instantiation
+     */
+    private SearchCatalog() {
+        throw new AssertionError("Suppress default constructor for noninstantiability");
+    }
 
     //To hold the keys for the subjectID
     private static final Map<Integer , String> SUBJECT_ID = new HashMap<Integer , String>() {{

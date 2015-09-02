@@ -7,9 +7,16 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-class CustomScheduleManagerSelection {
+final class CustomScheduleManagerSelection {
 
     private final static Logger logger = Logger.getLogger(CustomScheduleManagerSelection.class);
+
+    /**
+     * To prevent instantiation
+     */
+    private CustomScheduleManagerSelection() {
+        throw new AssertionError("Suppress default constructor for noninstantiability");
+    }
 
     /**
      * Responsible for displaying the custom schedules that the user can select from

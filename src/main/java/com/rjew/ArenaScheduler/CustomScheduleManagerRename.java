@@ -5,9 +5,16 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.Scanner;
 
-class CustomScheduleManagerRename {
+final class CustomScheduleManagerRename {
 
     private final static Logger logger = Logger.getLogger(CustomScheduleManagerRename.class);
+
+    /**
+     * To prevent instantiation
+     */
+    private CustomScheduleManagerRename() {
+        throw new AssertionError("Suppress default constructor for noninstantiability");
+    }
 
     /**
      * Responsible for renaming a schedule

@@ -7,9 +7,16 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-class CustomScheduleManagerSaveClass {
+final class CustomScheduleManagerSaveClass {
 
     private final static Logger logger = Logger.getLogger(CustomScheduleManagerSaveClass.class);
+
+    /**
+     * To prevent instantiation
+     */
+    private CustomScheduleManagerSaveClass() {
+        throw new AssertionError("Suppress default constructor for noninstantiability");
+    }
 
     /**
      * Responsible for saving a class that the user selects from the search catalog
