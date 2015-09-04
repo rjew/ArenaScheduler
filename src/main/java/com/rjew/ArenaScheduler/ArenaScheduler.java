@@ -2,6 +2,8 @@ package com.rjew.ArenaScheduler;
 
 import org.apache.log4j.Logger;
 
+import java.util.Scanner;
+
 class ArenaScheduler {
 
     private final static Logger logger = Logger.getLogger(ArenaScheduler.class);
@@ -10,7 +12,16 @@ class ArenaScheduler {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
 
-            MainMenu.displayArenaSchedulerMenu();
+            try {
+                //add some code
+            } catch (IndexOutOfBoundsException ex) {
+                logger.error("IndexOutOfBoundsException caught", ex);
+                System.err.print("IndexOutOfBoundsException: " + ex.toString());
+            } catch (Exception ex) {
+                logger.error("Exception caught", ex);
+                System.err.print("Exception: " + ex.toString());
+            }
+            //MainMenu.displayArenaSchedulerMenu();
         } catch (ClassNotFoundException ex) {
             logger.error("Class could not be found.", ex);
             System.err.println("ERROR: Caught ClassNotFoundException: " + ex.getMessage());
