@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class Announcer {
-    private final static String ANNOUNCER_DB_URL = "jdbc:derby:Announcer_Fall_2015"; //For the db connection
+    private static final String ANNOUNCER_DB_URL = "jdbc:derby:Announcer_Fall_2015"; //For the db connection
     private static final Map<Integer , String> SUBJECT_ID = new HashMap<Integer , String>() {{
         put(1, "Math");
         put(2, "Science");
@@ -16,6 +16,12 @@ public class Announcer {
         put(8, "Other");
     }};
 
+    private DAOManager daoManager;
+
+    public Announcer() {
+        daoManager = new DAOManager(ANNOUNCER_DB_URL);
+    }
+
     public void printFullAnnouncer() throws SQLException {
         String printFullAnnouncerSQLString = "SELECT subject_id, course_id_fk as course_id, " +
                 "course_title_uq as course_title, class_id, " +
@@ -23,8 +29,6 @@ public class Announcer {
                 "FROM fall_2015_announcer_classes, " +
                 "fall_2015_announcer_courses " +
                 "WHERE course_id_pk = course_id_fk";
-
-        DAOManager daoManager = new DAOManager(ANNOUNCER_DB_URL);
 
         List<Course> courseList = daoManager.executeSelectQuery(printFullAnnouncerSQLString);
 
@@ -34,7 +38,7 @@ public class Announcer {
         DAOUtils.printSchedule(courseList);
     }
 
-    public void runSearchCatalog(Scanner keyboard) throws SQLException {
+    public void runSearchCatalog() throws SQLException {
         int switchOption; //To hold the option for the right switch statement case
         int menuOption; // To hold the users option based on the displayed menu
         StringBuilder sqlStatement = new StringBuilder("SELECT subject_id, course_id_fk as course_id, " +
@@ -60,7 +64,7 @@ public class Announcer {
 
                 displaySearchCatalogMenu(menuItems);
 
-                menuOption = ScannerUtils.getInt(keyboard);
+                menuOption = ScannerUtils.getInt();
 
                 if (menuOption < 1 || menuOption > menuItems.size()) { //If the user's choice is out of bounds
                     System.out.println("\nWRONG OPTION!");
@@ -71,7 +75,7 @@ public class Announcer {
             /* Convert the user's menu option to the correct switch case */
             switchOption = Character.getNumericValue(menuItems.get(menuOption - 1).charAt(0));
 
-            getSearchCatalogQuery(keyboard, switchOption, sqlStatement, preparedStatementParameters);
+            getSearchCatalogQuery(switchOption, sqlStatement, preparedStatementParameters);
 
             menuItems.remove(menuOption - 1); //Remove the menu option that the user picked from the display
 
@@ -82,7 +86,7 @@ public class Announcer {
 
                     displayExtraParameterMenu();
 
-                    switchOption = ScannerUtils.getInt(keyboard);
+                    switchOption = ScannerUtils.getInt();
 
                     if (switchOption < 1 || switchOption > 2) { //Out of bounds option
                         System.out.println("\nWRONG OPTION!");
@@ -115,13 +119,12 @@ public class Announcer {
 
     /**
      * Gets user's input for the search parameter and builds the query from it
-     * @param keyboard For user input
      * @param switchOption The option corresponding to the correct switch statement
      * @param sqlStatement A StringBuilder that holds the search query based on the user's input parameters
      * @param preparedStatementParameters
      */
-    private void getSearchCatalogQuery(Scanner keyboard, int switchOption,
-                                       StringBuilder sqlStatement, ArrayList<Object> preparedStatementParameters) {
+    private void getSearchCatalogQuery(int switchOption, StringBuilder sqlStatement,
+                                       ArrayList<Object> preparedStatementParameters) {
         String searchOptionString; //To hold user input for search catalog for strings
         int searchOptionInt; //To hold user input for search catalog for ints
 
@@ -133,7 +136,7 @@ public class Announcer {
 
                 do {
                     System.out.print("Enter the Subject ID: ");
-                    searchOptionInt = ScannerUtils.getInt(keyboard);
+                    searchOptionInt = ScannerUtils.getInt();
                     if (searchOptionInt < 1 || searchOptionInt > 8) {
                         System.out.println("\nWRONG OPTION!\n");
                     }
@@ -143,20 +146,20 @@ public class Announcer {
                 break;
             case 2:
                 System.out.print("\nEnter the Course ID: ");
-                searchOptionString = ScannerUtils.getString(keyboard);
+                searchOptionString = ScannerUtils.getString();
                 sqlStatement.append(" AND LOWER(course_id_fk) LIKE ?");
                 preparedStatementParameters.add(searchOptionString.toLowerCase());
                 break;
             case 3:
                 System.out.print("\nEnter the Course Title: ");
-                searchOptionString = ScannerUtils.getString(keyboard);
+                searchOptionString = ScannerUtils.getString();
                 sqlStatement.append(" AND LOWER(course_title_uq) LIKE ?");
                 preparedStatementParameters.add("%" + searchOptionString.toLowerCase() + "%");
                 break;
             case 4:
                 do {
                     System.out.print("\nEnter the Class ID: ");
-                    searchOptionInt = ScannerUtils.getInt(keyboard);
+                    searchOptionInt = ScannerUtils.getInt();
                     if (searchOptionInt < 1) {
                         System.out.println("\nWRONG OPTION!");
                     }
@@ -167,7 +170,7 @@ public class Announcer {
             case 5:
                 do {
                     System.out.print("\nEnter the Block: ");
-                    searchOptionInt = ScannerUtils.getInt(keyboard);
+                    searchOptionInt = ScannerUtils.getInt();
                     if (searchOptionInt < 1) {
                         System.out.println("\nWRONG OPTION!");
                     }
@@ -177,7 +180,7 @@ public class Announcer {
                 break;
             case 6:
                 System.out.print("\nEnter the Teacher: ");
-                searchOptionString = ScannerUtils.getString(keyboard);
+                searchOptionString = ScannerUtils.getString();
                 sqlStatement.append(" AND LOWER(teacher) LIKE ?");
                 preparedStatementParameters.add("%" + searchOptionString.toLowerCase() + "%");
                 break;
@@ -201,8 +204,6 @@ public class Announcer {
     private void executeSQLStatement(String sqlStmt, ArrayList<Object> preparedStatementParameters) throws SQLException {
         int numRows; //To hold the number of rows, the number of results
 
-        DAOManager daoManager = new DAOManager(ANNOUNCER_DB_URL);
-
         List<Course> courseList = daoManager.executeSearchCatalogQuery(sqlStmt, preparedStatementParameters);
 
         numRows = DAOUtils.getResultCount(courseList);
@@ -214,19 +215,18 @@ public class Announcer {
         }
     }
 
-    public Course getCourse(Scanner keyboard) throws SQLException {
+    public Course getCourse() throws SQLException {
         int classID;
 
         do {
             System.out.println("Enter the ID of the course that you would like:");
-            classID = ScannerUtils.getInt(keyboard);
+            classID = ScannerUtils.getInt();
 
             if (classID < 1) {
                 System.out.println("\nWRONG OPTION!");
             }
         } while (classID < 1);
 
-        DAOManager daoManager = new DAOManager(ANNOUNCER_DB_URL);
         return daoManager.getCourse(classID);
     }
 }

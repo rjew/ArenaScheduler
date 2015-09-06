@@ -2,8 +2,6 @@ package com.rjew.ArenaScheduler;
 
 import org.apache.log4j.Logger;
 
-import java.util.Scanner;
-
 class ArenaScheduler {
 
     private final static Logger logger = Logger.getLogger(ArenaScheduler.class);
@@ -13,7 +11,7 @@ class ArenaScheduler {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
 
             try {
-                //add some code
+                //add code here
             } catch (IndexOutOfBoundsException ex) {
                 logger.error("IndexOutOfBoundsException caught", ex);
                 System.err.print("IndexOutOfBoundsException: " + ex.toString());

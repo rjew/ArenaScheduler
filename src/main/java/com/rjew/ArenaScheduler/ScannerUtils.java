@@ -12,7 +12,9 @@ public class ScannerUtils {
         throw new AssertionError("Suppress default constructor for noninstantiability");
     }
 
-    public static int getInt(Scanner keyboard) {
+    public static final Scanner keyboard = new Scanner(System.in);
+
+    public static int getInt() {
         int anInt = 0;
 
         try {
@@ -25,7 +27,7 @@ public class ScannerUtils {
         return anInt;
     }
 
-    public static String getString(Scanner keyboard) {
+    public static String getString() {
         String string;
 
         do {
