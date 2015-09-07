@@ -8,11 +8,11 @@ import java.util.List;
  * execute the specified daoManager method for the Custom Schedule database
  * and sends output to the user about the query
  */
-public class CustomScheduleManager {
+class CustomScheduleManager {
     private static final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 
     private List<String> scheduleNamesList;
-    private DAOManager daoManager;
+    private final DAOManager daoManager;
 
     /**
      * Initializes daoManager and scheduleNamesList fields
@@ -27,9 +27,8 @@ public class CustomScheduleManager {
      * Displays the available custom schedules and returns the user selected schedule name
      * @param displayOption For the output corresponding to the custom schedule modification option
      * @return A String holding the user's selected schedule name
-     * @throws SQLException
      */
-    public String getScheduleName(String displayOption) throws SQLException {
+    public String getScheduleName(String displayOption) {
         int scheduleOption;
 
         if (scheduleNamesList.size() != 0) {
@@ -190,7 +189,7 @@ public class CustomScheduleManager {
 
     /**
      * Deletes the specified schedule
-     * @param scheduleName
+     * @param scheduleName The name of the schedule to be deleted
      * @throws SQLException
      */
     public void deleteSchedule(String scheduleName) throws SQLException {

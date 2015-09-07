@@ -11,8 +11,8 @@ import java.util.List;
  * Not concerned with collecting user input or output.
  * Accepts parameters, executes queries with those parameters and returns a result.
  */
-public class DAOManager {
-    private String database_URL;
+class DAOManager {
+    private final String database_URL;
 
     /**
      * Initializes the database_URL

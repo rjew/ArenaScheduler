@@ -5,7 +5,7 @@ import java.sql.SQLException;
 /**
  * Responsible for displaying the menu and getting user input regarding what the user wants to do
  */
-public final class Menu {
+final class Menu {
 
     /**
      * To prevent instantiation

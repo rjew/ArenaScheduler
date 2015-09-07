@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Utilities for converting resultSets to a List or a Course object and for printing out course lists
  */
-public final class DAOUtils {
+final class DAOUtils {
 
     private final static List<String> columnTitles = new ArrayList<>(Arrays.asList("SubjectID",
             "CourseID", "Course Title", "ClassID", "Seats", "Code", "Block", "Room", "Teacher"));
@@ -61,7 +61,7 @@ public final class DAOUtils {
         resultSet.first();
 
         if (i == 1) {
-            Course course = new Course(resultSet.getInt(1),
+            return new Course(resultSet.getInt(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getInt(4),
@@ -70,8 +70,6 @@ public final class DAOUtils {
                     resultSet.getInt(7),
                     resultSet.getString(8),
                     resultSet.getString(9));
-
-            return course;
         } else {
             return new Course();
         }

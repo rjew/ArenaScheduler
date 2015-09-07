@@ -8,7 +8,7 @@ import java.util.*;
  * execute the specified daoManager method for the announcer
  * and sends output to the user about the query
  */
-public class Announcer {
+class Announcer {
     private static final String ANNOUNCER_DB_URL = "jdbc:derby:Announcer_Fall_2015"; //For the db connection
     private static final Map<Integer , String> SUBJECT_ID = new HashMap<Integer , String>() {{
         put(1, "Math");
@@ -21,7 +21,7 @@ public class Announcer {
         put(8, "Other");
     }};
 
-    private DAOManager daoManager;
+    private final DAOManager daoManager;
 
     /**
      * Initializes the daoManager field

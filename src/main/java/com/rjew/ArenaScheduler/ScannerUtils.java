@@ -6,7 +6,7 @@ import java.util.Scanner;
 /**
  * Utilities for collecting user input
  */
-public class ScannerUtils {
+class ScannerUtils {
 
     /**
      * To prevent instantiation
@@ -15,7 +15,7 @@ public class ScannerUtils {
         throw new AssertionError("Suppress default constructor for noninstantiability");
     }
 
-    public static final Scanner keyboard = new Scanner(System.in);
+    private static final Scanner keyboard = new Scanner(System.in);
 
     /**
      * Returns an int from standard input, ignoring input that is not an int
