@@ -160,7 +160,7 @@ public class CustomScheduleManager {
                     throw ex;
                 }
             }
-        } while (!createScheduleSuccessful);//todo check this exception
+        } while (!createScheduleSuccessful);
 
         return scheduleName;
     }
@@ -194,7 +194,7 @@ public class CustomScheduleManager {
                     throw ex;
                 }
             }
-        } while (!renameScheduleSuccessful);//todo check this exception
+        } while (!renameScheduleSuccessful);
     }
 
     /**
