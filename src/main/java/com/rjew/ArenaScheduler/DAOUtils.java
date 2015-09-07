@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Utilities for converting resultSets to a List or a Course object and for printing out course lists
+ */
 public final class DAOUtils {
 
     private final static List<String> columnTitles = new ArrayList<>(Arrays.asList("SubjectID",
@@ -17,6 +20,12 @@ public final class DAOUtils {
         throw new AssertionError("Suppress default constructor for noninstantiability");
     }
 
+    /**
+     * Converts a resultSet to a List
+     * @param resultSet The resultSet to be converted
+     * @return The List containing the data from the resultSet
+     * @throws SQLException
+     */
     public static List<Course> resultSetToList(ResultSet resultSet) throws SQLException {
         List<Course> courseList = new ArrayList<>();
 
@@ -36,6 +45,12 @@ public final class DAOUtils {
         return courseList;
     }
 
+    /**
+     * Converts a resultSet with one row to a Course object
+     * @param resultSet The resultSet to be converted
+     * @return A Course object containing the data from the resultSet
+     * @throws SQLException
+     */
     public static Course resultSetToCourse(ResultSet resultSet) throws SQLException {
         int i = 0;
 
@@ -62,6 +77,10 @@ public final class DAOUtils {
         }
     }
 
+    /**
+     * Prints the course list
+     * @param courseList The course list to be printed
+     */
     public static void printSchedule(List<Course> courseList) {
         int courseTitleFormatWidth;
         int roomFormatWidth;
@@ -76,9 +95,14 @@ public final class DAOUtils {
 
         System.out.println();
 
-        printDBResults(courseList, courseTitleFormatWidth, roomFormatWidth);
+        printCourses(courseList, courseTitleFormatWidth, roomFormatWidth);
     }
 
+    /**
+     * Gets the course title column width for displaying course title column
+     * @param courseList The course list to be printed
+     * @return An int holding the course title column width
+     */
     private static int getCourseTitleFormatWidth(List<Course> courseList) {
         int courseTitleFormatWidth = columnTitles.get(3).length() + 1; //Store the default width of the course title
 
@@ -92,6 +116,11 @@ public final class DAOUtils {
         return courseTitleFormatWidth;
     }
 
+    /**
+     * Gets the room column width for displaying room column
+     * @param courseList The course list to be printed
+     * @return An int holding the room column width
+     */
     private static int getRoomFormatWidth(List<Course> courseList) {
         int roomFormatWidth = columnTitles.get(8).length() + 1; //Store the default width of the course title
 
@@ -105,6 +134,11 @@ public final class DAOUtils {
         return roomFormatWidth;
     }
 
+    /**
+     * Prints the column titles
+     * @param courseTitleFormatWidth An int holding the course title column width
+     * @param roomFormatWidth An int holding the room title column width
+     */
     private static void printColumnTitles(int courseTitleFormatWidth, int roomFormatWidth) {
         /* Print out the column titles */
         for (int i = 0; i < columnTitles.size(); i++) {
@@ -140,8 +174,14 @@ public final class DAOUtils {
         }
     }
 
-    private static void printDBResults(List<Course> courseList, int courseTitleFormatWidth,
-                                       int roomFormatWidth) {
+    /**
+     * Prints course list data
+     * @param courseList The course list to be printed
+     * @param courseTitleFormatWidth An int holding the course title column width
+     * @param roomFormatWidth An int holding the room title column width
+     */
+    private static void printCourses(List<Course> courseList, int courseTitleFormatWidth,
+                                     int roomFormatWidth) {
                 /* Print out the database results */
         for (Course course : courseList) {
             for (int j = 1; j <= columnTitles.size(); j++) {
@@ -179,7 +219,12 @@ public final class DAOUtils {
         }
     }
 
-    public static int getResultCount(List<Course> courseList) {
+    /**
+     * Gets the number of courses from the course list
+     * @param courseList The course list to be counted
+     * @return An int holding the number of courses from the course list
+     */
+    public static int getCourseCount(List<Course> courseList) {
         return courseList.size();
     }
 }

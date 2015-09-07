@@ -3,6 +3,11 @@ package com.rjew.ArenaScheduler;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * Concerned with collecting the necessary user input in order to
+ * execute the specified daoManager method for the announcer
+ * and sends output to the user about the query
+ */
 public class Announcer {
     private static final String ANNOUNCER_DB_URL = "jdbc:derby:Announcer_Fall_2015"; //For the db connection
     private static final Map<Integer , String> SUBJECT_ID = new HashMap<Integer , String>() {{
@@ -18,10 +23,17 @@ public class Announcer {
 
     private DAOManager daoManager;
 
+    /**
+     * Initializes the daoManager field
+     */
     public Announcer() {
         daoManager = new DAOManager(ANNOUNCER_DB_URL);
     }
 
+    /**
+     * Prints the complete announcer
+     * @throws SQLException
+     */
     public void printFullAnnouncer() throws SQLException {
         String printFullAnnouncerSQLString = "SELECT subject_id, course_id_fk as course_id, " +
                 "course_title_uq as course_title, class_id, " +
@@ -33,11 +45,16 @@ public class Announcer {
         List<Course> courseList = daoManager.executeSelectQuery(printFullAnnouncerSQLString);
 
         //Print out number of rows
-        System.out.println("\n" + DAOUtils.getResultCount(courseList) + " RESULTS.\n");
+        System.out.println("\n" + DAOUtils.getCourseCount(courseList) + " RESULTS.\n");
 
         DAOUtils.printSchedule(courseList);
     }
 
+    /**
+     * Runs the search catalog for the announcer
+     * @return An int holding the number of results, for the case when the number of results is 0
+     * @throws SQLException
+     */
     public int runSearchCatalog() throws SQLException {
         int switchOption; //To hold the option for the right switch statement case
         int menuOption; // To hold the users option based on the displayed menu
@@ -48,9 +65,9 @@ public class Announcer {
                 "fall_2015_announcer_courses " +
                 "WHERE course_id_pk = course_id_fk");
 
-        ArrayList<Object> preparedStatementParameters = new ArrayList<>();
+        List<Object> preparedStatementParameters = new ArrayList<>();
 
-        ArrayList<String> menuItems = new ArrayList<>(); //To create a dynamic menu based on previous choices
+        List<String> menuItems = new ArrayList<>(); //To create a dynamic menu based on previous choices
         menuItems.add("1Search by SubjectID");
         menuItems.add("2Search by CourseID");
         menuItems.add("3Search by CourseTitle");
@@ -104,10 +121,10 @@ public class Announcer {
     }
 
     /**
-     * Prints the search catalog menu
-     * @param menuItems An ArrayList holding the possible search parameters to use
+     * Displays the possible search catalog criteria
+     * @param menuItems A List holding the remaining search catalog parameters
      */
-    private void displaySearchCatalogMenu(ArrayList<String> menuItems) {
+    private void displaySearchCatalogMenu(List<String> menuItems) {
 
         System.out.println("\nWhat would you like to search for?");
 
@@ -118,13 +135,13 @@ public class Announcer {
     }
 
     /**
-     * Gets user's input for the search parameter and builds the query from it
+     * Get the user's input to create a search catalog query
      * @param switchOption The option corresponding to the correct switch statement
-     * @param sqlStatement A StringBuilder that holds the search query based on the user's input parameters
-     * @param preparedStatementParameters
+     * @param sqlStatement The SQL query to be executed
+     * @param preparedStatementParameters The parameters to be inserted into the SQL query
      */
     private void getSearchCatalogQuery(int switchOption, StringBuilder sqlStatement,
-                                       ArrayList<Object> preparedStatementParameters) {
+                                       List<Object> preparedStatementParameters) {
         String searchOptionString; //To hold user input for search catalog for strings
         int searchOptionInt; //To hold user input for search catalog for ints
 
@@ -188,7 +205,7 @@ public class Announcer {
     }
 
     /**
-     * Prints the menu to choose another search parameter
+     * Menu asking for another parameter
      */
     private void displayExtraParameterMenu() {
         System.out.println("\nWould you like to add another search parameter?\n" +
@@ -197,16 +214,18 @@ public class Announcer {
     }
 
     /**
-     * Executes sql statement based on the parameters given in the search catalog
-     * @param sqlStmt A String holding the sql statement to be executed
-     * @param preparedStatementParameters
+     * Executes the given search catalog query and displays the results
+     * @param sqlStatement The SQL query to be executed
+     * @param preparedStatementParameters The parameters of the search query to be inserted into the SQL statement
+     * @return An int holding the number of results from the query
+     * @throws SQLException
      */
-    private int executeSQLStatement(String sqlStmt, ArrayList<Object> preparedStatementParameters) throws SQLException {
+    private int executeSQLStatement(String sqlStatement, List<Object> preparedStatementParameters) throws SQLException {
         int numRows; //To hold the number of rows, the number of results
 
-        List<Course> courseList = daoManager.executeSearchCatalogQuery(sqlStmt, preparedStatementParameters);
+        List<Course> courseList = daoManager.executeSearchCatalogQuery(sqlStatement, preparedStatementParameters);
 
-        numRows = DAOUtils.getResultCount(courseList);
+        numRows = DAOUtils.getCourseCount(courseList);
 
         System.out.println("\n" + numRows + " RESULTS.\n");
 
@@ -217,6 +236,11 @@ public class Announcer {
         return numRows;
     }
 
+    /**
+     * Gets the classID of a course from the user and returns a Course object
+     * @return A Course object that the user specifies
+     * @throws SQLException
+     */
     public Course getCourse() throws SQLException {
         int classID;
 

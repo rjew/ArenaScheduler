@@ -4,14 +4,32 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Responsible for access to a database. Executes queries to the database.
+ * Take inputs, uses those inputs to access database, and returns some value from the database
+ * or a boolean value indicating success.
+ * Not concerned with collecting user input or output.
+ * Accepts parameters, executes queries with those parameters and returns a result.
+ */
 public class DAOManager {
     private String database_URL;
 
+    /**
+     * Initializes the database_URL
+     * @param database_URL The String which is assigned to the database_URL field
+     */
     public DAOManager(String database_URL) {
         this.database_URL = database_URL;
     }
 
-    public List<Course> executeSearchCatalogQuery(String sqlStmt, ArrayList<Object> preparedStatementParameters)
+    /**
+     * Executes the search catalog query
+     * @param sqlStmt The SQL statement to be executed
+     * @param preparedStatementParameters The parameters to be inserted into the SQL statement
+     * @return A List holding the search catalog query results
+     * @throws SQLException
+     */
+    public List<Course> executeSearchCatalogQuery(String sqlStmt, List<Object> preparedStatementParameters)
             throws SQLException {
         List<Course> courseList;
 
@@ -31,6 +49,12 @@ public class DAOManager {
         }
     }
 
+    /**
+     * Executes a select query
+     * @param selectSQLString The SQL select query to be executed
+     * @return A List holding the SQL select query results
+     * @throws SQLException
+     */
     public List<Course> executeSelectQuery(String selectSQLString) throws SQLException {
         List<Course> courseList;
 
@@ -44,6 +68,11 @@ public class DAOManager {
         }
     }
 
+    /**
+     * Returns the custom schedule names from the database
+     * @return A List holding the custom schedule names
+     * @throws SQLException
+     */
     public List<String> getScheduleNames() throws SQLException {
         List<String> scheduleNamesList = new ArrayList<>();
 
@@ -63,6 +92,12 @@ public class DAOManager {
         }
     }
 
+    /**
+     * Returns a Course object with the specified classID
+     * @param classID The classID of the course to be returned
+     * @return A Course object with the specified classID
+     * @throws SQLException
+     */
     public Course getCourse(int classID) throws SQLException {
         String getCourseSQLString = "SELECT subject_id, course_id_fk as course_id, " +
                 "course_title_uq as course_title, class_id, " +
@@ -84,9 +119,11 @@ public class DAOManager {
 
     /**
      * Responsible for adding a course to a schedule that the user specifies.
+     * @param course The course to be added to the schedule
      * @param scheduleName The name of the schedule where the class will be added
      * @return a boolean value indicating whether the class was added successfully or not,
      * true=successfully added, false=not successful
+     * @throws SQLException
      */
     public boolean addCourse(Course course, String scheduleName) throws SQLException {
         boolean courseLimitReached;
@@ -125,6 +162,7 @@ public class DAOManager {
      * @param scheduleName The name of the schedule to check
      * @return a boolean value indicating whether or not the course limit has been reached,
      * true=limit reached, false=limit not reached
+     * @throws SQLException
      */
     private boolean checkCourseLimit(String scheduleName) throws SQLException {
         final int COURSE_LIMIT = 7;
@@ -152,9 +190,11 @@ public class DAOManager {
 
     /**
      * Checks if the course being added has the same block as one of the courses in the schedule
+     * @param course The course that is being added
      * @param scheduleName Schedule name that the course is being added to
      * @return a boolean value indicating whether a course with the same block exists in the schedule,
      * true=exists a course with the same block, false=does not exist a course with the same block
+     * @throws SQLException
      */
     private boolean checkSameBlock(Course course, String scheduleName) throws SQLException {
         boolean sameBlock = false;
@@ -178,7 +218,9 @@ public class DAOManager {
 
     /**
      * Responsible for inserting a course into a specified schedule
+     * @param course The course to be added
      * @param scheduleName The schedule for the course to be inserted to
+     * @throws SQLException
      */
     private void insertCourse(Course course, String scheduleName) throws SQLException {
         String addCourseSQLSTRING = "INSERT INTO \"" + scheduleName + "\" VALUES (" +
@@ -201,6 +243,10 @@ public class DAOManager {
 
     /**
      * Responsible for creating a new schedule
+     * @param scheduleName The name of the schedule to be created
+     * @return A boolean value indicating whether the schedule was created or not
+     * true=schedule was successfully created with no exceptions thrown, false=schedule could not be created
+     * @throws SQLException
      */
     public boolean createSchedule(String scheduleName) throws SQLException {
         try (Connection connection = DriverManager.getConnection(database_URL);
@@ -227,6 +273,10 @@ public class DAOManager {
     /**
      * Responsible for renaming a schedule
      * @param scheduleName The name of the schedule to be renamed
+     * @param newScheduleName The new schedule name
+     * @return A boolean value indicating whether the class was successfully renamed
+     * true=schedule was successfully renamed with no exceptions thrown, false=schedule could not be renamed
+     * @throws SQLException
      */
     public boolean renameSchedule(String scheduleName, String newScheduleName) throws SQLException {
 
@@ -247,6 +297,10 @@ public class DAOManager {
     /**
      * Responsible for making a copy of a schedule
      * @param scheduleName The schedule name to be copied
+     * @param duplicateScheduleName The schedule name of the duplicate
+     * @return A boolean value indicating whether the class was successfully copied
+     * true=schedule was successfully duplicated with no exceptions thrown, false=schedule could not be duplicated
+     * @throws SQLException
      */
     public boolean duplicateSchedule(String scheduleName, String duplicateScheduleName) throws SQLException {
         try (Connection connection = DriverManager.getConnection(database_URL);
@@ -270,11 +324,12 @@ public class DAOManager {
     }
 
     /**
-     * Responsible for executing the sql query to delete the course from the specified schedule
-     * @param classID The classID for the class to be removed
-     * @param scheduleName The schedule in which the class will be removed
-     * @return A boolean indicating whether or not the class was removed successfully,
-     * true=class successfully deleted, false=class could not be deleted
+     * Deletes a course from a schedule
+     * @param classID The classID of the course to be deleted
+     * @param scheduleName The schedule from which the course will be deleted
+     * @return A boolean value indicating whether the class could be deleted
+     * true=class was deleted, false=class could not be deleted
+     * @throws SQLException
      */
     public boolean deleteCourse(int classID, String scheduleName) throws SQLException {
         int rowsChanged;
@@ -296,8 +351,9 @@ public class DAOManager {
     }
 
     /**
-     * Responsible for deleted a schedule
+     * Responsible for deleting a schedule
      * @param scheduleName The name of the schedule to be deleted
+     * @throws SQLException
      */
     public void deleteSchedule(String scheduleName) throws SQLException {
 

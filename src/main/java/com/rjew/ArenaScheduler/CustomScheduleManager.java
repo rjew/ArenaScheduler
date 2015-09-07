@@ -3,21 +3,31 @@ package com.rjew.ArenaScheduler;
 import java.sql.*;
 import java.util.List;
 
+/**
+ * concerned with collecting the necessary user input in order to
+ * execute the specified daoManager method for the Custom Schedule database
+ * and sends output to the user about the query
+ */
 public class CustomScheduleManager {
     private static final String CUSTOM_SCHEDULE_DB_URL = "jdbc:derby:Custom_Schedules;create=true"; //For db Connection
 
     private List<String> scheduleNamesList;
     private DAOManager daoManager;
 
+    /**
+     * Initializes daoManager and scheduleNamesList fields
+     * @throws SQLException
+     */
     public CustomScheduleManager() throws SQLException {
         daoManager = new DAOManager(CUSTOM_SCHEDULE_DB_URL);
         scheduleNamesList = daoManager.getScheduleNames();
     }
 
     /**
-     * Responsible for displaying the custom schedules that the user can select from
-     * @param displayOption A String to modify the output depending on the custom schedule manager option the user chooses
-     * @return An int containing the schedule option the user chooses, for the index of the tableNamesArrayList
+     * Displays the available custom schedules and returns the user selected schedule name
+     * @param displayOption For the output corresponding to the custom schedule modification option
+     * @return A String holding the user's selected schedule name
+     * @throws SQLException
      */
     public String getScheduleName(String displayOption) throws SQLException {
         int scheduleOption;
@@ -59,6 +69,8 @@ public class CustomScheduleManager {
 
     /**
      * Responsible for saving a class that the user selects from the search catalog
+     * @param course A Course object that holds the course that the user wants to add
+     * @throws SQLException
      */
     public void saveCourse(Course course) throws SQLException {
         int scheduleOption;
@@ -93,6 +105,11 @@ public class CustomScheduleManager {
         }
     }
 
+    /**
+     * Creates a new schedule and adds the specified course to the schedule
+     * @param course A Course object that holds the course that the user wants to add
+     * @throws SQLException
+     */
     private void addCourse(Course course) throws SQLException {
         boolean addCourseSuccessful;
         String scheduleName;
@@ -107,8 +124,9 @@ public class CustomScheduleManager {
     }
 
     /**
-     * Responsible for deleting a class from a schedule
-     * @param scheduleName The schedule to delete the class from
+     * Gets the class ID of the course that the user wants to delete and removes it from the specified schedule
+     * @param scheduleName The schedule name in which the course will be removed
+     * @throws SQLException
      */
     public void deleteCourse(String scheduleName) throws SQLException {
         int classID;
@@ -140,6 +158,11 @@ public class CustomScheduleManager {
         }
     }
 
+    /**
+     * Gets the new schedule name and creates the new schedule
+     * @return A String holding the new schedule name
+     * @throws SQLException
+     */
     public String createSchedule() throws SQLException {
         String scheduleName = "";
         boolean createScheduleSuccessful = false;
@@ -165,6 +188,11 @@ public class CustomScheduleManager {
         return scheduleName;
     }
 
+    /**
+     * Deletes the specified schedule
+     * @param scheduleName
+     * @throws SQLException
+     */
     public void deleteSchedule(String scheduleName) throws SQLException {
         daoManager.deleteSchedule(scheduleName);
         System.out.println("\n" + scheduleName + " deleted.");
@@ -172,7 +200,9 @@ public class CustomScheduleManager {
     }
 
     /**
-     * Responsible for renaming a schedule
+     * Responsible for renaming the specified schedule
+     * @param scheduleName Holds the schedule to be renamed
+     * @throws SQLException
      */
     public void renameSchedule(String scheduleName) throws SQLException {
         boolean renameScheduleSuccessful = false;
@@ -199,7 +229,8 @@ public class CustomScheduleManager {
 
     /**
      * Responsible for making a copy of a schedule
-     * @param scheduleName The schedule name to be copied
+     * @param scheduleName The schedule name to be duplicated
+     * @throws SQLException
      */
     public void duplicateSchedule(String scheduleName) throws SQLException {
         boolean duplicateScheduleSuccessful = false;
@@ -231,6 +262,7 @@ public class CustomScheduleManager {
      * @param scheduleName The schedule name the user want to view
      * @return A boolean indicating whether or not the schedule was successfully printed,
      * true=schedule printed successfully, false=schedule did not print successfully
+     * @throws SQLException
      */
     public boolean viewSchedule(String scheduleName) throws SQLException {
         String sqlStatement = "SELECT subject_id, course_id, " +
@@ -241,7 +273,7 @@ public class CustomScheduleManager {
 
         List<Course> courseList = daoManager.executeSelectQuery(sqlStatement);
 
-        int numRows = DAOUtils.getResultCount(courseList);
+        int numRows = DAOUtils.getCourseCount(courseList);
 
         if (numRows != 0) {
             DAOUtils.printSchedule(courseList);

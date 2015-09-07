@@ -2,6 +2,9 @@ package com.rjew.ArenaScheduler;
 
 import java.sql.SQLException;
 
+/**
+ * Responsible for displaying the menu and getting user input regarding what the user wants to do
+ */
 public final class Menu {
 
     /**
@@ -12,7 +15,8 @@ public final class Menu {
     }
 
     /**
-     * Responsible for the main menu
+     * Responsible for the starting the main menu
+     * @throws SQLException
      */
     public static void displayArenaSchedulerMenu() throws SQLException {
         System.out.println("Welcome to the Arena Scheduler Program!\n");
@@ -20,6 +24,10 @@ public final class Menu {
         getMainMenu();
     }
 
+    /**
+     * Responsible for the main menu
+     * @throws SQLException
+     */
     private static void getMainMenu() throws SQLException {
         int menuOption;
         Announcer announcer = new Announcer();
@@ -64,6 +72,10 @@ public final class Menu {
                 "Pick an option (1-4) and press ENTER.");
     }
 
+    /**
+     * Responsible for the menu for adding a class from the search catalog or full announcer
+     * @throws SQLException
+     */
     private static void getAddClassAnnouncerMenu() throws SQLException {
         Announcer announcer = new Announcer();
         int addClassOption;
@@ -97,9 +109,9 @@ public final class Menu {
                 "(2) No");
     }
 
-
     /**
-     * The menu for customizing the schedules
+     * The menu for the custom schedules
+     * @throws SQLException
      */
     private static void getCustomScheduleMenu() throws SQLException {
         int menuOption;
@@ -163,7 +175,7 @@ public final class Menu {
     }
 
     /**
-     * Display the menu for the custom schedule manager
+     * Display the menu for custom schedule management
      */
     private static void displayCustomScheduleMenu() {
         System.out.println("\nWhat would you like to do?\n" +

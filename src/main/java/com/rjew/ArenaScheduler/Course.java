@@ -52,7 +52,7 @@ public class Course implements Serializable, Comparable<Course> {
     }
 
 
-    //Default compares courses by block
+    //Default compare courses by block
     @Override
     public int compareTo(Course course) {
         if (this.block < course.block) {
@@ -63,7 +63,6 @@ public class Course implements Serializable, Comparable<Course> {
             return 0;
         }
     }
-
 
     public Integer getSubjectID() {
         return subjectID;
