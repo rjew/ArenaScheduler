@@ -19,8 +19,8 @@ public class CustomScheduleManager {
      * @param displayOption A String to modify the output depending on the custom schedule manager option the user chooses
      * @return An int containing the schedule option the user chooses, for the index of the tableNamesArrayList
      */
-    public int displayScheduleOptions(String displayOption) throws SQLException {
-        int scheduleOption = 0;
+    public String getScheduleName(String displayOption) throws SQLException {
+        int scheduleOption;
 
         if (scheduleNamesList.size() != 0) {
 
@@ -29,17 +29,19 @@ public class CustomScheduleManager {
             scheduleOption = ScannerUtils.getInt();
 
             while (scheduleOption <= 0 || scheduleOption > scheduleNamesList.size()) {
-                System.out.println("\nWRONG OPTION!\n");
+                System.out.println("\nWRONG OPTION!");
                 displaySchedules(displayOption);
 
                 scheduleOption = ScannerUtils.getInt();
             }
 
+            return (scheduleNamesList.get(scheduleOption - 1));
+
         } else {
             System.out.println("\nNo schedules available.");
-        }
 
-        return scheduleOption;
+            return "";
+        }
     }
 
     /**
@@ -59,18 +61,8 @@ public class CustomScheduleManager {
      * Responsible for saving a class that the user selects from the search catalog
      */
     public void saveCourse(Course course) throws SQLException {
-        int classID;
         int scheduleOption;
         boolean addClassSuccessful;
-
-        do {
-            System.out.println("\nWhich class would you like to add to your schedule?\n" +
-                    "Enter the Class ID of the course you would like to add:");
-            classID = ScannerUtils.getInt();
-            if (classID < 1) {
-                System.out.println("\nWRONG OPTION!");
-            }
-        } while (classID < 1);
 
         if (scheduleNamesList.size() != 0) {
 
@@ -88,41 +80,28 @@ public class CustomScheduleManager {
             if (scheduleOption != scheduleNamesList.size() + 1) {
                 addClassSuccessful = daoManager.addCourse(course, scheduleNamesList.get(scheduleOption - 1));
                 if (addClassSuccessful) {
-                    System.out.println("\nClass " + classID + " has been added to " + scheduleNamesList.get(scheduleOption - 1) + ".");
+                    System.out.println("\nClass " + course.getClassID() + " has been added to " + scheduleNamesList.get(scheduleOption - 1) + ".");
                 }
                 viewSchedule(scheduleNamesList.get(scheduleOption - 1));
             } else {
                 System.out.println("\nCreating new schedule");
-                addCourse(course, classID);
+                addCourse(course);
             }
         } else {
             System.out.println("\nNo schedule found... Creating new schedule");
-            addCourse(course, classID);
+            addCourse(course);
         }
     }
 
-    private void addCourse(Course course, int classID) throws SQLException {
+    private void addCourse(Course course) throws SQLException {
         boolean addCourseSuccessful;
-        boolean createScheduleSuccessful = false;
-        String scheduleName = "";
+        String scheduleName;
 
-        do {
-            try {
-                System.out.println("\nEnter the new schedule name:");
-                scheduleName = ScannerUtils.getString();
-                createScheduleSuccessful = daoManager.createSchedule(scheduleName);
-            } catch (SQLException ex) {
-                if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {//X0Y32: If user enters a schedule name that already exists
-                    System.out.println("\nSchedule with the same name already exists.");
-                } else {
-                    throw ex;//todo test if this exception works
-                }
-            }
-        } while (!createScheduleSuccessful);
+        scheduleName = createSchedule();
 
         addCourseSuccessful = daoManager.addCourse(course, scheduleName);
         if (addCourseSuccessful) {
-            System.out.println("Class " + classID + " has been added to " + scheduleName + ".");
+            System.out.println("Class " + course.getClassID() + " has been added to " + scheduleName + ".");
         }
         viewSchedule(scheduleName);
     }
@@ -161,13 +140,34 @@ public class CustomScheduleManager {
         }
     }
 
-    public void createSchedule(String scheduleName) throws SQLException {
-        daoManager.createSchedule(scheduleName);
-        scheduleNamesList = daoManager.getScheduleNames();//Refresh schedule names list
+    public String createSchedule() throws SQLException {
+        String scheduleName = "";
+        boolean createScheduleSuccessful = false;
+
+        do {
+            try {
+                System.out.println("\nEnter the new schedule name:");
+                scheduleName = ScannerUtils.getString();
+
+                createScheduleSuccessful = daoManager.createSchedule(scheduleName);
+
+                System.out.println("\n" + scheduleName + " created.");
+                scheduleNamesList = daoManager.getScheduleNames();//Refresh schedule names list
+            } catch (SQLException ex) {
+                if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {//X0Y32: If the user enters a schedule name that already exists
+                    System.out.println("\nSchedule with the same name already exists.");
+                } else {
+                    throw ex;
+                }
+            }
+        } while (!createScheduleSuccessful);//todo check this exception
+
+        return scheduleName;
     }
 
     public void deleteSchedule(String scheduleName) throws SQLException {
         daoManager.deleteSchedule(scheduleName);
+        System.out.println("\n" + scheduleName + " deleted.");
         scheduleNamesList = daoManager.getScheduleNames();//Refresh schedule names list
     }
 
@@ -176,13 +176,16 @@ public class CustomScheduleManager {
      */
     public void renameSchedule(String scheduleName) throws SQLException {
         boolean renameScheduleSuccessful = false;
+        String newScheduleName;
 
         do {
             try {
                 System.out.println("\nEnter the new schedule name:");
-                String newScheduleName = ScannerUtils.getString();
+                newScheduleName = ScannerUtils.getString();
 
                 renameScheduleSuccessful = daoManager.renameSchedule(scheduleName, newScheduleName);
+
+                System.out.println("\n" + scheduleName + " is now renamed to " + newScheduleName + ".");
                 scheduleNamesList = daoManager.getScheduleNames();//Refresh the list of schedule names
             } catch (SQLException ex) {
                 if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {//X0Y32: If the user enters a schedule name that already exists
@@ -200,19 +203,21 @@ public class CustomScheduleManager {
      */
     public void duplicateSchedule(String scheduleName) throws SQLException {
         boolean duplicateScheduleSuccessful = false;
+        String duplicateScheduleName;
 
         do {
             try {
 
                 System.out.println("\nEnter the duplicate schedule name:");
-                String duplicateScheduleName = ScannerUtils.getString();
+                duplicateScheduleName = ScannerUtils.getString();
 
                 duplicateScheduleSuccessful = daoManager.duplicateSchedule(scheduleName, duplicateScheduleName);
+
+                System.out.println("\n" + scheduleName + " has been copied to " + duplicateScheduleName + ".");
                 scheduleNamesList = daoManager.getScheduleNames();//Refresh the list of schedule names
             } catch (SQLException ex) {
                 if (ex.getSQLState().equalsIgnoreCase("X0Y32")) {//X0Y32: If the user enters a schedule name that already exists
                     System.out.println("\nSchedule with the same name already exists.");
-                    duplicateSchedule(scheduleName);
                 } else {
                     throw ex;
                 }

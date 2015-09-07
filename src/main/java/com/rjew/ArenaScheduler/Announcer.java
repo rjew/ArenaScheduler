@@ -38,7 +38,7 @@ public class Announcer {
         DAOUtils.printSchedule(courseList);
     }
 
-    public void runSearchCatalog() throws SQLException {
+    public int runSearchCatalog() throws SQLException {
         int switchOption; //To hold the option for the right switch statement case
         int menuOption; // To hold the users option based on the displayed menu
         StringBuilder sqlStatement = new StringBuilder("SELECT subject_id, course_id_fk as course_id, " +
@@ -100,7 +100,7 @@ public class Announcer {
 
         } while(switchOption == 1);
 
-        executeSQLStatement(sqlStatement.toString(), preparedStatementParameters);
+        return executeSQLStatement(sqlStatement.toString(), preparedStatementParameters);
     }
 
     /**
@@ -201,7 +201,7 @@ public class Announcer {
      * @param sqlStmt A String holding the sql statement to be executed
      * @param preparedStatementParameters
      */
-    private void executeSQLStatement(String sqlStmt, ArrayList<Object> preparedStatementParameters) throws SQLException {
+    private int executeSQLStatement(String sqlStmt, ArrayList<Object> preparedStatementParameters) throws SQLException {
         int numRows; //To hold the number of rows, the number of results
 
         List<Course> courseList = daoManager.executeSearchCatalogQuery(sqlStmt, preparedStatementParameters);
@@ -213,15 +213,17 @@ public class Announcer {
         if (numRows != 0) {
             DAOUtils.printSchedule(courseList);
         }
+
+        return numRows;
     }
 
     public Course getCourse() throws SQLException {
         int classID;
 
         do {
-            System.out.println("Enter the ID of the course that you would like:");
+            System.out.println("\nWhich class would you like to add to your schedule?\n" +
+                    "Enter the Class ID of the course you would like to add:");
             classID = ScannerUtils.getInt();
-
             if (classID < 1) {
                 System.out.println("\nWRONG OPTION!");
             }

@@ -2,7 +2,7 @@ package com.rjew.ArenaScheduler;
 
 import java.io.Serializable;
 
-public class Course implements Serializable {
+public class Course implements Serializable, Comparable<Course> {
     private Integer subjectID;
     private String courseID;
     private String courseTitle;
@@ -39,30 +39,31 @@ public class Course implements Serializable {
         this.teacher = teacher;
     }
 
-    public Course(Course crs) {
-        this.subjectID = crs.subjectID;
-        this.courseID = crs.courseID;
-        this.courseTitle = crs.courseTitle;
-        this.classID = crs.classID;
-        this.seats = crs.seats;
-        this.code = crs.code;
-        this.block = crs.block;
-        this.room = crs.room;
-        this.teacher = crs.teacher;
+    public Course(Course course) {
+        this.subjectID = course.subjectID;
+        this.courseID = course.courseID;
+        this.courseTitle = course.courseTitle;
+        this.classID = course.classID;
+        this.seats = course.seats;
+        this.code = course.code;
+        this.block = course.block;
+        this.room = course.room;
+        this.teacher = course.teacher;
     }
 
-    /*
-    //@Override
-    public int compareTo(Course crs) {
-        if (this.block < crs.block) {
+
+    //Default compares courses by block
+    @Override
+    public int compareTo(Course course) {
+        if (this.block < course.block) {
             return -1;
-        } else if (this.block > crs.block) {
+        } else if (this.block > course.block) {
             return 1;
         } else {
             return 0;
         }
     }
-    */
+
 
     public Integer getSubjectID() {
         return subjectID;

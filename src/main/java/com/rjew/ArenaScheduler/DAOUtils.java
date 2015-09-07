@@ -43,6 +43,8 @@ public final class DAOUtils {
             i++;
         }
 
+        resultSet.first();
+
         if (i == 1) {
             Course course = new Course(resultSet.getInt(1),
                     resultSet.getString(2),

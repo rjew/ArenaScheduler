@@ -72,7 +72,8 @@ public class DAOManager {
                 "WHERE course_id_pk = course_id_fk AND " +
                 "class_id = ?";
         try (Connection connection = DriverManager.getConnection(database_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement(getCourseSQLString)
+             PreparedStatement preparedStatement = connection.prepareStatement(getCourseSQLString,
+                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
         ) {
             preparedStatement.setInt(1, classID);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -113,7 +114,7 @@ public class DAOManager {
                 return false;
             }
         } else {
-            System.out.println("Invalid class id.");
+            System.out.println("\nInvalid class id.");
 
             return false;
         }
@@ -218,7 +219,6 @@ public class DAOManager {
                     "room VARCHAR(15) NOT NULL, " +
                     "teacher VARCHAR(30))";
             statement.execute(createTableSQLString);
-            System.out.println("\n" + scheduleName + " created.");
 
             return true; //If no SQLException occurs
         }
@@ -239,7 +239,6 @@ public class DAOManager {
                     "\" TO \"" + newScheduleName + "\"";
 
             statement.executeUpdate(renameTableSQLString);
-            System.out.println("\n" + scheduleName + " is now renamed to " + newScheduleName + ".");
 
             return true; //If no SQLException occurs
         }
@@ -247,25 +246,24 @@ public class DAOManager {
 
     /**
      * Responsible for making a copy of a schedule
-     * @param tableName The schedule name to be copied
+     * @param scheduleName The schedule name to be copied
      */
-    public boolean duplicateSchedule(String tableName, String duplicateScheduleName) throws SQLException {
+    public boolean duplicateSchedule(String scheduleName, String duplicateScheduleName) throws SQLException {
         try (Connection connection = DriverManager.getConnection(database_URL);
              Statement statement =
                      connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
         ) {
 
             String createDuplicateTableSQLString = "CREATE TABLE \"" + duplicateScheduleName +
-                    "\" AS SELECT * FROM \"" + tableName + "\" WITH NO DATA";
+                    "\" AS SELECT * FROM \"" + scheduleName + "\" WITH NO DATA";
 
             String insertDuplicateTableSQLString = "INSERT INTO \"" + duplicateScheduleName + "\" (subject_id, course_id, course_title, " +
                     "class_id, seats, code, block, room, teacher) " +
                     "SELECT subject_id, course_id, course_title, class_id, seats, code, block, room, teacher " +
-                    "FROM \"" + tableName + "\"";
+                    "FROM \"" + scheduleName + "\"";
 
             statement.execute(createDuplicateTableSQLString);
             statement.executeUpdate(insertDuplicateTableSQLString);
-            System.out.println("\n" + tableName + " has been copied to " + duplicateScheduleName + ".");
 
             return true; //If no SQLException occurs
         }
@@ -291,7 +289,7 @@ public class DAOManager {
         ) {
 
             preparedStatement.setInt(1, classID);
-            rowsChanged = preparedStatement.executeUpdate(deleteCourseSQLString);
+            rowsChanged = preparedStatement.executeUpdate();
 
             return rowsChanged != 0;//If true - class successfully deleted, If false - class does not exist
         }
@@ -311,7 +309,6 @@ public class DAOManager {
             String dropTableSQLString = "DROP TABLE \"" + scheduleName + "\"";
 
             statement.executeUpdate(dropTableSQLString);
-            System.out.println("\n" + scheduleName + " deleted.");
 
         }
     }
