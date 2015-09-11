@@ -1,5 +1,6 @@
 package com.rjew.ArenaScheduler;
 
+import java.io.*;
 import java.sql.SQLException;
 
 /**
@@ -14,21 +15,29 @@ final class Menu {
         throw new AssertionError("Suppress default constructor for noninstantiability");
     }
 
-    /**
-     * Responsible for the starting the main menu
-     * @throws SQLException
-     */
-    public static void displayArenaSchedulerMenu() throws SQLException {
+    public static void getArenaSchedulerMenu() throws SQLException, IOException, ClassNotFoundException {
+        CustomScheduleManager customScheduleManager;
+
+        try (FileInputStream fileInputStream = new FileInputStream("CustomScheduleManager.ser");
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)
+        ) {
+            customScheduleManager = (CustomScheduleManager) objectInputStream.readObject();
+        } catch(FileNotFoundException ex) {
+            customScheduleManager = new CustomScheduleManager();//CustomScheduleManager does not exist yet
+        }
+
         System.out.println("Welcome to the Arena Scheduler Program!\n");
 
-        getMainMenu();
+        getMainMenu(customScheduleManager);
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream("CustomScheduleManager.ser");
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)
+        ) {
+            objectOutputStream.writeObject(customScheduleManager);
+        }
     }
 
-    /**
-     * Responsible for the main menu
-     * @throws SQLException
-     */
-    private static void getMainMenu() throws SQLException {
+    private static void getMainMenu(CustomScheduleManager customScheduleManager) throws SQLException {
         int menuOption;
         Announcer announcer = new Announcer();
 
@@ -41,15 +50,15 @@ final class Menu {
             switch (menuOption) {
                 case 1:
                     if (announcer.runSearchCatalog() != 0) {
-                        getAddClassAnnouncerMenu();
+                        getAddClassAnnouncerMenu(customScheduleManager);
                     }
                     break;
                 case 2:
-                    getCustomScheduleMenu();
+                    getCustomScheduleMenu(customScheduleManager);
                     break;
                 case 3:
                     announcer.printFullAnnouncer();
-                    getAddClassAnnouncerMenu();
+                    getAddClassAnnouncerMenu(customScheduleManager);
                     break;
                 case 4:
                     break;
@@ -76,7 +85,7 @@ final class Menu {
      * Responsible for the menu for adding a class from the search catalog or full announcer
      * @throws SQLException
      */
-    private static void getAddClassAnnouncerMenu() throws SQLException {
+    private static void getAddClassAnnouncerMenu(CustomScheduleManager customScheduleManager) throws SQLException {
         Announcer announcer = new Announcer();
         int addClassOption;
 
@@ -86,7 +95,6 @@ final class Menu {
             switch(addClassOption) {
                 case 1:
                     Course course = announcer.getCourse();
-                    CustomScheduleManager customScheduleManager = new CustomScheduleManager();
                     customScheduleManager.saveCourse(course);
                     System.out.println();
                     break;
@@ -109,15 +117,10 @@ final class Menu {
                 "(2) No");
     }
 
-    /**
-     * The menu for the custom schedules
-     * @throws SQLException
-     */
-    private static void getCustomScheduleMenu() throws SQLException {
+    private static void getCustomScheduleMenu(CustomScheduleManager customScheduleManager) throws SQLException {
         int menuOption;
-        String scheduleName;
+        int scheduleListIndex;
         Announcer announcer = new Announcer();
-        CustomScheduleManager customScheduleManager = new CustomScheduleManager();
 
         do {
             displayCustomScheduleMenu();
@@ -126,52 +129,55 @@ final class Menu {
 
             switch (menuOption) {
                 case 1:
-                    if (announcer.runSearchCatalog() != 0) {
+                    if (announcer.runSearchCatalog() != 0) {//Result of query does not have 0 results
                         Course course = announcer.getCourse();
                         customScheduleManager.saveCourse(course);
                     }
                     break;
                 case 2:
-                    scheduleName = customScheduleManager.getScheduleName("select");
-                    if (!scheduleName.equals("")) {
-                        customScheduleManager.deleteCourse(scheduleName);
+                    scheduleListIndex = customScheduleManager.getScheduleName("select");
+                    if (scheduleListIndex != -1) {
+                        customScheduleManager.deleteCourse(scheduleListIndex);
                     }
                     break;
                 case 3:
                     customScheduleManager.createSchedule();
                     break;
                 case 4:
-                    scheduleName = customScheduleManager.getScheduleName("delete");
-                    if (!scheduleName.equals("")) {
-                        customScheduleManager.deleteSchedule(scheduleName);
+                    scheduleListIndex = customScheduleManager.getScheduleName("delete");
+                    if (scheduleListIndex != -1) {
+                        customScheduleManager.deleteSchedule(scheduleListIndex);
                     }
                     break;
                 case 5:
-                    scheduleName = customScheduleManager.getScheduleName("view");
-                    if (!scheduleName.equals("")) {
-                        customScheduleManager.viewSchedule(scheduleName);
+                    scheduleListIndex = customScheduleManager.getScheduleName("view");
+                    if (scheduleListIndex != -1) {
+                        customScheduleManager.viewSchedule(scheduleListIndex);
                     }
                     break;
                 case 6:
-                    scheduleName = customScheduleManager.getScheduleName("rename");
-                    if (!scheduleName.equals("")) {
-                        customScheduleManager.renameSchedule(scheduleName);
+                    scheduleListIndex = customScheduleManager.getScheduleName("rename");
+                    if (scheduleListIndex != -1) {
+                        customScheduleManager.renameSchedule(scheduleListIndex);
                     }
                     break;
                 case 7:
-                    scheduleName = customScheduleManager.getScheduleName("duplicate");
-                    if (!scheduleName.equals("")) {
-                        customScheduleManager.duplicateSchedule(scheduleName);
+                    scheduleListIndex = customScheduleManager.getScheduleName("duplicate");
+                    if (scheduleListIndex != -1) {
+                        customScheduleManager.duplicateSchedule(scheduleListIndex);
                     }
                     break;
                 case 8:
+                    getChangeRankingsMenu(customScheduleManager);
+                    break;
+                case 9:
                     System.out.println();
                     break;
                 default:
                     System.out.println("\nWRONG OPTION!");
             }
 
-        } while (menuOption != 8);
+        } while (menuOption != 9);
     }
 
     /**
@@ -186,6 +192,37 @@ final class Menu {
                 "(5) View one of your schedules\n" +
                 "(6) Rename a schedule\n" +
                 "(7) Duplicate one of your schedules\n" +
-                "(8) Quit");
+                "(8) View schedule rankings\n" +
+                "(9) Quit");
+    }
+
+    private static void getChangeRankingsMenu(CustomScheduleManager customScheduleManager) {
+        int changeRankingsOption;
+
+        boolean schedulesExist = customScheduleManager.displayRankings();
+
+        if (schedulesExist) {
+            do {
+                displayChangeRankingsMenu();
+                changeRankingsOption = ScannerUtils.getInt();
+                switch (changeRankingsOption) {
+                    case 1:
+                        int scheduleListIndex = customScheduleManager.getScheduleName("change");
+                        customScheduleManager.changeRankings(scheduleListIndex);
+                        break;
+                    case 2:
+                        System.out.println();
+                        break;
+                    default:
+                        System.out.println("WRONG OPTION!");
+                }
+            } while (changeRankingsOption < 1 || changeRankingsOption > 2);
+        }
+    }
+
+    private static void displayChangeRankingsMenu() {
+        System.out.println("\nWould you like to change any of the schedule rankings?\n" +
+                "(1) Yes\n" +
+                "(2) No");
     }
 }
