@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * Responsible for access to a database. Executes queries to the database.
  * Take inputs, uses those inputs to access database, and returns some value from the database
- * or a boolean value indicating success.
  * Not concerned with collecting user input or output.
  * Accepts parameters, executes queries with those parameters and returns a result.
  */

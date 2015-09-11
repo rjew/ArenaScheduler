@@ -5,13 +5,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Responsible for handling the custom schedules that the user creates
+ */
 class CustomScheduleManager implements Serializable{
+    private static final long serialVersionUID = 2007944171822883301L;
+
     private List<Schedule> scheduleList;
 
     public CustomScheduleManager() {
         scheduleList = new ArrayList<>();
     }
 
+    /**
+     * Displays the available custom schedules and returns the index of the user's schedule choice
+     * @param displayOption For the output corresponding to the custom schedule modification option
+     * @return An int holding the index of the user's selected schedule
+     */
     public int getScheduleName(String displayOption) {
         int scheduleOption;
 
@@ -50,6 +60,10 @@ class CustomScheduleManager implements Serializable{
         }
     }
 
+    /**
+     * Responsible for saving a class that the user selects from the search catalog
+     * @param course A Course object that hold the course that the user wants to add
+     */
     public void saveCourse(Course course) {
         int scheduleOption;
         boolean addClassSuccessful;
@@ -84,6 +98,10 @@ class CustomScheduleManager implements Serializable{
         }
     }
 
+    /**
+     * Creates a new schedule and adds the specified course to the schedule
+     * @param course A Course object that holds the course that the user wants to add
+     */
     private void addCourse(Course course) {
         boolean addCourseSuccessful;
         String scheduleName;
@@ -97,6 +115,10 @@ class CustomScheduleManager implements Serializable{
         viewSchedule(scheduleList.size() - 1); //Index of new schedule
     }
 
+    /**
+     * Gets the class ID of the course that the user wants to delete and removes it from the specified schedule
+     * @param scheduleListIndex The schedule index in which the course will be removed
+     */
     public void deleteCourse(int scheduleListIndex) {
         int classID;
         boolean deleteClassSuccessful;
@@ -128,6 +150,10 @@ class CustomScheduleManager implements Serializable{
         }
     }
 
+    /**
+     * Gets the new schedule name and creates the new schedule
+     * @return A String holding the new schedule name
+     */
     public String createSchedule() {
         String scheduleName;
 
@@ -146,6 +172,10 @@ class CustomScheduleManager implements Serializable{
         return scheduleName;
     }
 
+    /**
+     * Deletes the specified schedule
+     * @param scheduleListIndex The index of the schedule to be deleted
+     */
     public void deleteSchedule(int scheduleListIndex) {
         String scheduleName = scheduleList.get(scheduleListIndex).getName();
 
@@ -154,6 +184,10 @@ class CustomScheduleManager implements Serializable{
         System.out.println("\n" + scheduleName + " deleted.");
     }
 
+    /**
+     * Responsible for renaming the specified schedule
+     * @param scheduleListIndex Holds the index of the schedule to be renamed
+     */
     public void renameSchedule(int scheduleListIndex) {
         String oldScheduleName = scheduleList.get(scheduleListIndex).getName();
         String newScheduleName;
@@ -172,6 +206,10 @@ class CustomScheduleManager implements Serializable{
         System.out.println("\n" + oldScheduleName + " is now renamed to " + newScheduleName + ".");
     }
 
+    /**
+     *Responsible for making a copy of a schedule
+     * @param scheduleListIndex The index of the schedule to be duplicated
+     */
     public void duplicateSchedule(int scheduleListIndex) {
         String duplicateScheduleName;
 
@@ -190,6 +228,12 @@ class CustomScheduleManager implements Serializable{
 
     }
 
+    /**
+     * Print out the specified schedule
+     * @param scheduleListIndex The index of the schedule to be printed
+     * @return A boolean value indicating whether the schedule was printed or not
+     * true=schedule could be printed, false=schedule could not be printed, no classes in schedule
+     */
     public boolean viewSchedule(int scheduleListIndex) {
         int numRows = scheduleList.get(scheduleListIndex).getNumCourses();
 
@@ -202,6 +246,11 @@ class CustomScheduleManager implements Serializable{
         }
     }
 
+    /**
+     * Displays the rankings of the schedules
+     * @return A boolean indicating whether there are any available schedules
+     * true=schedules are available, false=schedules are not available
+     */
     public boolean displayRankings() {
         if (scheduleList.size() != 0) {
             List<Schedule> scheduleListWithRank = new ArrayList<>();
@@ -246,6 +295,10 @@ class CustomScheduleManager implements Serializable{
         }
     }
 
+    /**
+     * Responsible for changing the rank of the specified Schedule
+     * @param scheduleListIndex The index of the schedule to be changed
+     */
     public void changeRankings(int scheduleListIndex) {
         int newRank;
         boolean rankExists;
@@ -282,6 +335,12 @@ class CustomScheduleManager implements Serializable{
                 " now has a rank of " + newRank + ".");
     }
 
+    /**
+     * Checks if the schedule with the name already exists
+     * @param name The name to be checked
+     * @return A boolean indicating whether the schedule name already exists
+     * true=already exists, false=does not exist
+     */
     private boolean checkScheduleExists(String name) {
         for (Schedule schedule : scheduleList) {
             if (schedule.getName().equals(name)) {

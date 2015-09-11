@@ -51,7 +51,7 @@ public class Course implements Serializable, Comparable<Course> {
         this.teacher = course.teacher;
     }
 
-    //Default compare courses by block
+    //Default compare Courses by block
     @Override
     public int compareTo(Course course) {
         if (this.block < course.block) {

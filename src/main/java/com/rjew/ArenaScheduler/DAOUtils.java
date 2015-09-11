@@ -79,7 +79,7 @@ final class DAOUtils {
      * Prints the course list
      * @param courseList The course list to be printed
      */
-    public static void printSchedule(List<Course> courseList) {
+    public static void printCourseList(List<Course> courseList) {
         int courseTitleFormatWidth;
         int roomFormatWidth;
 

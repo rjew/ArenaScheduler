@@ -47,7 +47,7 @@ class Announcer {
         //Print out number of rows
         System.out.println("\n" + DAOUtils.getCourseCount(courseList) + " RESULTS.\n");
 
-        DAOUtils.printSchedule(courseList);
+        DAOUtils.printCourseList(courseList);
     }
 
     /**
@@ -230,7 +230,7 @@ class Announcer {
         System.out.println("\n" + numRows + " RESULTS.\n");
 
         if (numRows != 0) {
-            DAOUtils.printSchedule(courseList);
+            DAOUtils.printCourseList(courseList);
         }
 
         return numRows;

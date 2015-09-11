@@ -15,6 +15,12 @@ final class Menu {
         throw new AssertionError("Suppress default constructor for noninstantiability");
     }
 
+    /**
+     * Responsible for starting the menus and creating and saving the CustomScheduleManager serializable object
+     * @throws SQLException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public static void getArenaSchedulerMenu() throws SQLException, IOException, ClassNotFoundException {
         CustomScheduleManager customScheduleManager;
 
@@ -37,6 +43,11 @@ final class Menu {
         }
     }
 
+    /**
+     * Responsible for the execution of the main menu
+     * @param customScheduleManager The CustomScheduleManager to be used throughout the program
+     * @throws SQLException
+     */
     private static void getMainMenu(CustomScheduleManager customScheduleManager) throws SQLException {
         int menuOption;
         Announcer announcer = new Announcer();
@@ -83,6 +94,7 @@ final class Menu {
 
     /**
      * Responsible for the menu for adding a class from the search catalog or full announcer
+     * @param customScheduleManager The CustomScheduleManager to be used throughout the program
      * @throws SQLException
      */
     private static void getAddClassAnnouncerMenu(CustomScheduleManager customScheduleManager) throws SQLException {
@@ -117,6 +129,11 @@ final class Menu {
                 "(2) No");
     }
 
+    /**
+     * Responsible for executing the CustomScheduleMenu
+     * @param customScheduleManager The CustomScheduleManager to be used throughout the program
+     * @throws SQLException
+     */
     private static void getCustomScheduleMenu(CustomScheduleManager customScheduleManager) throws SQLException {
         int menuOption;
         int scheduleListIndex;
@@ -196,6 +213,10 @@ final class Menu {
                 "(9) Quit");
     }
 
+    /**
+     * Responsible for executing the ChangeRankingsMenu
+     * @param customScheduleManager The CustomScheduleManager to be used throughout the program
+     */
     private static void getChangeRankingsMenu(CustomScheduleManager customScheduleManager) {
         int changeRankingsOption;
 
@@ -220,6 +241,9 @@ final class Menu {
         }
     }
 
+    /**
+     * Display the menu for changing schedule rankings
+     */
     private static void displayChangeRankingsMenu() {
         System.out.println("\nWould you like to change any of the schedule rankings?\n" +
                 "(1) Yes\n" +

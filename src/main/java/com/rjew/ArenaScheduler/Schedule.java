@@ -14,6 +14,8 @@ public class Schedule implements Serializable, Comparable<Schedule> {
     private String name;//Must be unique
     private Integer rank;//Must be unique
 
+    //Constructors
+
     public Schedule() {
         courseList = new ArrayList<>();
         name = null;
@@ -62,7 +64,7 @@ public class Schedule implements Serializable, Comparable<Schedule> {
         this.rank = rank;
     }
 
-    //Default compare courses by rank
+    //Default compare Schedules by rank
     @Override
     public int compareTo(Schedule schedule) {
         if (this.rank < schedule.rank) {
@@ -73,6 +75,8 @@ public class Schedule implements Serializable, Comparable<Schedule> {
             return 0;
         }
     }
+
+    //Getters & Setters
 
     public List<Course> getCourseList() {
         return courseList;
@@ -98,10 +102,20 @@ public class Schedule implements Serializable, Comparable<Schedule> {
         this.rank = rank;
     }
 
+    /**
+     * Returns number of courses in Schedule
+     * @return An int holding the number of courses in the schedule
+     */
     public int getNumCourses() {
         return courseList.size();
     }
 
+    /**
+     * Adds a Course object to the schedule
+     * @param course The course to be added to the schedule
+     * @return A boolean indicating whether the course was successfully added
+     * true=added successfully, false=could not be added
+     */
     public boolean addCourse(Course course) {
         boolean courseLimitReached;
         boolean sameBlock;
@@ -133,6 +147,11 @@ public class Schedule implements Serializable, Comparable<Schedule> {
         }
     }
 
+    /**
+     * Checks if the course limit is reached
+     * @return A boolean indicating whether the course limit is reached
+     * true=course limit reached, false=course limit not reached
+     */
     private boolean checkCourseLimit() {
         final int COURSE_LIMIT = 7;
         final int LAST_BLOCK = 8;
@@ -153,6 +172,12 @@ public class Schedule implements Serializable, Comparable<Schedule> {
         return courseLimitReached;
     }
 
+    /**
+     * Checks if the block of the course being added already exists in the schedule
+     * @param course The Course to be added to the schedule
+     * @return A boolean indicating whether the course with the same block already exists
+     * true=course with same block exists, false=course with same block does not exist
+     */
     private boolean checkSameBlock(Course course) {
         boolean sameBlock = false;
 
@@ -165,6 +190,12 @@ public class Schedule implements Serializable, Comparable<Schedule> {
         return sameBlock;
     }
 
+    /**
+     * Deletes a course from the schedule
+     * @param classID The class ID of the course to be deleted
+     * @return A boolean indicating whether the course was successfully deleted
+     * true=course with classID could be deleted, false=course with classID does not exist in the schedule
+     */
     public boolean deleteCourse(int classID) {
         for (int i = 0; i < courseList.size(); i++) {
             if (courseList.get(i).getClassID() == classID) {
@@ -176,6 +207,12 @@ public class Schedule implements Serializable, Comparable<Schedule> {
         return false;
     }
 
+    /**
+     * Deletes a course from the schedule
+     * @param course The course to be deleted
+     * @return A boolean indicating whether the course was successfully deleted
+     * true=course could be deleted, false=course does not exist in the schedule
+     */
     public boolean deleteCourse(Course course) {
         for (int i = 0; i < courseList.size(); i++) {
             if (courseList.get(i).equals(course)) {
@@ -187,6 +224,9 @@ public class Schedule implements Serializable, Comparable<Schedule> {
         return false;
     }
 
+    /**
+     * Prints the schedule
+     */
     public void print() {
         int courseTitleFormatWidth;
         int roomFormatWidth;
