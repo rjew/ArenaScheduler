@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Schedule implements Serializable, Comparable<Schedule> {
+class Schedule implements Serializable, Comparable<Schedule> {
     private final List<String> columnTitles = new ArrayList<>(Arrays.asList("SubjectID",
             "CourseID", "Course Title", "ClassID", "Seats", "Code", "Block", "Room", "Teacher"));
 
