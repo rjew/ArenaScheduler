@@ -17,6 +17,10 @@ class CustomScheduleManager implements Serializable{
         scheduleList = new ArrayList<>();
     }
 
+    public CustomScheduleManager(List<Schedule> scheduleList) {
+        this.scheduleList = scheduleList;
+    }
+
     /**
      * Displays the available custom schedules and returns the index of the user's schedule choice
      * @param displayOption For the output corresponding to the custom schedule modification option
@@ -194,7 +198,6 @@ class CustomScheduleManager implements Serializable{
 
         System.out.println("\nEnter the new schedule name:");
         newScheduleName = ScannerUtils.getString();
-
 
         while(checkScheduleExists(newScheduleName)) {
             System.out.println("\nSchedule with the same name already exists.\n\nEnter the new schedule name:");

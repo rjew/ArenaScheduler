@@ -252,7 +252,7 @@ class Schedule implements Serializable, Comparable<Schedule> {
      * @return An int holding the course title column width
      */
     private int getCourseTitleFormatWidth(List<Course> courseList) {
-        int courseTitleFormatWidth = columnTitles.get(3).length() + 1; //Store the default width of the course title
+        int courseTitleFormatWidth = columnTitles.get(2).length() + 1; //Store the default width of the course title
 
             /* If one of the course titles has a longer name, store it for the width */
         for (Course course : courseList) {
@@ -270,7 +270,7 @@ class Schedule implements Serializable, Comparable<Schedule> {
      * @return An int holding the room column width
      */
     private int getRoomFormatWidth(List<Course> courseList) {
-        int roomFormatWidth = columnTitles.get(8).length() + 1; //Store the default width of the course title
+        int roomFormatWidth = columnTitles.get(7).length() + 1; //Store the default width of the course title
 
             /* If one of the course titles has a longer name, store it for the width */
         for (Course course : courseList) {

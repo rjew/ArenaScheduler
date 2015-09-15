@@ -136,22 +136,22 @@ public class Course implements Serializable, Comparable<Course> {
     }
 
     /**
-     * The courseID is unique for each Course. So this should compare Course by courseID only.
+     * The classID is unique for each Course. So this should compare Course by classID only.
      */
     @Override
     public boolean equals(Object other) {
-        return (other instanceof Course) && (courseID != null)
-                ? courseID.equals(((Course) other).getCourseID())
+        return (other instanceof Course) && (classID != null)
+                ? classID.equals(((Course) other).getClassID())
                 : (other == this);
     }
 
     /**
-     * The courseID is unique for each Course. So a Course with same courseID should return same hashcode.
+     * The classID is unique for each Course. So a Course with same classID should return same hashcode.
      */
     @Override
     public int hashCode() {
-        return (courseID != null)
-                ? (this.getClass().hashCode() + courseID.hashCode())
+        return (classID != null)
+                ? (this.getClass().hashCode() + classID.hashCode())
                 : super.hashCode();
     }
 
