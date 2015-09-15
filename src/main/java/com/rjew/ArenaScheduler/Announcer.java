@@ -9,7 +9,7 @@ import java.util.*;
  * and sends output to the user about the query
  */
 class Announcer {
-    private static final String ANNOUNCER_DB_URL = "jdbc:derby:Announcer_Fall_2015"; //For the db connection
+    private static final String ANNOUNCER_DB_URL = "jdbc:derby:./src/main/resources/Announcer_Fall_2015"; //For the db connection
     private static final Map<Integer , String> SUBJECT_ID = new HashMap<Integer , String>() {{
         put(1, "Math");
         put(2, "Science");
