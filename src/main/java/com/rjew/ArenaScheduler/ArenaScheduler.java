@@ -1,6 +1,7 @@
 package com.rjew.ArenaScheduler;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,6 +13,7 @@ class ArenaScheduler {
 
     public static void main(String[] args ) {
         try {
+            PropertyConfigurator.configure(ArenaScheduler.class.getClassLoader().getResource("log4j.properties"));
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
             Menu.getArenaSchedulerMenu();
         } catch (ClassNotFoundException ex) {
