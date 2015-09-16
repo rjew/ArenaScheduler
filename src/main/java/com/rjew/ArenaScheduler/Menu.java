@@ -24,7 +24,7 @@ final class Menu {
     public static void getArenaSchedulerMenu() throws SQLException, IOException, ClassNotFoundException {
         CustomScheduleManager customScheduleManager;
 
-        try (FileInputStream fileInputStream = new FileInputStream("./src/main/resources/CustomScheduleManager.ser");
+        try (FileInputStream fileInputStream = new FileInputStream("CustomScheduleManager.ser");
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)
         ) {
             customScheduleManager = (CustomScheduleManager) objectInputStream.readObject();
@@ -36,7 +36,7 @@ final class Menu {
 
         getMainMenu(customScheduleManager);
 
-        try (FileOutputStream fileOutputStream = new FileOutputStream("./src/main/resources/CustomScheduleManager.ser");
+        try (FileOutputStream fileOutputStream = new FileOutputStream("CustomScheduleManager.ser");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)
         ) {
             objectOutputStream.writeObject(customScheduleManager);
