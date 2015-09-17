@@ -4,6 +4,10 @@ A currently work in progress scheduling program for Arena. This program is meant
 
 This program is still a work in progress. So far it only works on the command line and does not have any implemented gui. More features planned to be added. The program currently uses the fall 2015 announcer as the announcer for spring 2016 has yet to come out.
 
+###Downloading the program
+
+Click the *Releases* tab on this repository's homepage. Download the ArenaScheduler zip and extract it.
+
 ###Running the program
 
 ######Linux/Mac OS X:
