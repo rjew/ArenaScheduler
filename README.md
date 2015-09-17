@@ -6,22 +6,28 @@ This program is still a work in progress. So far it only works on the command li
 
 ###Downloading the program
 
-Click the *Releases* tab on this repository's homepage. Download the ArenaScheduler zip and extract it.
+Click the *`Releases`* tab on this repository's homepage. Download the ArenaScheduler zip and extract it.
+
+You must have java installed on your system in order to use the program. To check if java is installed on your system and that your PATH environment variable is set right, enter the command *`java -version`* in the terminal. If the version is displayed, then your java installation is correct. If java is not installed on your system, check the *`FAQ.md`* file for more information about installing java or setting your PATH environment variable.
 
 ###Running the program
 
 ######Linux/Mac OS X:
 
-Use the ArenaScheduler-1.0.sh file to run the program in the terminal.
+Use the `ArenaScheduler-1.0.sh` file to run the program in the terminal.
 
 ######Windows:
 
-Use the ArenaScheduler-1.0.bat file to run the program in the command line.
+Use the `ArenaScheduler-1.0.bat` file to run the program in the command line.
 
 ###Usage
 
 Follow the menu and instructions in the terminal, entering the number for the option you want to pick.
 
+###FAQ
+
+See the *`FAQ.md`* file for more information.
+
 ###License
 
-This software is licensed under the [MIT License](https://opensource.org/licenses/MIT). See *LICENSE* file for more information.
+This software is licensed under the [MIT License](https://opensource.org/licenses/MIT). See *`LICENSE`* file for more information.
