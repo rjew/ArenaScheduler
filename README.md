@@ -20,4 +20,4 @@ Follow the menu and instructions in the terminal, entering the number for the op
 
 ###License
 
-This software is licensed under the [MIT License](https://opensource.org/licenses/MIT). See *LICENSE.md* file for more information.
+This software is licensed under the [MIT License](https://opensource.org/licenses/MIT). See *LICENSE* file for more information.
