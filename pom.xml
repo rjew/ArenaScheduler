@@ -5,7 +5,7 @@
   <groupId>com.rjew.ArenaScheduler</groupId>
   <artifactId>ArenaScheduler</artifactId>
   <packaging>jar</packaging>
-  <version>1.0</version>
+  <version>1.0.1</version>
   <name>ArenaScheduler</name>
   <url>http://maven.apache.org</url>
 
