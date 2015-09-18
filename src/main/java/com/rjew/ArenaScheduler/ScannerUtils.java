@@ -47,4 +47,12 @@ class ScannerUtils {
 
         return string;
     }
+
+    /**
+     * Pause program and prompt user to press enter to continue program execution
+     */
+    public static void pressEnterToContinue() {
+        System.out.println("\n\nPress enter to continue...");
+        keyboard.nextLine();
+    }
 }
