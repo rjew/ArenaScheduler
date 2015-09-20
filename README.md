@@ -20,8 +20,8 @@ Use the `ArenaScheduler-1.0.sh` file to run the program in the terminal.
 
 Use the `ArenaScheduler-1.0.bat` file to run the program in the command line.
 
-If you receive a message about extracting the files, just click run.
-If you receive a message about protection from running the file, just click more info and click run anyways.
+If you receive a message about extracting the files, just click `Run`.
+If you receive a message about protection from running the file, just click `More Info` and click `Run Anyways`.
 
 ###Usage
 
