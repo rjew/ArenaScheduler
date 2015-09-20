@@ -2,7 +2,7 @@
 
 ####Installing java
 
-If java is not installed on your system then go to [java.com](java.com) and download the appropriate version for your system.
+If java is not installed on your system then go to [java.com](java.com/en/) and download the appropriate version for your system.
 
 ####Setting the PATH environment variable
 For instructions on locating and editing your PATH environment, visit [https://java.com/en/download/help/path.xml](https://java.com/en/download/help/path.xml) for more information.
